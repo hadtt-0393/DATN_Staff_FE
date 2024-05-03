@@ -1,16 +1,16 @@
 import { Helmet } from 'react-helmet-async';
-import HomeView from '../sections/home/homeview';
+import RoomView from '../sections/room/roomview';
 
 // ----------------------------------------------------------------------
 
-export default function AppPage() {
+export default function RoomPage() {
     return (
         <>
             <Helmet>
-                <title>Dashboard</title>
+                <title>Room</title>
             </Helmet>
 
-            <HomeView />
+            <RoomView />
         </>
     );
 }
