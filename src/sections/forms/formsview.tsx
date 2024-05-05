@@ -40,7 +40,6 @@ export default function UserPage() {
   };
 
  
-
   const handleChangePage = (event: any, newPage: any) => {
     setPage(newPage);
   };

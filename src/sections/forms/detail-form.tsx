@@ -86,9 +86,7 @@ export default function DetailForm({ isOpen, onClose }: any) {
                 component={Stack}
                 spacing={3}
                 sx={{
-                    // boxShadow: "#ccc 1px 1px 1px 1px",
                     border: "1px #ccc solid",
-                    // alignItems: 'center',
                     px: 3,
                     py: 3,
                     borderRadius: 2,

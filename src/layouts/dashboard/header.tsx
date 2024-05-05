@@ -17,7 +17,7 @@ export default function Header({onOpenNav}: any) {
   const renderContent = (
     <>
       {!lgUp && (
-        <MenuIcon onClick={onOpenNav}/>
+        <MenuIcon onClick={onOpenNav} sx={{color:"#666"}}/>
       )}
       <Box sx={{ flexGrow: 1 }} />
       <Stack direction="row" alignItems="center" spacing={1}>
