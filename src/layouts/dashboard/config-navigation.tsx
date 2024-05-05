@@ -1,7 +1,6 @@
 import AutoGraphOutlinedIcon from '@mui/icons-material/AutoGraphOutlined';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
 const navConfig = [
   {
     title: 'dashboard',
@@ -9,14 +8,14 @@ const navConfig = [
     icon: <AutoGraphOutlinedIcon/>,
   },
   {
-    title: 'room',
-    path: '/room',
-    icon: <PersonOutlineOutlinedIcon/>,
+    title: 'rooms',
+    path: '/rooms',
+    icon: <MeetingRoomIcon/>,
   },
   {
-    title: 'form',
-    path: '/form',
-    icon: <ShoppingCartIcon/>,
+    title: 'forms',
+    path: '/forms',
+    icon: <ContactEmergencyIcon/>,
   },
 ];
 

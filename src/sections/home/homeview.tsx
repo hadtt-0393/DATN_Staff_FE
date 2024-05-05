@@ -14,7 +14,6 @@ export default function HomeView() {
                     <AppWidgetSummary
                         title="Rooms"
                         total={7}
-                        color="success"
                         icon={<img alt="icon" src="/assets/icons/room.png" />}
                     />
                 </Grid>
@@ -22,7 +21,6 @@ export default function HomeView() {
                     <AppWidgetSummary
                         title="Users"
                         total={13}
-                        color="info"
                         icon={<img alt="icon" src="/assets/icons/user.png" />}
                     />
                 </Grid>
@@ -30,7 +28,6 @@ export default function HomeView() {
                     <AppWidgetSummary
                         title="Total revenue"
                         total={17000}
-                        color="warning"
                         icon={<img alt="icon" src="/assets/icons/total_revenue.png" />}
                     />
                 </Grid>
@@ -85,6 +82,7 @@ export default function HomeView() {
                         }}
                     />
                 </Grid>
+              
 
                 {/* <Grid xs={12} md={6} lg={4}>
                     <AppCurrentVisits

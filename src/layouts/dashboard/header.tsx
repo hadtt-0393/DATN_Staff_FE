@@ -21,8 +21,8 @@ export default function Header({onOpenNav}: any) {
       )}
       <Box sx={{ flexGrow: 1 }} />
       <Stack direction="row" alignItems="center" spacing={1}>
-        <LanguageIcon/>
-        <NotificationsIcon/>
+        <LanguageIcon sx={{color:"#666"}}/>
+        <NotificationsIcon  sx={{color:"#666"}}/>
       </Stack>
     </>
   );
@@ -36,7 +36,7 @@ export default function Header({onOpenNav}: any) {
         transition: theme.transitions.create(['height'], {
           duration: theme.transitions.duration.shorter,
         }),
-        backgroundColor: "#ccc",
+        backgroundColor: "#f9fafb",
         ...(lgUp && {
           width: `calc(100% - ${NAV.WIDTH + 1}px)`,
           height: HEADER.H_DESKTOP,

@@ -1,16 +1,16 @@
 import { Helmet } from 'react-helmet-async';
-import FormView from '../sections/product/productview';
+import FormsView from '../sections/forms/formsview';
 
 // ----------------------------------------------------------------------
 
-export default function FormPage() {
+export default function FormsPage() {
     return (
         <>
             <Helmet>
-                <title>Form</title>
+                <title>Forms | Best Booking</title>
             </Helmet>
 
-            <FormView />
+            <FormsView />
         </>
     );
 }

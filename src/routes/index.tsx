@@ -2,8 +2,8 @@ import { lazy, Suspense } from 'react';
 import { Outlet, useRoutes } from 'react-router-dom';
 import DashboardLayout from "../layouts/dashboard";
 export const AppPage = lazy(() => import('../pages/app'));
-export const RoomPage = lazy(() => import('../pages/room'));
-export const FormPage = lazy(() => import('../pages/form'));
+export const RoomsPage = lazy(() => import('../pages/rooms'));
+export const FormsPage = lazy(() => import('../pages/forms'));
 
 export default function Router() {
   const routes = useRoutes([
@@ -17,8 +17,8 @@ export default function Router() {
       ),
       children: [
         { element: <AppPage />, index: true },
-        { path: 'room', element: <RoomPage /> },
-        { path: 'form', element: <FormPage /> },
+        { path: 'rooms', element: <RoomsPage /> },
+        { path: 'forms', element: <FormsPage /> },
       ],
     },
   ])
