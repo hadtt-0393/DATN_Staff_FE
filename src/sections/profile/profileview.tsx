@@ -13,9 +13,13 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { Theme, useTheme } from '@mui/material/styles';
-import InputLabel  from '@mui/material/InputLabel';
-// import { TextareaAutosize } from '@mui/base/TextareaAutosize';
+import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import InputAdornment from '@mui/material/InputAdornment';
+import Button from '@mui/material/Button';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { styled } from '@mui/material/styles';
+// import Checkbox from '@mui/material/Checkbox';
 
 export default function ProfileView() {
     const ITEM_HEIGHT = 48;
@@ -66,6 +70,69 @@ export default function ProfileView() {
         'Air conditioning',
     ]
 
+    const provinces = [
+        "Hà Nội",
+        "Hồ Chí Minh",
+        "Đà Nẵng",
+        "Hải Phòng",
+        "Cần Thơ",
+        "Bà Rịa - Vũng Tàu",
+        "Bắc Giang",
+        "Bắc Kạn",
+        "Bạc Liêu",
+        "Bắc Ninh",
+        "Bến Tre",
+        "Bình Định",
+        "Bình Dương",
+        "Bình Phước",
+        "Bình Thuận",
+        "Cà Mau",
+        "Cao Bằng",
+        "Đắk Lắk",
+        "Đắk Nông",
+        "Điện Biên",
+        "Đồng Nai",
+        "Đồng Tháp",
+        "Gia Lai",
+        "Hà Giang",
+        "Hà Nam",
+        "Hà Tĩnh",
+        "Hải Dương",
+        "Hậu Giang",
+        "Hòa Bình",
+        "Hưng Yên",
+        "Khánh Hòa",
+        "Kiên Giang",
+        "Kon Tum",
+        "Lai Châu",
+        "Lâm Đồng",
+        "Lạng Sơn",
+        "Lào Cai",
+        "Long An",
+        "Nam Định",
+        "Nghệ An",
+        "Ninh Bình",
+        "Ninh Thuận",
+        "Phú Thọ",
+        "Quảng Bình",
+        "Quảng Nam",
+        "Quảng Ngãi",
+        "Quảng Ninh",
+        "Quảng Trị",
+        "Sóc Trăng",
+        "Sơn La",
+        "Tây Ninh",
+        "Thái Bình",
+        "Thái Nguyên",
+        "Thanh Hóa",
+        "Thừa Thiên Huế",
+        "Tiền Giang",
+        "Trà Vinh",
+        "Tuyên Quang",
+        "Vĩnh Long",
+        "Vĩnh Phúc",
+        "Yên Bái"
+    ];
 
     function getStyles(name: string, personName: readonly string[], theme: Theme) {
         return {
@@ -89,7 +156,6 @@ export default function ProfileView() {
         );
     };
 
-
     function ImagesList() {
         return (
             <ImageList cols={2} gap={5} rowHeight='auto'>
@@ -107,6 +173,24 @@ export default function ProfileView() {
         );
     }
 
+    const VisuallyHiddenInput = styled('input')({
+        clip: 'rect(0 0 0 0)',
+        clipPath: 'inset(50%)',
+        height: 1,
+        overflow: 'hidden',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        whiteSpace: 'nowrap',
+        width: 1,
+    });
+
+    // const [checked, setChecked] = React.useState(true);
+
+    // const handleChangeCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setChecked(event.target.checked);
+    // };
+
     return (
         <Container maxWidth='xl' >
             <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -116,6 +200,21 @@ export default function ProfileView() {
                 <Box display="flex" flexDirection="row" alignItems='center' marginLeft={2} >
                     <Box flex={1} sx={{ mr: 2 }}>
                         <ImagesList />
+                        <Box sx={{ textAlign: "center" }}>
+                            <Button
+                                component="label"
+                                role={undefined}
+                                variant="contained"
+                                tabIndex={-1}
+                                startIcon={<CloudUploadIcon />}
+                                sx={{ mb: 2, backgroundColor: "#333", "&:hover": { backgroundColor: "#000" } }}
+                                size='large'
+                            >
+                                Choose images
+                                <VisuallyHiddenInput type="file" />
+                            </Button>
+                        </Box>
+
                     </Box>
                     <Divider orientation="vertical" flexItem />
                     <Stack spacing={2} flex={1} sx={{ margin: 2 }}>
@@ -143,7 +242,13 @@ export default function ProfileView() {
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                 City:
                             </Typography>
-                            <TextField id="outlined-basic" label="City" variant="outlined" sx={{ flex: 1 }} />
+                            <TextField id="outlined-basic" label="City" variant="outlined" sx={{ flex: 1 }} select >
+                                {provinces.map((option) => (
+                                    <MenuItem key={option} value={option}>
+                                        {option}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
@@ -157,7 +262,16 @@ export default function ProfileView() {
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                 Distance from center:
                             </Typography>
-                            <TextField id="outlined-basic" label="Distance from center" variant="outlined" sx={{ flex: 1 }} />
+                            <TextField
+                                label="Distance from center"
+                                id="outlined-start-adornment"
+                                sx={{ flex: 1 }}
+                                type='number'
+                                inputProps={{ min: 0 }}
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end">km</InputAdornment>,
+                                }}
+                            />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
@@ -171,15 +285,24 @@ export default function ProfileView() {
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                 Descriptions:
                             </Typography>
-                            <TextField id="outlined-basic" label="Descriptions" variant="outlined" sx={{ flex: 1 }} />
-                            {/* <TextareaAutosize minRows={2} maxRows={5}/> */}
+                            <TextField id="outlined-basic" label="Descriptions" variant="outlined" sx={{ flex: 1 }} multiline maxRows={4} />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
-                            <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
+                            <Typography
+                                variant="subtitle1"
+                                sx={{ color: 'text.disabled', flex: 0.4 }}>
                                 Cheapest:
                             </Typography>
-                            <TextField id="outlined-basic" label="Cheapest" variant="outlined" sx={{ flex: 1 }} />
+                            <TextField
+                                id="outlined-start-adornment"
+                                label="Cheapest"
+                                sx={{ flex: 1 }}
+                                type='number'
+                                inputProps={{ min: 0 }}
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="end">VND</InputAdornment>,
+                                }} />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
@@ -187,6 +310,11 @@ export default function ProfileView() {
                                 Featured:
                             </Typography>
                             <TextField id="outlined-basic" label="Featured" variant="outlined" sx={{ flex: 1 }} />
+                            {/* <Checkbox
+                                checked={checked}
+                                onChange={handleChangeCheck}
+                                inputProps={{ 'aria-label': 'controlled' }}
+                            /> */}
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
@@ -202,7 +330,7 @@ export default function ProfileView() {
                                     multiple
                                     value={personName}
                                     onChange={handleChange}
-                                    input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                                    input={<OutlinedInput id="select-multiple-chip" label="Services" />}
                                     renderValue={(selected) => (
                                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                                             {selected.map((value) => (
@@ -211,7 +339,7 @@ export default function ProfileView() {
                                         </Box>
                                     )}
                                     MenuProps={MenuProps}
-                                    
+
                                 >
                                     {services.map((name) => (
                                         <MenuItem
@@ -226,8 +354,13 @@ export default function ProfileView() {
                             </FormControl>
 
                         </Stack>
-
+                        <Box sx={{ textAlign: "center", flex: 1 }}>
+                            <Button variant="contained" size="large" sx={{ padding: "0 80px", mt: 2 }}>
+                                Save
+                            </Button>
+                        </Box>
                     </Stack>
+
                 </Box>
             </Box>
 
