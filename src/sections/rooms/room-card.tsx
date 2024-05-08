@@ -5,6 +5,13 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Label from '../../components/label';
 import Button from '@mui/material/Button';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Popover from '@mui/material/Popover';
+import MenuItem from '@mui/material/MenuItem';
+import { useState } from 'react';
+import BrushIcon from '@mui/icons-material/Brush';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DetailRoom from './detail-room';
 
 // ----------------------------------------------------------------------
 
@@ -24,7 +31,12 @@ export default function RoomCard({ product }: any) {
   //     {product.status}
   //   </Label>
   // );
+  const [open, setOpen] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false)
 
+  const handleOpenMenu = (e: any) => {
+    setOpen(e.currentTarget);
+  };
   const renderImg = (
     <Box
       component="img"
@@ -46,13 +58,49 @@ export default function RoomCard({ product }: any) {
     </Typography>
   );
 
+
+
+  const handleCloseMenu = () => {
+    setOpen(null);
+    setOpenDialog(true)
+  };
+
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        {/* {product.status && renderStatus} */}
 
+        <MoreVertIcon onClick={handleOpenMenu}
+          sx={{
+            zIndex: 9,
+            top: 8,
+            right: 8,
+            position: 'absolute',
+            color: "white"
+          }}
+        />
         {renderImg}
       </Box>
+
+      <Popover
+        open={!!open}
+        anchorEl={open}
+        onClose={handleCloseMenu}
+        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+        sx={{ width: 140 }}
+      >
+        <MenuItem onClick={handleCloseMenu} >
+          <BrushIcon sx={{ fontSize: "20px", mr: 1.5 }} />
+          Edit
+        </MenuItem>
+
+        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
+          <DeleteOutlineIcon sx={{ fontSize: "20px", mr: 1.5 }} />
+          Delete
+        </MenuItem>
+      </Popover>
+
+      <DetailRoom isOpen={openDialog} onClose={() => setOpenDialog(false)}/>
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Stack direction='row' alignItems="center" justifyContent="space-between">

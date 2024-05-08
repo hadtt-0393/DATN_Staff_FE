@@ -9,11 +9,13 @@ import Button from '@mui/material/Button';
 import { rooms } from '../../mock/room';
 import RoomCard from './room-card';
 import AddIcon from '@mui/icons-material/Add';
+import CreateRoom from './new-room';
 
 // ----------------------------------------------------------------------
 
 export default function ProductsView() {
     const [openFilter, setOpenFilter] = useState(false);
+    const [openModal, setOpenModal] = useState(false)
 
     const handleOpenFilter = () => {
         setOpenFilter(true);
@@ -23,15 +25,17 @@ export default function ProductsView() {
         setOpenFilter(false);
     };
 
+
     return (
         <Container maxWidth="xl">
             <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Typography variant="h4" >
                     Rooms
                 </Typography>
-                <Button variant="contained" color="inherit" startIcon={<AddIcon />}>
+                <Button variant="contained" color="inherit" startIcon={<AddIcon />} onClick={() => setOpenModal(true)}>
                     New Room
                 </Button>
+                <CreateRoom isOpen={openModal} onClose={() => setOpenModal(false)} />
             </Stack>
 
             <Stack

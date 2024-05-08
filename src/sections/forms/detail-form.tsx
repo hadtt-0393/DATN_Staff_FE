@@ -12,9 +12,6 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import Stack from '@mui/material/Stack';
 
-
-
-
 export default function DetailForm({ isOpen, onClose }: any) {
 
     function DetailUserCard({ name, phone, email, address, icon, color = 'primary', sx, ...other }: any) {
@@ -140,7 +137,6 @@ export default function DetailForm({ isOpen, onClose }: any) {
             fullWidth={true}
             maxWidth="lg"
             open={isOpen}
-            onClose={handleClose}
         >
             <DialogTitle>Detail Booking</DialogTitle>
             <DialogContent>
