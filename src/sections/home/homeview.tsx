@@ -9,7 +9,7 @@ export default function HomeView() {
             <Typography variant="h4" sx={{ mb: 5 }}>
                 Hi, Welcome Home
             </Typography>
-            <Grid container spacing={3}>
+            <Grid container spacing={8}>
                 <Grid xs={12} sm={6} md={4}>
                     <AppWidgetSummary
                         title="Rooms"

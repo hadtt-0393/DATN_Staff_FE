@@ -6,20 +6,23 @@ import reportWebVitals from './reportWebVitals';
 import { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import {QueryClientProvider, QueryClient} from '@tanstack/react-query'
+
+const client = new QueryClient
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
     <HelmetProvider>
       <BrowserRouter>
         <Suspense>
-          <App />
+          <QueryClientProvider client={client}>
+            <App />
+          </QueryClientProvider>
         </Suspense>
       </BrowserRouter>
     </HelmetProvider>
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
