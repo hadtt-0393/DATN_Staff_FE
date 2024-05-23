@@ -12,12 +12,12 @@ import { useState } from 'react';
 import BrushIcon from '@mui/icons-material/Brush';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import DetailRoom from './detail-room';
+import { Room } from '../../models/room';
 
 // ----------------------------------------------------------------------
 
-export default function RoomCard({ product }: any) {
+export default function RoomCard({room}: any) {
   // const renderStatus = (
-  //   <Label
   //     variant="filled"
   //     color={(product.status === 'sale' && 'error') || 'info'}
   //     sx={{
@@ -40,8 +40,8 @@ export default function RoomCard({ product }: any) {
   const renderImg = (
     <Box
       component="img"
-      alt={product.name}
-      src={product.cover}
+      alt={room.name}
+      src={room.img}
       sx={{
         top: 0,
         width: 1,
@@ -54,7 +54,7 @@ export default function RoomCard({ product }: any) {
 
   const renderPrice = (
     <Typography variant="subtitle1">
-      {product.price} VND
+      {room.price} VND
     </Typography>
   );
 
@@ -100,21 +100,21 @@ export default function RoomCard({ product }: any) {
         </MenuItem>
       </Popover>
 
-      <DetailRoom isOpen={openDialog} onClose={() => setOpenDialog(false)}/>
+      <DetailRoom isOpen={openDialog} onClose={() => setOpenDialog(false)} roomDetail={room}/>
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Stack direction='row' alignItems="center" justifyContent="space-between">
           <Typography variant="h6" noWrap >
-            {product.name}
+            {room.name}
           </Typography>
           {/* <Box sx={{ backgroundColor: "#ddd", padding: "5px 20px", borderRadius: "10px" }}>
             <Typography sx={{ fontWeight: "700", color: "#666" }}>{product.room}</Typography>
           </Box> */}
-          <Box><Label>{product.room}</Label></Box>
+          <Box><Label>{room.roomNumber}</Label></Box>
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Button variant="contained" size="medium" color={(product.status === 'Busy' && 'error') || 'info'}> {product.status}</Button>
+          <Button variant="contained" size="medium" color="secondary"> {room.status ? 'Free' : 'Busy'}</Button>
           <Box>
             <Typography>{renderPrice}</Typography>
           </Box>

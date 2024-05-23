@@ -4,7 +4,9 @@ export interface Hotel {
     address: string;
     distance: number;
     description: string;
-    cheapest: number;
+    highestPrice: number;
+    cheapestPrice: number;
     featured: string;
+    discount: number;
     service: string[];
 }

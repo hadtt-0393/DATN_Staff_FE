@@ -196,7 +196,7 @@ export default function ProfileView() {
     const save = () => {
         setLoading(true);
         const saveProfile = async () => {
-            const res = await axiosInstance.put('/hotel/get-detail', hotel);
+            const res = await axiosInstance.put('/hotel/update-detail-hotel', hotel);
             setHotel(res.data);
             setLoading(false);
         }
@@ -247,15 +247,15 @@ export default function ProfileView() {
                         <Stack spacing={2} flex={1} sx={{ margin: 2 }}>
                             <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                                 <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Name:
+                                    Tên khách sạn:
                                 </Typography>
-                                <TextField id="outlined-basic" label="Name" variant="outlined" sx={{ flex: 1 }} value={hotel?.username} onChange={(e) => handleChangeHotel({ username: e.target.value })} />
+                                <TextField id="outlined-basic" label="Tên khách sạn" variant="outlined" sx={{ flex: 1 }} value={hotel?.username} onChange={(e) => handleChangeHotel({ username: e.target.value })} />
                             </Stack>
                             <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                                 <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    City:
+                                    Thành phố:
                                 </Typography>
-                                <TextField id="outlined-basic" label="City" variant="outlined" sx={{ flex: 1 }} select value={hotel?.city} onChange={(e) => handleChangeHotel({ city: e.target.value })}>
+                                <TextField id="outlined-basic" label="Thành phố" variant="outlined" sx={{ flex: 1 }} select value={hotel?.city} onChange={(e) => handleChangeHotel({ city: e.target.value })}>
                                     {provinces.map((option) => (
                                         <MenuItem key={option} value={option}>
                                             {option}
@@ -265,16 +265,16 @@ export default function ProfileView() {
                             </Stack>
                             <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                                 <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Address:
+                                    Địa chỉ:
                                 </Typography>
-                                <TextField id="outlined-basic" label="Address" variant="outlined" sx={{ flex: 1 }} onChange={(e) => handleChangeHotel({ address: e.target.value })}/>
+                                <TextField id="outlined-basic" label="Địa chỉ" variant="outlined" sx={{ flex: 1 }} onChange={(e) => handleChangeHotel({ address: e.target.value })} value={hotel.address}/>
                             </Stack>
                             <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                                 <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Distance from center:
+                                    Khoảng cách đến trung tâm thành phố:
                                 </Typography>
                                 <TextField
-                                    label="Distance from center"
+                                    label="Khoảng cách"
                                     id="outlined-start-adornment"
                                     sx={{ flex: 1 }}
                                     type='number'
@@ -288,48 +288,77 @@ export default function ProfileView() {
                             </Stack>
                             <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                                 <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Descriptions:
+                                    Mô tả chung:
                                 </Typography>
-                                <TextField value={hotel.description} id="outlined-basic" label="Descriptions" variant="outlined" sx={{ flex: 1 }} multiline maxRows={4} onChange={(e) => handleChangeHotel({ description: e.target.value })}/>
+                                <TextField value={hotel.description} id="outlined-basic" label="Mô tả" variant="outlined" sx={{ flex: 1 }} multiline maxRows={4} onChange={(e) => handleChangeHotel({ description: e.target.value })}/>
                             </Stack>
                             <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                                 <Typography
                                     variant="subtitle1"
                                     sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Cheapest:
+                                    Giá rẻ nhất:
                                 </Typography>
                                 <TextField
                                     id="outlined-start-adornment"
-                                    label="Cheapest"
+                                    label="Giá rẻ nhất"
                                     sx={{ flex: 1 }}
                                     type='number'
-                                    onChange={(e) => handleChangeHotel({ cheapest: +e.target.value })}
+                                    onChange={(e) => handleChangeHotel({ cheapestPrice: +e.target.value })}
                                     inputProps={{ min: 0 }}
+                                    value={hotel.cheapestPrice}
+                                    InputProps={{
+                                        endAdornment: <InputAdornment position="end">VND</InputAdornment>,
+                                    }} />
+                            </Stack>
+                            <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
+                                <Typography
+                                    variant="subtitle1"
+                                    sx={{ color: 'text.disabled', flex: 0.4 }}>
+                                    Giá đắt nhất:
+                                </Typography>
+                                <TextField
+                                    id="outlined-start-adornment"
+                                    label="Giá đắt nhất"
+                                    sx={{ flex: 1 }}
+                                    type='number'
+                                    onChange={(e) => handleChangeHotel({ highestPrice: +e.target.value })}
+                                    inputProps={{ min: 0 }}
+                                    value={hotel.highestPrice}
                                     InputProps={{
                                         endAdornment: <InputAdornment position="end">VND</InputAdornment>,
                                     }} />
                             </Stack>
                             <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                                 <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Featured:
+                                    Giảm giá:
                                 </Typography>
-                                <TextField id="outlined-basic" label="Featured" variant="outlined" sx={{ flex: 1 }} />
-
+                                <TextField
+                                    label="Giảm giá"
+                                    id="outlined-start-adornment"
+                                    sx={{ flex: 1 }}
+                                    type='number'
+                                    inputProps={{ min: 0 }}
+                                    InputProps={{
+                                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                                    }}
+                                    onChange={(e) => handleChangeHotel({ discount: +e.target.value })}
+                                    value={hotel.discount}
+                                />
                             </Stack>
                             <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                                 <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Services:
+                                    Dịch vụ khách sạn:
                                 </Typography>
                                 <FormControl sx={{ flex: 1 }}>
-                                    <InputLabel id="demo-multiple-chip-label">Services</InputLabel>
+                                    <InputLabel id="demo-multiple-chip-label">Dịch vụ</InputLabel>
                                     <Select
-                                        label="Service"
+                                        label="Dịch vụ"
                                         labelId="demo-multiple-chip-label"
                                         id="demo-multiple-chip"
                                         multiple
                                         value={personName}
                                         onChange={handleChange}
-                                        input={<OutlinedInput id="select-multiple-chip" label="Services" />}
+                                        input={<OutlinedInput id="select-multiple-chip" label="Dịch vụ" />}
                                         renderValue={(selected) => (
                                             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                                                 {selected.map((value) => (
@@ -353,7 +382,7 @@ export default function ProfileView() {
                             </Stack>
                             <Box sx={{ textAlign: "center", flex: 1 }}>
                                 <Button variant="contained" size="large" sx={{ padding: "0 80px", mt: 2 }} onClick={save}>
-                                    Save
+                                    Lưu thay đổi
                                 </Button>
                             </Box>
                         </Stack>

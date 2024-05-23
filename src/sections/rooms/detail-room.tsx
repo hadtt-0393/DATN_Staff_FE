@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useState} from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
@@ -20,12 +20,16 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import { Room } from '../../models/room';
+import axiosInstance from '../../api/axios';
 
-export default function DetailRoom({ isOpen, onClose }: any) {
+export default function DetailRoom({ isOpen, onClose, roomDetail }: any) {
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
     const theme = useTheme();
-    const [personName, setPersonName] = React.useState<string[]>([]);
+    const [personName, setPersonName] = useState<string[]>([]);
+    const [room, setRoom] = useState<Partial<Room>>(roomDetail);
+    const [loading, setLoading] = useState(false);
     const services = [
         'Kitchen',
         'Private bathroom',
@@ -99,6 +103,24 @@ export default function DetailRoom({ isOpen, onClose }: any) {
         width: 1,
     });
 
+    const handleChangeRoom = (values: Partial<Room>) => {
+        setRoom({
+            ...room,
+            ...values,
+        });
+    }
+
+    const save = () => {
+        setLoading(true);
+        const saveRoom = async () => {
+            const res = await axiosInstance.put(`/room/updateRoomByStaff/${room._id}`, room);
+            setRoom(res.data);
+            setLoading(false);
+        }
+        const timer = setTimeout(saveRoom, 1000);
+        return () => clearTimeout(timer);
+    }
+
     return (
         <Dialog
             fullWidth={true}
@@ -131,14 +153,14 @@ export default function DetailRoom({ isOpen, onClose }: any) {
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                 Name:
                             </Typography>
-                            <TextField id="outlined-basic" label="Name" variant="outlined" sx={{ flex: 1 }} value='Thu Ha Hotel' />
+                            <TextField id="outlined-basic" label="Name" variant="outlined" sx={{ flex: 1 }} value={room.roomNumber} onChange={(e) => handleChangeRoom({ roomNumber: e.target.value })}/>
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                 Type:
                             </Typography>
-                            <TextField id="outlined-basic" label="Type" variant="outlined" sx={{ flex: 1 }} />
+                            <TextField id="outlined-basic" label="Type" variant="outlined" sx={{ flex: 1 }} value={room.name} onChange={(e) => handleChangeRoom({ name: e.target.value })}/>
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
@@ -153,9 +175,12 @@ export default function DetailRoom({ isOpen, onClose }: any) {
                                 sx={{ flex: 1 }}
                                 type='number'
                                 inputProps={{ min: 0 }}
+                                value={room.price}
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">VND</InputAdornment>,
-                                }} />
+                                }}
+                                onChange={(e) => handleChangeRoom({ price: +e.target.value })}
+                                />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
@@ -206,7 +231,7 @@ export default function DetailRoom({ isOpen, onClose }: any) {
                                 Status
                             </Typography>
                             <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "center", flex: 1 }}>
-                                <FormControlLabel control={<Switch defaultChecked />} label="Busy" />
+                                <FormControlLabel control={<Switch checked={room.status} onChange={(e) => handleChangeRoom({ status: !!e.target.value })}/>} label="Free" />
                             </Box>
                         </Stack>
                     </Stack>
@@ -214,7 +239,7 @@ export default function DetailRoom({ isOpen, onClose }: any) {
             </Box>
             <DialogActions>
                 <Button variant='outlined' onClick={handleClose}>Close</Button>
-                <Button variant='contained'>Save</Button>
+                <Button variant='contained' onClick={save}>Save</Button>
             </DialogActions>
         </Dialog>
     )
