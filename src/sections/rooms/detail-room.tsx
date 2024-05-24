@@ -22,14 +22,16 @@ import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Room } from '../../models/room';
 import axiosInstance from '../../api/axios';
+import axios from 'axios';
+import { REACT_APP_CLOUDINARY_ENDPOINT } from '../../constant';
 
-export default function DetailRoom({ isOpen, onClose, roomDetail }: any) {
+export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch }: any) {
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
     const theme = useTheme();
     const [personName, setPersonName] = useState<string[]>([]);
     const [room, setRoom] = useState<Partial<Room>>(roomDetail);
-    const [loading, setLoading] = useState(false);
+    const [file, setfile] = useState<any>(null)
     const services = [
         'Kitchen',
         'Private bathroom',
@@ -109,16 +111,30 @@ export default function DetailRoom({ isOpen, onClose, roomDetail }: any) {
             ...values,
         });
     }
+    const handleChangeFile = (e: any) => {
+        setfile(e.target.files[0])
+    }
+
+    const uploadImg = async (file: any) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "stndhxae");
+        const res = await axios.post(REACT_APP_CLOUDINARY_ENDPOINT, formData)
+        handleChangeRoom({
+            image: res.data.url,
+        })
+    };
 
     const save = () => {
-        setLoading(true);
         const saveRoom = async () => {
+            if(file) {
+                await uploadImg(file);
+            }
             const res = await axiosInstance.put(`/room/updateRoomByStaff/${room._id}`, room);
-            setRoom(res.data);
-            setLoading(false);
+            reFetch();
+            handleClose();
         }
-        const timer = setTimeout(saveRoom, 1000);
-        return () => clearTimeout(timer);
+        saveRoom();
     }
 
     return (
@@ -127,11 +143,11 @@ export default function DetailRoom({ isOpen, onClose, roomDetail }: any) {
             maxWidth="lg"
             open={isOpen}
         >
-            <DialogTitle>Detail Room</DialogTitle>
+            <DialogTitle>Chi tiết phòng</DialogTitle>
             <Box sx={{ border: "1px solid #ccc", borderRadius: "10px", m: "10px 20px 10px 20px" }}>
                 <Box display="flex" flexDirection="row" alignItems='center' marginLeft={2} >
                     <Box display='flex' flex={1} sx={{ mr: 2 }} flexDirection="column" justifyContent="flex-end" >
-                        <img src='http://res.cloudinary.com/di7a7sbbn/image/upload/v1668413532/upload/w09wm8rwttlvyzxnhyro.jpg' style={{ borderRadius: "20px", marginTop: "20px" }} />
+                        <img src={file ? URL.createObjectURL(file as any) : room.image} style={{ borderRadius: "20px", marginTop: "20px" }} />
                         <Box sx={{ textAlign: "center" }}>
                             <Button
                                 component="label"
@@ -142,8 +158,8 @@ export default function DetailRoom({ isOpen, onClose, roomDetail }: any) {
                                 sx={{ mt: 2, mb: 2, backgroundColor: "#333", "&:hover": { backgroundColor: "#000" } }}
                                 size='large'
                             >
-                                Choose images
-                                <VisuallyHiddenInput type="file" />
+                                Chọn ảnh
+                                <VisuallyHiddenInput type="file" onChange={handleChangeFile}/>
                             </Button>
                         </Box>
                     </Box>
@@ -151,23 +167,23 @@ export default function DetailRoom({ isOpen, onClose, roomDetail }: any) {
                     <Stack spacing={2} flex={1} sx={{ margin: 2 }}>
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Name:
+                                Tên phòng:
                             </Typography>
-                            <TextField id="outlined-basic" label="Name" variant="outlined" sx={{ flex: 1 }} value={room.roomNumber} onChange={(e) => handleChangeRoom({ roomNumber: e.target.value })}/>
+                            <TextField id="outlined-basic" label="Tên phòng" variant="outlined" sx={{ flex: 1 }} value={room.roomNumber} onChange={(e) => handleChangeRoom({ roomNumber: e.target.value })}/>
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Type:
+                                Loại phòng:
                             </Typography>
-                            <TextField id="outlined-basic" label="Type" variant="outlined" sx={{ flex: 1 }} value={room.name} onChange={(e) => handleChangeRoom({ name: e.target.value })}/>
+                            <TextField id="outlined-basic" label="Loại phòng" variant="outlined" sx={{ flex: 1 }} value={room.type} onChange={(e) => handleChangeRoom({ type: e.target.value })}/>
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography
                                 variant="subtitle1"
                                 sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Price:
+                                Giá:
                             </Typography>
                             <TextField
                                 id="outlined-start-adornment"
@@ -185,17 +201,17 @@ export default function DetailRoom({ isOpen, onClose, roomDetail }: any) {
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Descriptions:
+                                Mô tả:
                             </Typography>
-                            <TextField id="outlined-basic" label="Descriptions" variant="outlined" sx={{ flex: 1 }} multiline maxRows={4} />
+                            <TextField id="outlined-basic" label="Descriptions" variant="outlined" sx={{ flex: 1 }} multiline maxRows={4} value={room.description} onChange={(e) => handleChangeRoom({ description: e.target.value })}/>
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Services:
+                                Dịch vụ:
                             </Typography>
                             <FormControl sx={{ flex: 1 }}>
-                                <InputLabel id="demo-multiple-chip-label">Services</InputLabel>
+                                <InputLabel id="demo-multiple-chip-label">Dịch vụ</InputLabel>
                                 <Select
                                     label="Service"
                                     labelId="demo-multiple-chip-label"
@@ -203,7 +219,7 @@ export default function DetailRoom({ isOpen, onClose, roomDetail }: any) {
                                     multiple
                                     value={personName}
                                     onChange={handleChange}
-                                    input={<OutlinedInput id="select-multiple-chip" label="Services" />}
+                                    input={<OutlinedInput id="select-multiple-chip" label="Dịch vụ" />}
                                     renderValue={(selected) => (
                                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                                             {selected.map((value) => (
@@ -228,7 +244,7 @@ export default function DetailRoom({ isOpen, onClose, roomDetail }: any) {
                         </Stack>
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Status
+                                Trạng thái phòng
                             </Typography>
                             <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "center", flex: 1 }}>
                                 <FormControlLabel control={<Switch checked={room.status} onChange={(e) => handleChangeRoom({ status: !!e.target.value })}/>} label="Free" />

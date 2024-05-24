@@ -16,7 +16,7 @@ import { Room } from '../../models/room';
 
 // ----------------------------------------------------------------------
 
-export default function RoomCard({room}: any) {
+export default function RoomCard({room, reFetch}: any) {
   // const renderStatus = (
   //     variant="filled"
   //     color={(product.status === 'sale' && 'error') || 'info'}
@@ -40,8 +40,7 @@ export default function RoomCard({room}: any) {
   const renderImg = (
     <Box
       component="img"
-      alt={room.name}
-      src={room.img}
+      src={room.image}
       sx={{
         top: 0,
         width: 1,
@@ -100,12 +99,12 @@ export default function RoomCard({room}: any) {
         </MenuItem>
       </Popover>
 
-      <DetailRoom isOpen={openDialog} onClose={() => setOpenDialog(false)} roomDetail={room}/>
+      <DetailRoom isOpen={openDialog} onClose={() => setOpenDialog(false)} roomDetail={room} reFetch={reFetch}/>
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Stack direction='row' alignItems="center" justifyContent="space-between">
           <Typography variant="h6" noWrap >
-            {room.name}
+            {room.type}
           </Typography>
           {/* <Box sx={{ backgroundColor: "#ddd", padding: "5px 20px", borderRadius: "10px" }}>
             <Typography sx={{ fontWeight: "700", color: "#666" }}>{product.room}</Typography>

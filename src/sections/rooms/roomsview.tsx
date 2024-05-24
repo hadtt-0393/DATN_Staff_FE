@@ -33,6 +33,17 @@ export default function ProductsView() {
         return () => clearTimeout(timer);
     }, []);
 
+    const reFetchRooms = () => {
+        setLoading(true);
+        const getAllRooms = async () => {
+            const res = await axiosInstance.get('/room/getAllRoomByStaff');
+            setRooms(res.data);
+            setLoading(false);
+        }
+        const timer = setTimeout(getAllRooms, 1000);
+        return () => clearTimeout(timer);
+    }
+
     return (
         <Container maxWidth="xl">
             {loading ? (<Backdrop
@@ -45,12 +56,12 @@ export default function ProductsView() {
                     <>
                         <Stack direction="row" alignItems="center" justifyContent="space-between">
                             <Typography variant="h4" >
-                                Rooms
+                                Danh sách phòng
                             </Typography>
                             <Button variant="contained" color="inherit" startIcon={<AddIcon />} onClick={() => setOpenModal(true)}>
-                                New Room
+                                Tạo phòng
                             </Button>
-                            <CreateRoom isOpen={openModal} onClose={() => setOpenModal(false)} />
+                            <CreateRoom isOpen={openModal} onClose={() => setOpenModal(false)} reFetch={reFetchRooms}/>
                         </Stack>
                         <Stack
                             direction="row"
@@ -65,7 +76,7 @@ export default function ProductsView() {
                         <Grid container spacing={6}>
                             {rooms.map((room: Room) => (
                                 <Grid key={room._id} xs={12} md={3}>
-                                    <RoomCard room={room} />
+                                    <RoomCard room={room} reFetch={reFetchRooms}/>
                                 </Grid>
                             ))}
                         </Grid>

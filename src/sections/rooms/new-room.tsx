@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
@@ -20,12 +20,20 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import axiosInstance from '../../api/axios';
+import axios from 'axios';
+import { REACT_APP_CLOUDINARY_ENDPOINT } from '../../constant';
 
-export default function CreateRoom({ isOpen, onClose }: any) {
+export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
+    const [roomNumber, setRoomNumber] = useState<any>(null);
+    const [type, setType] = useState<any>(null);
+    const [file, setFile] = useState<any>(null);
+    const [price, setPrice] = useState<any>(null);
+    const [description, setDescription] = useState<any>(null);
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
     const theme = useTheme();
-    const [personName, setPersonName] = React.useState<string[]>([]);
+    const [personName, setPersonName] = useState<string[]>([]);
     const services = [
         'Kitchen',
         'Private bathroom',
@@ -99,17 +107,47 @@ export default function CreateRoom({ isOpen, onClose }: any) {
         width: 1,
     });
 
+    const handleChangeFile = (e: any) => {
+        setFile(e.target.files[0])
+    }
+
+    const uploadImg = async (file: any) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "stndhxae");
+
+        const res = await axios.post(REACT_APP_CLOUDINARY_ENDPOINT, formData)
+        return res.data.url
+    };
+
+    const save = () => {
+        const saveRoom = async () => {
+            const fileURL = await uploadImg(file);
+            const res = await axiosInstance.post('/room/createRoom', {
+                roomNumber: roomNumber,
+                type: type,
+                price: price,
+                description: description,
+                image: fileURL,
+            });
+            reFetch();
+            handleClose();
+        }
+        saveRoom();
+    }
+
+
     return (
         <Dialog
             fullWidth={true}
             maxWidth="lg"
             open={isOpen}
         >
-            <DialogTitle>Detail Room</DialogTitle>
+            <DialogTitle>Tạo phòng mới</DialogTitle>
             <Box sx={{ border: "1px solid #ccc", borderRadius: "10px", m: "10px 20px 10px 20px" }}>
                 <Box display="flex" flexDirection="row" alignItems='center' marginLeft={2} >
                     <Box display='flex' flex={1} sx={{ mr: 2 }} flexDirection="column" justifyContent="flex-end" >
-                        <img src='http://res.cloudinary.com/di7a7sbbn/image/upload/v1668413532/upload/w09wm8rwttlvyzxnhyro.jpg' style={{ borderRadius: "20px", marginTop: "20px" }} />
+                        <img src={file ? URL.createObjectURL(file as any) : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'} style={{ borderRadius: "20px", marginTop: "20px" }} />
                         <Box sx={{ textAlign: "center" }}>
                             <Button
                                 component="label"
@@ -120,8 +158,8 @@ export default function CreateRoom({ isOpen, onClose }: any) {
                                 sx={{ mt: 2, mb: 2, backgroundColor: "#333", "&:hover": { backgroundColor: "#000" } }}
                                 size='large'
                             >
-                                Choose images
-                                <VisuallyHiddenInput type="file" />
+                                Chọn ảnh
+                                <VisuallyHiddenInput type="file" onChange={handleChangeFile}/>
                             </Button>
                         </Box>
                     </Box>
@@ -129,23 +167,23 @@ export default function CreateRoom({ isOpen, onClose }: any) {
                     <Stack spacing={2} flex={1} sx={{ margin: 2 }}>
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Name:
+                                Tên phòng:
                             </Typography>
-                            <TextField id="outlined-basic" label="Name" variant="outlined" sx={{ flex: 1 }} />
+                            <TextField id="outlined-basic" label="Name" variant="outlined" sx={{ flex: 1 }} value={roomNumber} onChange={(e) => setRoomNumber(e.target.value)}/>
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Type:
+                                Loại phòng:
                             </Typography>
-                            <TextField id="outlined-basic" label="Type" variant="outlined" sx={{ flex: 1 }} />
+                            <TextField id="outlined-basic" label="Type" variant="outlined" sx={{ flex: 1 }} value={type} onChange={(e) => setType(e.target.value)}/>
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography
                                 variant="subtitle1"
                                 sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Price:
+                                Giá:
                             </Typography>
                             <TextField
                                 id="outlined-start-adornment"
@@ -153,6 +191,8 @@ export default function CreateRoom({ isOpen, onClose }: any) {
                                 sx={{ flex: 1 }}
                                 type='number'
                                 inputProps={{ min: 0 }}
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">VND</InputAdornment>,
                                 }} />
@@ -160,14 +200,14 @@ export default function CreateRoom({ isOpen, onClose }: any) {
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Descriptions:
+                                Mô tả:
                             </Typography>
-                            <TextField id="outlined-basic" label="Descriptions" variant="outlined" sx={{ flex: 1 }} multiline maxRows={4} />
+                            <TextField id="outlined-basic" label="Descriptions" variant="outlined" sx={{ flex: 1 }} value={description} onChange={(e) => setDescription(e.target.value)} multiline maxRows={4} />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Services:
+                                Dịch vụ:
                             </Typography>
                             <FormControl sx={{ flex: 1 }}>
                                 <InputLabel id="demo-multiple-chip-label">Services</InputLabel>
@@ -201,20 +241,12 @@ export default function CreateRoom({ isOpen, onClose }: any) {
                                 </Select>
                             </FormControl>
                         </Stack>
-                        <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
-                            <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Status
-                            </Typography>
-                            <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "center", flex: 1 }}>
-                                <FormControlLabel control={<Switch defaultChecked />} label="Busy" />
-                            </Box>
-                        </Stack>
                     </Stack>
                 </Box>
             </Box>
             <DialogActions>
-                <Button variant='outlined' onClick={handleClose}>Close</Button>
-                <Button variant='contained'>Save</Button>
+                <Button variant='outlined' onClick={handleClose}>Hủy</Button>
+                <Button variant='contained' onClick={save}>Lưu thay đổi</Button>
             </DialogActions>
         </Dialog>
     )

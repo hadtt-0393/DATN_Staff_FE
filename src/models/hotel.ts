@@ -8,5 +8,6 @@ export interface Hotel {
     cheapestPrice: number;
     featured: string;
     discount: number;
-    service: string[];
+    services: string[];
+    images: string[];
 }

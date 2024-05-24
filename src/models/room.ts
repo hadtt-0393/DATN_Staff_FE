@@ -1,8 +1,9 @@
 export interface Room {
     _id: string;
-    name: string;
+    type: string;
     price: number;
     roomNumber: string;
     status: boolean;
-    img: string;
+    image: string;
+    description: string;
 }

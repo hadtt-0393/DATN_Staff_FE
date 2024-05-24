@@ -24,6 +24,8 @@ import axiosInstance from '../../api/axios';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Hotel } from '../../models/hotel';
+import { REACT_APP_CLOUDINARY_ENDPOINT } from '../../constant'
+import axios from 'axios';
 
 export default function ProfileView() {
     const ITEM_HEIGHT = 48;
@@ -132,27 +134,30 @@ export default function ProfileView() {
     }
 
     const theme = useTheme();
-    const [personName, setPersonName] = React.useState<string[]>([]);
+    const [service, setService] = React.useState<string[]>([]);
+    const [files, setFiles] = useState<any>(null);
 
-    const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+    const handleChange = (event: SelectChangeEvent<typeof service>) => {
         const {
             target: { value },
         } = event;
-        setPersonName(
+        setService(
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
     };
 
-    function ImagesList() {
+    const handleclose = () => {
+        handleChangeHotel({ services: service })
+    }
+
+    function ImagesList({ images }: any) {
         return (
             <ImageList cols={2} gap={5} rowHeight='auto'>
-                {images.map((item) => (
-                    <ImageListItem key={item.img}>
+                {images && images.map((image: any) => (
+                    <ImageListItem key={image.img}>
                         <img
-                            srcSet={`${item.img}`}
-                            src={`${item.img}`}
-                            alt={item.title}
+                            src={image}
                             loading="lazy"
                         />
                     </ImageListItem>
@@ -173,12 +178,6 @@ export default function ProfileView() {
         width: 1,
     });
 
-    // const [checked, setChecked] = React.useState(true);
-
-    // const handleChangeCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setChecked(event.target.checked);
-    // };
-
     const [loading, setLoading] = useState(false);
     const [hotel, setHotel] = useState<Partial<Hotel>>({});
 
@@ -187,15 +186,38 @@ export default function ProfileView() {
         const getProfile = async () => {
             const res = await axiosInstance.get('/hotel/get-detail');
             setHotel(res.data);
+            setService(res.data.services)
             setLoading(false);
         }
         const timer = setTimeout(getProfile, 1000);
         return () => clearTimeout(timer);
     }, []);
 
-    const save = () => {
+    const uploadImg = async (file: any) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "stndhxae");
+
+        return axios.post(REACT_APP_CLOUDINARY_ENDPOINT, formData).then((response) => {
+            const data = response.data;
+            const fileURL = data.url;
+            return fileURL as string;
+        });
+    };
+
+
+    const save = async () => {
         setLoading(true);
         const saveProfile = async () => {
+            if (files) {
+                const uploaders = Array.from(files).map(uploadImg);
+                const data = await axios.all(uploaders);
+                setHotel(prevHotel => ({
+                    ...prevHotel,
+                    images: data,
+                }));
+                
+            }
             const res = await axiosInstance.put('/hotel/update-detail-hotel', hotel);
             setHotel(res.data);
             setLoading(false);
@@ -209,6 +231,19 @@ export default function ProfileView() {
             ...hotel,
             ...values,
         });
+    }
+
+
+    const handleFileChange = (e: any) => {
+        const files = e.target.files
+        console.log(files)
+        if (files.length > 6) {
+            alert('You can only upload up to 6 images.');
+            e.target.value = null; // Clear the selected files
+        }
+        else {
+            setFiles(e.target.files)
+        }
     }
 
     return (
@@ -227,7 +262,7 @@ export default function ProfileView() {
                 <Box sx={{ border: "1px solid #ccc", borderRadius: "10px" }}>
                     <Box display="flex" flexDirection="row" alignItems='center' marginLeft={2} >
                         <Box flex={1} sx={{ mr: 2 }}>
-                            <ImagesList />
+                            <ImagesList images={hotel.images} />
                             <Box sx={{ textAlign: "center" }}>
                                 <Button
                                     component="label"
@@ -238,8 +273,8 @@ export default function ProfileView() {
                                     sx={{ mb: 2, backgroundColor: "#333", "&:hover": { backgroundColor: "#000" } }}
                                     size='large'
                                 >
-                                    Choose images
-                                    <VisuallyHiddenInput type="file" />
+                                    Chọn ảnh
+                                    <VisuallyHiddenInput type="file" multiple onChange={handleFileChange} />
                                 </Button>
                             </Box>
                         </Box>
@@ -267,7 +302,7 @@ export default function ProfileView() {
                                 <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                     Địa chỉ:
                                 </Typography>
-                                <TextField id="outlined-basic" label="Địa chỉ" variant="outlined" sx={{ flex: 1 }} onChange={(e) => handleChangeHotel({ address: e.target.value })} value={hotel.address}/>
+                                <TextField id="outlined-basic" label="Địa chỉ" variant="outlined" sx={{ flex: 1 }} onChange={(e) => handleChangeHotel({ address: e.target.value })} value={hotel.address} />
                             </Stack>
                             <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                                 <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
@@ -290,7 +325,7 @@ export default function ProfileView() {
                                 <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                     Mô tả chung:
                                 </Typography>
-                                <TextField value={hotel.description} id="outlined-basic" label="Mô tả" variant="outlined" sx={{ flex: 1 }} multiline maxRows={4} onChange={(e) => handleChangeHotel({ description: e.target.value })}/>
+                                <TextField value={hotel.description} id="outlined-basic" label="Mô tả" variant="outlined" sx={{ flex: 1 }} multiline maxRows={4} onChange={(e) => handleChangeHotel({ description: e.target.value })} />
                             </Stack>
                             <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                                 <Typography
@@ -356,7 +391,7 @@ export default function ProfileView() {
                                         labelId="demo-multiple-chip-label"
                                         id="demo-multiple-chip"
                                         multiple
-                                        value={personName}
+                                        value={service}
                                         onChange={handleChange}
                                         input={<OutlinedInput id="select-multiple-chip" label="Dịch vụ" />}
                                         renderValue={(selected) => (
@@ -366,13 +401,14 @@ export default function ProfileView() {
                                                 ))}
                                             </Box>
                                         )}
+                                        onClose={handleclose}
                                         MenuProps={MenuProps}
                                     >
                                         {services.map((name) => (
                                             <MenuItem
                                                 key={name}
                                                 value={name}
-                                                style={getStyles(name, personName, theme)}
+                                                style={getStyles(name, service, theme)}
                                             >
                                                 {name}
                                             </MenuItem>
