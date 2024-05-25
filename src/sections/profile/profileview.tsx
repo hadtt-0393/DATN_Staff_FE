@@ -216,7 +216,7 @@ export default function ProfileView() {
                     ...prevHotel,
                     images: data,
                 }));
-                
+
             }
             const res = await axiosInstance.put('/hotel/update-detail-hotel', hotel);
             setHotel(res.data);
