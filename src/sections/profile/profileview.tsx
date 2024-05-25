@@ -257,7 +257,7 @@ export default function ProfileView() {
                 </Backdrop>
             ) : (<>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                    <Typography variant="h4">Profile</Typography>
+                    <Typography variant="h4">Thông tin khách sạn</Typography>
                 </Stack>
                 <Box sx={{ border: "1px solid #ccc", borderRadius: "10px" }}>
                     <Box display="flex" flexDirection="row" alignItems='center' marginLeft={2} >
