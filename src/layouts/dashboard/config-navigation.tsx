@@ -9,17 +9,17 @@ const navConfig = [
     icon: <AutoGraphOutlinedIcon/>,
   },
   {
-    title: 'rooms',
+    title: 'Quản lý phòng',
     path: '/rooms',
     icon: <MeetingRoomIcon/>,
   },
   {
-    title: 'forms',
+    title: 'Quản lý khách hàng',
     path: '/forms',
     icon: <ContactEmergencyIcon/>,
   },
   {
-    title: 'profile',
+    title: 'Thông tin khách sạn',
     path: '/profile',
     icon: <BusinessIcon/>
 

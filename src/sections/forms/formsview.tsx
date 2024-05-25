@@ -65,7 +65,7 @@ export default function UserPage() {
   return (
     <Container maxWidth='xl'>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Booking List</Typography>
+        <Typography variant="h4">Danh sách đặt phòng</Typography>
       </Stack>
 
       <Card>
@@ -82,14 +82,14 @@ export default function UserPage() {
                 orderBy={orderBy}
                 onRequestSort={handleSort}
                 headLabel={[
-                  { id: 'name', label: 'Name' },
-                  { id: 'phone', label: 'Phone Number'},
-                  { id: 'checkin', label: 'Checkin Date' },
-                  { id: 'checkout', label: 'Checkout Date' },
-                  { id: 'room', label: 'Rooms' },
-                  { id: 'people', label: 'People' },
-                  { id: 'price', label: 'Price',  },
-                  { id: '' },
+                  { id: 'name', label: 'Tên khách hàng' },
+                  { id: 'phone', label: 'Số điện thoại'},
+                  { id: 'checkin', label: 'Ngày nhận phòng' },
+                  { id: 'checkout', label: 'Ngày trả phòng' },
+                  { id: 'room', label: 'Tên phòng' },
+                  { id: 'people', label: 'Số lượng người' },
+                  { id: 'price', label: 'Giá',  },
+                  { id: 'action', label:'Hành động'},
                 ]}
               />
               <TableBody>

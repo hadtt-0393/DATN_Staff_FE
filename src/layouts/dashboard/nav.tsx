@@ -14,6 +14,7 @@ import Logo from '../../components/logo';
 import Scrollbar from '../../components/scrollbar';
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
+import { Button } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -43,8 +44,10 @@ export default function Nav({ openNav, onCloseNav }: any) {
     >
       <Avatar src={account.photoURL} alt="photoURL" />
 
-      <Box sx={{ ml: 2 }}>
+      <Box sx={{ ml: 2, gap:"10px", display:"flex", flexDirection:"column" }}>
         <Typography variant="subtitle2">{account.displayName}</Typography>
+        {/* <Button variant='contained' sx={{backgroundColor:"orange"}} disabled>Đã xác thực</Button> */}
+        <Button variant='contained' sx={{backgroundColor:"orange" , "&:hover":{backgroundColor:"orange", opacity:"0.8"}}}>Gửi xác thực</Button>
       </Box>
     </Box>
   );

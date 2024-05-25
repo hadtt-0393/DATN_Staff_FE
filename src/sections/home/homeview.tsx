@@ -7,26 +7,26 @@ export default function HomeView() {
     return (
         <Container maxWidth="xl">
             <Typography variant="h4" sx={{ mb: 5 }}>
-                Hi, Welcome Home
+                Dashboard
             </Typography>
             <Grid container spacing={8}>
                 <Grid xs={12} sm={6} md={4}>
                     <AppWidgetSummary
-                        title="Rooms"
+                        title="Phòng"
                         total={7}
                         icon={<img alt="icon" src="/assets/icons/room.png" />}
                     />
                 </Grid>
                 <Grid xs={12} sm={6} md={4}>
                     <AppWidgetSummary
-                        title="Users"
+                        title="Khách hàng"
                         total={13}
                         icon={<img alt="icon" src="/assets/icons/user.png" />}
                     />
                 </Grid>
                 <Grid xs={12} sm={6} md={4}>
                     <AppWidgetSummary
-                        title="Total revenue"
+                        title="Tổng doanh thu"
                         total={17000}
                         icon={<img alt="icon" src="/assets/icons/total_revenue.png" />}
                     />

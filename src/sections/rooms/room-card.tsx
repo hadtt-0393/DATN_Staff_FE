@@ -90,12 +90,12 @@ export default function RoomCard({room, reFetch}: any) {
       >
         <MenuItem onClick={handleCloseMenu} >
           <BrushIcon sx={{ fontSize: "20px", mr: 1.5 }} />
-          Edit
+          Sửa
         </MenuItem>
 
         <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
           <DeleteOutlineIcon sx={{ fontSize: "20px", mr: 1.5 }} />
-          Delete
+          Xóa
         </MenuItem>
       </Popover>
 
@@ -113,7 +113,12 @@ export default function RoomCard({room, reFetch}: any) {
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Button variant="contained" size="medium" color="secondary"> {room.status ? 'Free' : 'Busy'}</Button>
+          {
+            room.status === true?
+              <Button variant="contained" size="medium" sx={{backgroundColor:"green"}}>Trống</Button>
+              :
+              <Button variant="contained" size="medium"sx={{backgroundColor:"orange"}}>Bận</Button>
+          }
           <Box>
             <Typography>{renderPrice}</Typography>
           </Box>

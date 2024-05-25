@@ -169,14 +169,14 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                 Tên phòng:
                             </Typography>
-                            <TextField id="outlined-basic" label="Name" variant="outlined" sx={{ flex: 1 }} value={roomNumber} onChange={(e) => setRoomNumber(e.target.value)}/>
+                            <TextField id="outlined-basic" label="Tên phòng" variant="outlined" sx={{ flex: 1 }} value={roomNumber} onChange={(e) => setRoomNumber(e.target.value)}/>
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                 Loại phòng:
                             </Typography>
-                            <TextField id="outlined-basic" label="Type" variant="outlined" sx={{ flex: 1 }} value={type} onChange={(e) => setType(e.target.value)}/>
+                            <TextField id="outlined-basic" label="Loại phòng" variant="outlined" sx={{ flex: 1 }} value={type} onChange={(e) => setType(e.target.value)}/>
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
@@ -187,7 +187,7 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
                             </Typography>
                             <TextField
                                 id="outlined-start-adornment"
-                                label="Price"
+                                label="Giá"
                                 sx={{ flex: 1 }}
                                 type='number'
                                 inputProps={{ min: 0 }}
@@ -202,7 +202,7 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                 Mô tả:
                             </Typography>
-                            <TextField id="outlined-basic" label="Descriptions" variant="outlined" sx={{ flex: 1 }} value={description} onChange={(e) => setDescription(e.target.value)} multiline maxRows={4} />
+                            <TextField id="outlined-basic" label="Mô tả" variant="outlined" sx={{ flex: 1 }} value={description} onChange={(e) => setDescription(e.target.value)} multiline maxRows={4} />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
@@ -210,15 +210,15 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
                                 Dịch vụ:
                             </Typography>
                             <FormControl sx={{ flex: 1 }}>
-                                <InputLabel id="demo-multiple-chip-label">Services</InputLabel>
+                                <InputLabel id="demo-multiple-chip-label">Dịch vụ</InputLabel>
                                 <Select
-                                    label="Service"
+                                    label="Dịch vụ"
                                     labelId="demo-multiple-chip-label"
                                     id="demo-multiple-chip"
                                     multiple
                                     value={personName}
                                     onChange={handleChange}
-                                    input={<OutlinedInput id="select-multiple-chip" label="Services" />}
+                                    input={<OutlinedInput id="select-multiple-chip" label="Dịch vụ" />}
                                     renderValue={(selected) => (
                                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                                             {selected.map((value) => (

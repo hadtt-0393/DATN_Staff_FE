@@ -30,7 +30,7 @@ export default function DetailForm({ isOpen, onClose }: any) {
                 }}
                 {...other}
             >
-                <Typography>Information User</Typography>
+                <Typography>Thông tin khách hàng</Typography>
                 <Box display="flex" flexDirection="row" sx={{
                     gap: 5,
                 }}>
@@ -44,7 +44,7 @@ export default function DetailForm({ isOpen, onClose }: any) {
                     <Stack spacing={0.5} flex={1}>
                         <Stack direction="row" justifyContent="space-between">
                             <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
-                                Name:
+                                Tên khách hàng:
                             </Typography>
                             <Typography >
                                 {name}
@@ -52,7 +52,7 @@ export default function DetailForm({ isOpen, onClose }: any) {
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
                             <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
-                                Phone:
+                                Số điện thoại:
                             </Typography>
                             <Typography>{phone}</Typography>
                         </Stack>
@@ -64,7 +64,7 @@ export default function DetailForm({ isOpen, onClose }: any) {
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
                             <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
-                                Address:
+                                Địa chỉ:
                             </Typography>
                             <Typography>{address}</Typography>
                         </Stack>
@@ -91,14 +91,14 @@ export default function DetailForm({ isOpen, onClose }: any) {
                 }}
                 {...other}
             >
-                <Typography>Reservation</Typography>
+                <Typography>Thông tin đặt phòng</Typography>
                 <Box display="flex" flexDirection="row" sx={{
                     gap: 5,
                 }}>
                     <Stack spacing={0.5} flex={1}>
                         <Stack direction="row" justifyContent="space-between">
                             <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
-                                Room:
+                                Tên phòng:
                             </Typography>
                             <Typography >
                                 {room}
@@ -106,19 +106,19 @@ export default function DetailForm({ isOpen, onClose }: any) {
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
                             <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
-                                Checkin Date:
+                                Ngày nhận phòng:
                             </Typography>
                             <Typography>{checkin}</Typography>
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
                             <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
-                                Checkout Date:
+                                Ngày trả phòng:
                             </Typography>
                             <Typography>{checkout}</Typography>
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
                             <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
-                                Price:
+                                Giá:
                             </Typography>
                             <Typography>{price}</Typography>
                         </Stack>
@@ -138,7 +138,7 @@ export default function DetailForm({ isOpen, onClose }: any) {
             maxWidth="lg"
             open={isOpen}
         >
-            <DialogTitle>Detail Booking</DialogTitle>
+            <DialogTitle>Thông tin đặt phòng chi tiết</DialogTitle>
             <DialogContent>
                 <Grid container spacing={3}>
                     <Grid xs={12} sm={6} md={6}>
@@ -163,7 +163,7 @@ export default function DetailForm({ isOpen, onClose }: any) {
 
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Close</Button>
+                <Button onClick={handleClose} variant='outlined'>Đóng</Button>
             </DialogActions>
         </Dialog>
     )
