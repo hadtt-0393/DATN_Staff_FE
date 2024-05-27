@@ -6,7 +6,6 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-import { rooms } from '../../mock/room';
 import RoomCard from './room-card';
 import AddIcon from '@mui/icons-material/Add';
 import CreateRoom from './new-room';

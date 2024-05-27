@@ -4,6 +4,8 @@ import Grid from '@mui/material/Unstable_Grid2';
 import AppWidgetSummary from './app-widget-summary';
 import AppRevenueMonth from './app-revenue-month';
 export default function HomeView() {
+    const a = localStorage.getItem("accessToken")
+    console.log(JSON.parse(a as any));
     return (
         <Container maxWidth="xl">
             <Typography variant="h4" sx={{ mb: 5 }}>

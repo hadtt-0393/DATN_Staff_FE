@@ -9,8 +9,9 @@ export const axiosInstance = axios.create({
 });
 axiosInstance.interceptors.request.use((config) => {
     const tokenJson = localStorage.getItem("accessToken");
-    // const token = tokenJson ? JSON.parse(tokenJson) : null;
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGY3MTE3YzFhZGZhOTA4MzQzOGIzNiIsInJvbGUiOiJzdGFmZiIsImlhdCI6MTcxNjY1MTQxNywiZXhwIjoxNzE2NzM3ODE3fQ.6v6nfy9JTqZSWwSLFT1cM6VJoMAdBJ4Xgv5R8sGx4Os"
+    console.log(tokenJson);
+    const token = tokenJson ? JSON.parse(tokenJson) : null;
+    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NGY3MTE3YzFhZGZhOTA4MzQzOGIzNiIsInJvbGUiOiJzdGFmZiIsImlhdCI6MTcxNjgxODUyNSwiZXhwIjoxNzE2OTA0OTI1fQ.HNyIrHgCuSFcDV5p47h2P0zxWBHoDmEvia7zl82cjVY"
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }

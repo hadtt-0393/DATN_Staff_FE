@@ -416,7 +416,7 @@ export default function ProfileView() {
                                     </Select>
                                 </FormControl>
                             </Stack>
-                            <Box sx={{ textAlign: "center", flex: 1 }}>
+                            <Box sx={{ textAlign: "center"}}>
                                 <Button variant="contained" size="large" sx={{ padding: "0 80px", mt: 2 }} onClick={save}>
                                     Lưu thay đổi
                                 </Button>

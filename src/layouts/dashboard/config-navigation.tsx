@@ -22,8 +22,7 @@ const navConfig = [
     title: 'Thông tin khách sạn',
     path: '/profile',
     icon: <BusinessIcon/>
-
-  }
+  },
 ];
 
 export default navConfig;
