@@ -1,5 +1,5 @@
 export interface Hotel {
-    username: string;
+    hotelName: string;
     city: string;
     address: string;
     distance: number;
@@ -8,6 +8,12 @@ export interface Hotel {
     cheapestPrice: number;
     featured: string;
     discount: number;
+    serviceIds: string[];
     services: string[];
     images: string[];
+}
+
+export interface ServiceHotel {
+    _id: string;
+    serviceName: string;
 }

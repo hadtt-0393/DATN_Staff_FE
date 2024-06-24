@@ -12,7 +12,7 @@ import CreateRoom from './new-room';
 import axiosInstance from '../../api/axios';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Room } from '../../models/room';
+import { Room, ServiceRoom } from '../../models/room';
 
 // ----------------------------------------------------------------------
 
@@ -20,12 +20,15 @@ export default function ProductsView() {
     const [openModal, setOpenModal] = useState(false)
     const [loading, setLoading] = useState(false);
     const [rooms, setRooms] = useState<Room[]>([]);
+    const [serviceRooms, setServiceRooms] = useState<ServiceRoom[]>([]);
 
     useEffect(() => {
         setLoading(true);
         const getAllRooms = async () => {
-            const res = await axiosInstance.get('/room/getAllRoomByStaff');
-            setRooms(res.data);
+            const Rooms = await axiosInstance.get('/room/getAllRoomByStaff');
+            const ServiceRooms = await axiosInstance.get('/serviceRoom/getAllServiceRoomSystem');
+            setRooms(Rooms.data);
+            setServiceRooms(ServiceRooms.data);
             setLoading(false);
         }
         const timer = setTimeout(getAllRooms, 1000);
@@ -60,7 +63,7 @@ export default function ProductsView() {
                             <Button variant="contained" color="inherit" startIcon={<AddIcon />} onClick={() => setOpenModal(true)}>
                                 Tạo phòng
                             </Button>
-                            <CreateRoom isOpen={openModal} onClose={() => setOpenModal(false)} reFetch={reFetchRooms}/>
+                            <CreateRoom isOpen={openModal} onClose={() => setOpenModal(false)} reFetch={reFetchRooms} />
                         </Stack>
                         <Stack
                             direction="row"
@@ -75,7 +78,7 @@ export default function ProductsView() {
                         <Grid container spacing={6}>
                             {rooms.map((room: Room) => (
                                 <Grid key={room._id} xs={12} md={3}>
-                                    <RoomCard room={room} reFetch={reFetchRooms}/>
+                                    <RoomCard room={room} reFetch={reFetchRooms} serviceRoomSystem={serviceRooms}/>
                                 </Grid>
                             ))}
                         </Grid>

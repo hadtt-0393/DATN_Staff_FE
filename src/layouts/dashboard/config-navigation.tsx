@@ -14,7 +14,7 @@ const navConfig = [
     icon: <MeetingRoomIcon/>,
   },
   {
-    title: 'Quản lý khách hàng',
+    title: 'Quản lý đặt phòng',
     path: '/forms',
     icon: <ContactEmergencyIcon/>,
   },

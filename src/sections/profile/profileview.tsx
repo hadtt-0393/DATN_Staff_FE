@@ -1,31 +1,28 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem'
-import { images } from '../../mock/image'
-import Divider from '@mui/material/Divider'
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import OutlinedInput from '@mui/material/OutlinedInput'
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
-import { Theme, useTheme } from '@mui/material/styles';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import InputAdornment from '@mui/material/InputAdornment';
-import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { styled } from '@mui/material/styles';
-import axiosInstance from '../../api/axios';
 import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Hotel } from '../../models/hotel';
-import { REACT_APP_CLOUDINARY_ENDPOINT } from '../../constant'
+import Container from '@mui/material/Container';
+import Divider from '@mui/material/Divider';
+import FormControl from '@mui/material/FormControl';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Select from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Theme, styled, useTheme } from '@mui/material/styles';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import axiosInstance from '../../api/axios';
+import { REACT_APP_CLOUDINARY_ENDPOINT } from '../../constant';
+import { Hotel, ServiceHotel } from '../../models/hotel';
 
 export default function ProfileView() {
     const ITEM_HEIGHT = 48;
@@ -40,89 +37,17 @@ export default function ProfileView() {
         },
     };
 
-    const services = [
-        'Airport shuttle',
-        'Spa and wellness centre',
-        'Fitness centre',
-        'Room service',
-        'Parking',
-        'Free WiFi',
-        'Beachfront',
-        'Facilities for disabled guests',
-        'Family rooms',
-        'Good breakfast',
-        'Restaurant',
-        'Pets allowed',
-        '24-hour front desk',
-        'Non-smoking rooms',
-        'Electric vehicle charging station',
-        'Swimming Pool',
-        'Air conditioning',
-    ]
-
-    const provinces = [
-        "Hà Nội",
-        "Hồ Chí Minh",
-        "Đà Nẵng",
-        "Hải Phòng",
-        "Cần Thơ",
-        "Bà Rịa - Vũng Tàu",
-        "Bắc Giang",
-        "Bắc Kạn",
-        "Bạc Liêu",
-        "Bắc Ninh",
-        "Bến Tre",
-        "Bình Định",
-        "Bình Dương",
-        "Bình Phước",
-        "Bình Thuận",
-        "Cà Mau",
-        "Cao Bằng",
-        "Đắk Lắk",
-        "Đắk Nông",
-        "Điện Biên",
-        "Đồng Nai",
-        "Đồng Tháp",
-        "Gia Lai",
-        "Hà Giang",
-        "Hà Nam",
-        "Hà Tĩnh",
-        "Hải Dương",
-        "Hậu Giang",
-        "Hòa Bình",
-        "Hưng Yên",
-        "Khánh Hòa",
-        "Kiên Giang",
-        "Kon Tum",
-        "Lai Châu",
-        "Lâm Đồng",
-        "Lạng Sơn",
-        "Lào Cai",
-        "Long An",
-        "Nam Định",
-        "Nghệ An",
-        "Ninh Bình",
-        "Ninh Thuận",
-        "Phú Thọ",
-        "Quảng Bình",
-        "Quảng Nam",
-        "Quảng Ngãi",
-        "Quảng Ninh",
-        "Quảng Trị",
-        "Sóc Trăng",
-        "Sơn La",
-        "Tây Ninh",
-        "Thái Bình",
-        "Thái Nguyên",
-        "Thanh Hóa",
-        "Thừa Thiên Huế",
-        "Tiền Giang",
-        "Trà Vinh",
-        "Tuyên Quang",
-        "Vĩnh Long",
-        "Vĩnh Phúc",
-        "Yên Bái"
-    ];
+    const VisuallyHiddenInput = styled('input')({
+        clip: 'rect(0 0 0 0)',
+        clipPath: 'inset(50%)',
+        height: 1,
+        overflow: 'hidden',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        whiteSpace: 'nowrap',
+        width: 1,
+    });
 
     function getStyles(name: string, personName: readonly string[], theme: Theme) {
         return {
@@ -131,24 +56,6 @@ export default function ProfileView() {
                     ? theme.typography.fontWeightRegular
                     : theme.typography.fontWeightMedium,
         };
-    }
-
-    const theme = useTheme();
-    const [service, setService] = React.useState<string[]>([]);
-    const [files, setFiles] = useState<any>(null);
-
-    const handleChange = (event: SelectChangeEvent<typeof service>) => {
-        const {
-            target: { value },
-        } = event;
-        setService(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-        );
-    };
-
-    const handleclose = () => {
-        handleChangeHotel({ services: service })
     }
 
     function ImagesList({ images }: any) {
@@ -166,32 +73,47 @@ export default function ProfileView() {
         );
     }
 
-    const VisuallyHiddenInput = styled('input')({
-        clip: 'rect(0 0 0 0)',
-        clipPath: 'inset(50%)',
-        height: 1,
-        overflow: 'hidden',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        whiteSpace: 'nowrap',
-        width: 1,
-    });
-
+    const theme = useTheme();
     const [loading, setLoading] = useState(false);
     const [hotel, setHotel] = useState<Partial<Hotel>>({});
+    const [serviceHotelSystem, setServiceHotelSystem] = useState<ServiceHotel[]>([]);
+    const [files, setFiles] = useState<any>(null);
 
     useEffect(() => {
         setLoading(true);
         const getProfile = async () => {
             const res = await axiosInstance.get('/hotel/get-detail');
+            const serviceHotel = await axiosInstance.get('/serviceHotel/getAllServiceHotelSystem');
             setHotel(res.data);
-            setService(res.data.services)
+            setServiceHotelSystem(serviceHotel.data);
             setLoading(false);
         }
         const timer = setTimeout(getProfile, 1000);
         return () => clearTimeout(timer);
     }, []);
+
+    const handleChange = (event: any) => {
+        handleChangeHotel({ serviceIds: event.target.value })
+    };
+
+    const handleChangeHotel = (values: Partial<Hotel>) => {
+        setHotel({
+            ...hotel,
+            ...values,
+        });
+    }
+
+    const handleFileChange = (e: any) => {
+        const files = e.target.files
+        console.log(files)
+        if (files.length > 6) {
+            alert('You can only upload up to 6 images.');
+            e.target.value = null; // 
+        }
+        else {
+            setFiles(e.target.files)
+        }
+    }
 
     const uploadImg = async (file: any) => {
         const formData = new FormData();
@@ -204,7 +126,6 @@ export default function ProfileView() {
             return fileURL as string;
         });
     };
-
 
     const save = async () => {
         setLoading(true);
@@ -224,26 +145,6 @@ export default function ProfileView() {
         }
         const timer = setTimeout(saveProfile, 1000);
         return () => clearTimeout(timer);
-    }
-
-    const handleChangeHotel = (values: Partial<Hotel>) => {
-        setHotel({
-            ...hotel,
-            ...values,
-        });
-    }
-
-
-    const handleFileChange = (e: any) => {
-        const files = e.target.files
-        console.log(files)
-        if (files.length > 6) {
-            alert('You can only upload up to 6 images.');
-            e.target.value = null; // Clear the selected files
-        }
-        else {
-            setFiles(e.target.files)
-        }
     }
 
     return (
@@ -284,18 +185,13 @@ export default function ProfileView() {
                                 <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                     Tên khách sạn:
                                 </Typography>
-                                <TextField id="outlined-basic" label="Tên khách sạn" variant="outlined" sx={{ flex: 1 }} value={hotel?.username} onChange={(e) => handleChangeHotel({ username: e.target.value })} />
+                                <TextField id="outlined-basic" label="Tên khách sạn" variant="outlined" sx={{ flex: 1 }} value={hotel?.hotelName} onChange={(e) => handleChangeHotel({ hotelName: e.target.value })} />
                             </Stack>
                             <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                                 <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                     Thành phố:
                                 </Typography>
-                                <TextField id="outlined-basic" label="Thành phố" variant="outlined" sx={{ flex: 1 }} select value={hotel?.city} onChange={(e) => handleChangeHotel({ city: e.target.value })}>
-                                    {provinces.map((option) => (
-                                        <MenuItem key={option} value={option}>
-                                            {option}
-                                        </MenuItem>
-                                    ))}
+                                <TextField id="outlined-basic" label="Thành phố" variant="outlined" sx={{ flex: 1 }} value={hotel?.city} disabled>
                                 </TextField>
                             </Stack>
                             <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
@@ -328,42 +224,6 @@ export default function ProfileView() {
                                 <TextField value={hotel.description} id="outlined-basic" label="Mô tả" variant="outlined" sx={{ flex: 1 }} multiline maxRows={4} onChange={(e) => handleChangeHotel({ description: e.target.value })} />
                             </Stack>
                             <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
-                                <Typography
-                                    variant="subtitle1"
-                                    sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Giá rẻ nhất:
-                                </Typography>
-                                <TextField
-                                    id="outlined-start-adornment"
-                                    label="Giá rẻ nhất"
-                                    sx={{ flex: 1 }}
-                                    type='number'
-                                    onChange={(e) => handleChangeHotel({ cheapestPrice: +e.target.value })}
-                                    inputProps={{ min: 0 }}
-                                    value={hotel.cheapestPrice}
-                                    InputProps={{
-                                        endAdornment: <InputAdornment position="end">VND</InputAdornment>,
-                                    }} />
-                            </Stack>
-                            <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
-                                <Typography
-                                    variant="subtitle1"
-                                    sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Giá đắt nhất:
-                                </Typography>
-                                <TextField
-                                    id="outlined-start-adornment"
-                                    label="Giá đắt nhất"
-                                    sx={{ flex: 1 }}
-                                    type='number'
-                                    onChange={(e) => handleChangeHotel({ highestPrice: +e.target.value })}
-                                    inputProps={{ min: 0 }}
-                                    value={hotel.highestPrice}
-                                    InputProps={{
-                                        endAdornment: <InputAdornment position="end">VND</InputAdornment>,
-                                    }} />
-                            </Stack>
-                            <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                                 <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                     Giảm giá:
                                 </Typography>
@@ -391,32 +251,35 @@ export default function ProfileView() {
                                         labelId="demo-multiple-chip-label"
                                         id="demo-multiple-chip"
                                         multiple
-                                        value={service}
+                                        value={hotel.serviceIds}
                                         onChange={handleChange}
                                         input={<OutlinedInput id="select-multiple-chip" label="Dịch vụ" />}
-                                        renderValue={(selected) => (
-                                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                                {selected.map((value) => (
-                                                    <Chip key={value} label={value} />
-                                                ))}
-                                            </Box>
-                                        )}
-                                        onClose={handleclose}
+                                        renderValue={(serviceIds) => {
+                                            return (
+                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                    {serviceIds.map((serviceId: any) => {
+                                                        let service = serviceHotelSystem.find(service => serviceId === service._id) as any;
+                                                        return (<Chip key={service._id} label={service.serviceName} />)
+                                                    })}
+
+                                                </Box>
+                                            )
+                                        }}
                                         MenuProps={MenuProps}
                                     >
-                                        {services.map((name) => (
+                                        {serviceHotelSystem.map((service) => (
                                             <MenuItem
-                                                key={name}
-                                                value={name}
-                                                style={getStyles(name, service, theme)}
+                                                key={service._id}
+                                                value={service._id}
+                                                style={getStyles(service._id, hotel.serviceIds || [], theme)}
                                             >
-                                                {name}
+                                                {service.serviceName}
                                             </MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>
                             </Stack>
-                            <Box sx={{ textAlign: "center"}}>
+                            <Box sx={{ textAlign: "center" }}>
                                 <Button variant="contained" size="large" sx={{ padding: "0 80px", mt: 2 }} onClick={save}>
                                     Lưu thay đổi
                                 </Button>
@@ -424,8 +287,8 @@ export default function ProfileView() {
                         </Stack>
                     </Box>
                 </Box>
-            </>)}
-        </Container>
+            </>)
+            }
+        </Container >
     )
-
 }

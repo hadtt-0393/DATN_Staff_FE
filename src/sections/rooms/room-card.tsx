@@ -12,25 +12,10 @@ import { useState } from 'react';
 import BrushIcon from '@mui/icons-material/Brush';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import DetailRoom from './detail-room';
-import { Room } from '../../models/room';
 
 // ----------------------------------------------------------------------
 
-export default function RoomCard({room, reFetch}: any) {
-  // const renderStatus = (
-  //     variant="filled"
-  //     color={(product.status === 'sale' && 'error') || 'info'}
-  //     sx={{
-  //       zIndex: 9,
-  //       top: 16,
-  //       right: 16,
-  //       position: 'absolute',
-  //       textTransform: 'uppercase',
-  //     }}
-  //   >
-  //     {product.status}
-  //   </Label>
-  // );
+export default function RoomCard({room, reFetch, serviceRoomSystem}: any) {
   const [open, setOpen] = useState(null);
   const [openDialog, setOpenDialog] = useState(false)
 
@@ -53,7 +38,7 @@ export default function RoomCard({room, reFetch}: any) {
 
   const renderPrice = (
     <Typography variant="subtitle1">
-      {room.price} VND
+      {room.price} VND/Đêm
     </Typography>
   );
 
@@ -99,7 +84,7 @@ export default function RoomCard({room, reFetch}: any) {
         </MenuItem>
       </Popover>
 
-      <DetailRoom isOpen={openDialog} onClose={() => setOpenDialog(false)} roomDetail={room} reFetch={reFetch}/>
+      <DetailRoom isOpen={openDialog} onClose={() => setOpenDialog(false)} roomDetail={room} reFetch={reFetch} serviceRoomSystem={serviceRoomSystem}/>
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Stack direction='row' alignItems="center" justifyContent="space-between">
@@ -109,16 +94,10 @@ export default function RoomCard({room, reFetch}: any) {
           {/* <Box sx={{ backgroundColor: "#ddd", padding: "5px 20px", borderRadius: "10px" }}>
             <Typography sx={{ fontWeight: "700", color: "#666" }}>{product.room}</Typography>
           </Box> */}
-          <Box><Label>{room.roomNumber}</Label></Box>
+          <Box><Label>{room.roomType}</Label></Box>
         </Stack>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          {
-            room.status === true?
-              <Button variant="contained" size="medium" sx={{backgroundColor:"green"}}>Trống</Button>
-              :
-              <Button variant="contained" size="medium"sx={{backgroundColor:"orange"}}>Bận</Button>
-          }
           <Box>
             <Typography>{renderPrice}</Typography>
           </Box>

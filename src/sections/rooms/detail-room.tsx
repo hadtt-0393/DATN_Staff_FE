@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
@@ -20,47 +20,15 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { Room } from '../../models/room';
+import { Room, ServiceRoom } from '../../models/room';
 import axiosInstance from '../../api/axios';
 import axios from 'axios';
 import { REACT_APP_CLOUDINARY_ENDPOINT } from '../../constant';
 
-export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch }: any) {
+export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch, serviceRoomSystem }: any) {
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
     const theme = useTheme();
-    const [personName, setPersonName] = useState<string[]>([]);
-    const [room, setRoom] = useState<Partial<Room>>(roomDetail);
-    const [file, setfile] = useState<any>(null)
-    const services = [
-        'Kitchen',
-        'Private bathroom',
-        'Air conditioning',
-        'Bath',
-        'Balcony',
-        'Washing machine',
-        'Patio',
-        'View',
-        'Sea view',
-        'Coffee/tea maker',
-        'Coffee machine',
-        'Feather pillow',
-        'Toilet with grab rails',
-        'Hand sanitiser',
-        'Quiet street view',
-        'Clothes rack',
-        'Radio',
-        'Private apartment in building',
-        'Outdoor furniture',
-        'Free toiletries',
-        'Iron',
-        'Wireless Internet',
-        'Tea/Coffee maker',
-        'Toilet',
-        'Toaster',
-        'Terrace',
-    ]
-
     function getStyles(name: string, personName: readonly string[], theme: Theme) {
         return {
             fontWeight:
@@ -69,21 +37,6 @@ export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch }: any
                     : theme.typography.fontWeightMedium,
         };
     }
-
-    const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-        const {
-            target: { value },
-        } = event;
-        setPersonName(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-        );
-    };
-
-    const handleClose = () => {
-        onClose()
-    }
-
     const MenuProps = {
         PaperProps: {
             style: {
@@ -92,7 +45,6 @@ export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch }: any
             },
         },
     };
-
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
         clipPath: 'inset(50%)',
@@ -104,6 +56,17 @@ export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch }: any
         whiteSpace: 'nowrap',
         width: 1,
     });
+
+    const [room, setRoom] = useState<Partial<Room>>(roomDetail);
+    const [file, setfile] = useState<any>(null)
+
+    const handleChange = (event: any) => {
+        handleChangeRoom({ serviceIds: event.target.value })
+    };
+
+    const handleClose = () => {
+        onClose()
+    }
 
     const handleChangeRoom = (values: Partial<Room>) => {
         setRoom({
@@ -127,7 +90,7 @@ export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch }: any
 
     const save = () => {
         const saveRoom = async () => {
-            if(file) {
+            if (file) {
                 await uploadImg(file);
             }
             const res = await axiosInstance.put(`/room/updateRoomByStaff/${room._id}`, room);
@@ -159,7 +122,7 @@ export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch }: any
                                 size='large'
                             >
                                 Chọn ảnh
-                                <VisuallyHiddenInput type="file" onChange={handleChangeFile}/>
+                                <VisuallyHiddenInput type="file" onChange={handleChangeFile} />
                             </Button>
                         </Box>
                     </Box>
@@ -167,16 +130,24 @@ export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch }: any
                     <Stack spacing={2} flex={1} sx={{ margin: 2 }}>
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Tên phòng:
+                                Loại phòng:
                             </Typography>
-                            <TextField id="outlined-basic" label="Tên phòng" variant="outlined" sx={{ flex: 1 }} value={room.roomNumber} onChange={(e) => handleChangeRoom({ roomNumber: e.target.value })}/>
+                            <TextField id="outlined-basic" label="Tên phòng" variant="outlined" sx={{ flex: 1 }} value={room.roomType} onChange={(e) => handleChangeRoom({ roomType: e.target.value })} />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Loại phòng:
+                                Số lượng phòng:
                             </Typography>
-                            <TextField id="outlined-basic" label="Loại phòng" variant="outlined" sx={{ flex: 1 }} value={room.type} onChange={(e) => handleChangeRoom({ type: e.target.value })}/>
+                            <TextField
+                                label="Số lượng"
+                                id="outlined-start-adornment"
+                                sx={{ flex: 1 }}
+                                type='number'
+                                inputProps={{ min: 0 }}
+                                onChange={(e) => handleChangeRoom({ quantity: +e.target.value })}
+                                value={room.quantity}
+                            />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
@@ -187,7 +158,7 @@ export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch }: any
                             </Typography>
                             <TextField
                                 id="outlined-start-adornment"
-                                label="Price"
+                                label="Giá"
                                 sx={{ flex: 1 }}
                                 type='number'
                                 inputProps={{ min: 0 }}
@@ -196,14 +167,30 @@ export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch }: any
                                     endAdornment: <InputAdornment position="end">VND</InputAdornment>,
                                 }}
                                 onChange={(e) => handleChangeRoom({ price: +e.target.value })}
-                                />
+                            />
+                        </Stack>
+                        <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
+                            <Typography
+                                variant="subtitle1"
+                                sx={{ color: 'text.disabled', flex: 0.4 }}>
+                                Số lượng người tối đa:
+                            </Typography>
+                            <TextField
+                                id="outlined-start-adornment"
+                                label="Số lượng người tối đa"
+                                sx={{ flex: 1 }}
+                                type='number'
+                                inputProps={{ min: 0 }}
+                                value={room.maxPeople}
+                                onChange={(e) => handleChangeRoom({ maxPeople: +e.target.value })}
+                            />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                 Mô tả:
                             </Typography>
-                            <TextField id="outlined-basic" label="Descriptions" variant="outlined" sx={{ flex: 1 }} multiline maxRows={4} value={room.description} onChange={(e) => handleChangeRoom({ description: e.target.value })}/>
+                            <TextField id="outlined-basic" label="Mô tả" variant="outlined" sx={{ flex: 1 }} multiline maxRows={4} value={room.description} onChange={(e) => handleChangeRoom({ description: e.target.value })} />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
@@ -217,26 +204,30 @@ export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch }: any
                                     labelId="demo-multiple-chip-label"
                                     id="demo-multiple-chip"
                                     multiple
-                                    value={personName}
+                                    value={room.serviceIds}
                                     onChange={handleChange}
                                     input={<OutlinedInput id="select-multiple-chip" label="Dịch vụ" />}
-                                    renderValue={(selected) => (
-                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                            {selected.map((value) => (
-                                                <Chip key={value} label={value} />
-                                            ))}
-                                        </Box>
-                                    )}
-                                    MenuProps={MenuProps}
+                                    renderValue={(serviceIds) => {
+                                        return (
+                                            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                {serviceIds.map((serviceId: any) => {
+                                                    let service = serviceRoomSystem.find((service: any) => serviceId === service._id) as any;
+                                                    return (<Chip key={service._id} label={service.serviceName} />)
+                                                })}
 
+                                            </Box>
+                                        )
+                                    }}
+                                    MenuProps={MenuProps}
+                                // onClose={handlecloseService}
                                 >
-                                    {services.map((name) => (
+                                    {serviceRoomSystem.map((service: any) => (
                                         <MenuItem
-                                            key={name}
-                                            value={name}
-                                            style={getStyles(name, personName, theme)}
+                                            key={service._id}
+                                            value={service._id}
+                                            style={getStyles(service._id, room.serviceIds || [], theme)}
                                         >
-                                            {name}
+                                            {service.serviceName}
                                         </MenuItem>
                                     ))}
                                 </Select>
@@ -244,11 +235,18 @@ export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch }: any
                         </Stack>
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Trạng thái phòng
+                                Số phòng trống
                             </Typography>
-                            <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "center", flex: 1 }}>
-                                <FormControlLabel control={<Switch checked={room.status} onChange={(e) => handleChangeRoom({ status: !!e.target.value })}/>} label="Free" />
-                            </Box>
+                            <TextField
+                                label="Số lượng"
+                                id="outlined-start-adornment"
+                                sx={{ flex: 1 }}
+                                type='number'
+                                inputProps={{ min: 0 }}
+                                onChange={(e) => handleChangeRoom({ quantity: +e.target.value })}
+                                value={room.quantityAvailable}
+                                disabled={true}
+                            />
                         </Stack>
                     </Stack>
                 </Box>

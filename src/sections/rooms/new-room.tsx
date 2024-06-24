@@ -30,37 +30,16 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
     const [file, setFile] = useState<any>(null);
     const [price, setPrice] = useState<any>(null);
     const [description, setDescription] = useState<any>(null);
+    const [maxPerson, setMaxPerson] = useState<any>(null);
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
     const theme = useTheme();
-    const [personName, setPersonName] = useState<string[]>([]);
+    const [service, serService] = useState<string[]>([]);
     const services = [
-        'Kitchen',
-        'Private bathroom',
-        'Air conditioning',
-        'Bath',
-        'Balcony',
-        'Washing machine',
-        'Patio',
-        'View',
-        'Sea view',
-        'Coffee/tea maker',
-        'Coffee machine',
-        'Feather pillow',
-        'Toilet with grab rails',
-        'Hand sanitiser',
-        'Quiet street view',
-        'Clothes rack',
-        'Radio',
-        'Private apartment in building',
-        'Outdoor furniture',
-        'Free toiletries',
-        'Iron',
-        'Wireless Internet',
-        'Tea/Coffee maker',
-        'Toilet',
-        'Toaster',
-        'Terrace',
+        'Điều hòa',
+        'Phòng tắm',
+        'Wifi',
+        'Tivi',
     ]
 
     function getStyles(name: string, personName: readonly string[], theme: Theme) {
@@ -72,11 +51,11 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
         };
     }
 
-    const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+    const handleChange = (event: SelectChangeEvent<typeof service>) => {
         const {
             target: { value },
         } = event;
-        setPersonName(
+        serService(
             // On autofill we get a stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
@@ -129,6 +108,8 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
                 price: price,
                 description: description,
                 image: fileURL,
+                max_person: maxPerson,
+                service: service,
             });
             reFetch();
             handleClose();
@@ -159,7 +140,7 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
                                 size='large'
                             >
                                 Chọn ảnh
-                                <VisuallyHiddenInput type="file" onChange={handleChangeFile}/>
+                                <VisuallyHiddenInput type="file" onChange={handleChangeFile} />
                             </Button>
                         </Box>
                     </Box>
@@ -169,14 +150,14 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                 Tên phòng:
                             </Typography>
-                            <TextField id="outlined-basic" label="Tên phòng" variant="outlined" sx={{ flex: 1 }} value={roomNumber} onChange={(e) => setRoomNumber(e.target.value)}/>
+                            <TextField id="outlined-basic" label="Tên phòng" variant="outlined" sx={{ flex: 1 }} value={roomNumber} onChange={(e) => setRoomNumber(e.target.value)} />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                 Loại phòng:
                             </Typography>
-                            <TextField id="outlined-basic" label="Loại phòng" variant="outlined" sx={{ flex: 1 }} value={type} onChange={(e) => setType(e.target.value)}/>
+                            <TextField id="outlined-basic" label="Loại phòng" variant="outlined" sx={{ flex: 1 }} value={type} onChange={(e) => setType(e.target.value)} />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
@@ -199,6 +180,23 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
+                            <Typography
+                                variant="subtitle1"
+                                sx={{ color: 'text.disabled', flex: 0.4 }}>
+                                Số lượng người tối đa:
+                            </Typography>
+                            <TextField
+                                id="outlined-start-adornment"
+                                label="Số lượng người tối đa"
+                                sx={{ flex: 1 }}
+                                type='number'
+                                inputProps={{ min: 0 }}
+                                value={maxPerson}
+                                onChange={(e) => setMaxPerson(+e.target.value)}
+                            />
+                        </Stack>
+
+                        <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
                                 Mô tả:
                             </Typography>
@@ -216,7 +214,7 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
                                     labelId="demo-multiple-chip-label"
                                     id="demo-multiple-chip"
                                     multiple
-                                    value={personName}
+                                    value={service}
                                     onChange={handleChange}
                                     input={<OutlinedInput id="select-multiple-chip" label="Dịch vụ" />}
                                     renderValue={(selected) => (
@@ -233,7 +231,7 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
                                         <MenuItem
                                             key={name}
                                             value={name}
-                                            style={getStyles(name, personName, theme)}
+                                            style={getStyles(name, service, theme)}
                                         >
                                             {name}
                                         </MenuItem>

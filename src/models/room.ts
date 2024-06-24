@@ -1,9 +1,17 @@
 export interface Room {
     _id: string;
-    type: string;
+    quantity: number;
     price: number;
-    roomNumber: string;
+    roomType: string;
     status: boolean;
     image: string;
     description: string;
+    maxPeople: number
+    quantityAvailable: number;
+    serviceIds: string[];
+}
+
+export interface ServiceRoom {
+    _id: string;
+    serviceName: string;
 }
