@@ -20,6 +20,7 @@ export default function UserTableRow({
     room,
     people,
     price,
+    form
 }: any) {
     const [open, setOpen] = useState(false);
 
@@ -61,7 +62,7 @@ export default function UserTableRow({
                     <VisibilityIcon color='success' onClick={() => setOpen(true)} />
                 </TableCell>
             </TableRow>
-            <DetailForm isOpen={open} onClose={() => setOpen(false)} />
+            <DetailForm isOpen={open} onClose={() => setOpen(false)} form={form}/>
         </>
     );
 }

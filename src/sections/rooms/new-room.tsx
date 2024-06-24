@@ -1,70 +1,30 @@
-import { useState } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
-import DialogActions from '@mui/material/DialogActions';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { styled } from '@mui/material/styles';
-import Divider from '@mui/material/Divider'
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import { Theme, useTheme } from '@mui/material/styles';
-import InputLabel from '@mui/material/InputLabel';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
-import OutlinedInput from '@mui/material/OutlinedInput';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
+import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import axiosInstance from '../../api/axios';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Theme, styled, useTheme } from '@mui/material/styles';
 import axios from 'axios';
+import { useState } from 'react';
+import axiosInstance from '../../api/axios';
 import { REACT_APP_CLOUDINARY_ENDPOINT } from '../../constant';
 
-export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
-    const [roomNumber, setRoomNumber] = useState<any>(null);
-    const [type, setType] = useState<any>(null);
-    const [file, setFile] = useState<any>(null);
-    const [price, setPrice] = useState<any>(null);
-    const [description, setDescription] = useState<any>(null);
-    const [maxPerson, setMaxPerson] = useState<any>(null);
+export default function CreateRoom({ isOpen, onClose, reFetch, serviceRoomSystem }: any) {
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
     const theme = useTheme();
-    const [service, serService] = useState<string[]>([]);
-    const services = [
-        'Điều hòa',
-        'Phòng tắm',
-        'Wifi',
-        'Tivi',
-    ]
-
-    function getStyles(name: string, personName: readonly string[], theme: Theme) {
-        return {
-            fontWeight:
-                personName.indexOf(name) === -1
-                    ? theme.typography.fontWeightRegular
-                    : theme.typography.fontWeightMedium,
-        };
-    }
-
-    const handleChange = (event: SelectChangeEvent<typeof service>) => {
-        const {
-            target: { value },
-        } = event;
-        serService(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value,
-        );
-    };
-
-    const handleClose = () => {
-        onClose()
-    }
-
     const MenuProps = {
         PaperProps: {
             style: {
@@ -73,7 +33,6 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
             },
         },
     };
-
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
         clipPath: 'inset(50%)',
@@ -85,6 +44,41 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
         whiteSpace: 'nowrap',
         width: 1,
     });
+
+    function getStyles(name: string, personName: readonly string[], theme: Theme) {
+        return {
+            fontWeight:
+                personName.indexOf(name) === -1
+                    ? theme.typography.fontWeightRegular
+                    : theme.typography.fontWeightMedium,
+        };
+    }
+
+    const [roomType, setRoomType] = useState<string>('');
+    const [quantity, setQuantity] = useState<number>(0);
+    const [price, setPrice] = useState<number>(0);
+    const [maxPeople, setMaxPeople] = useState<number>(0);
+    const [description, setDescription] = useState<any>(null);
+    const [file, setFile] = useState<any>(null);
+    const [service, serService] = useState<string[]>([]);
+  
+   
+
+    const handleChange = (event: SelectChangeEvent<typeof service>) => {
+        const {
+            target: { value },
+        } = event;
+        serService(
+            typeof value === 'string' ? value.split(',') : value,
+        );
+        console.log(service);
+    };
+
+    const handleClose = () => {
+        onClose()
+    }
+
+
 
     const handleChangeFile = (e: any) => {
         setFile(e.target.files[0])
@@ -101,15 +95,15 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
 
     const save = () => {
         const saveRoom = async () => {
-            const fileURL = await uploadImg(file);
+            // const fileURL = await uploadImg(file);
             const res = await axiosInstance.post('/room/createRoom', {
-                roomNumber: roomNumber,
-                type: type,
-                price: price,
+                roomType,
+                quantity,
+                price,
+                maxPeople: maxPeople,
                 description: description,
-                image: fileURL,
-                max_person: maxPerson,
-                service: service,
+                // image: fileURL,
+                services: service,
             });
             reFetch();
             handleClose();
@@ -148,16 +142,24 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
                     <Stack spacing={2} flex={1} sx={{ margin: 2 }}>
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Tên phòng:
+                                Loại phòng
                             </Typography>
-                            <TextField id="outlined-basic" label="Tên phòng" variant="outlined" sx={{ flex: 1 }} value={roomNumber} onChange={(e) => setRoomNumber(e.target.value)} />
+                            <TextField id="outlined-basic" label="Loại phòng" variant="outlined" sx={{ flex: 1 }} value={roomType} onChange={(e) => setRoomType(e.target.value)} />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
                             <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                Loại phòng:
+                                Số lượng:
                             </Typography>
-                            <TextField id="outlined-basic" label="Loại phòng" variant="outlined" sx={{ flex: 1 }} value={type} onChange={(e) => setType(e.target.value)} />
+                            <TextField
+                                id="outlined-start-adornment"
+                                label="Số lượng phòng"
+                                sx={{ flex: 1 }}
+                                type='number'
+                                inputProps={{ min: 0 }}
+                                value={quantity}
+                                onChange={(e) => setQuantity(+e.target.value)}
+                            />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
@@ -173,10 +175,11 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
                                 type='number'
                                 inputProps={{ min: 0 }}
                                 value={price}
-                                onChange={(e) => setPrice(e.target.value)}
+                                onChange={(e) => setPrice(+e.target.value)}
                                 InputProps={{
                                     endAdornment: <InputAdornment position="end">VND</InputAdornment>,
-                                }} />
+                                }}
+                            />
                         </Stack>
 
                         <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
@@ -191,8 +194,8 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
                                 sx={{ flex: 1 }}
                                 type='number'
                                 inputProps={{ min: 0 }}
-                                value={maxPerson}
-                                onChange={(e) => setMaxPerson(+e.target.value)}
+                                value={maxPeople}
+                                onChange={(e) => setMaxPeople(+e.target.value)}
                             />
                         </Stack>
 
@@ -217,23 +220,24 @@ export default function CreateRoom({ isOpen, onClose, reFetch }: any) {
                                     value={service}
                                     onChange={handleChange}
                                     input={<OutlinedInput id="select-multiple-chip" label="Dịch vụ" />}
-                                    renderValue={(selected) => (
+                                    renderValue={(serviceIds) => (
                                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                            {selected.map((value) => (
-                                                <Chip key={value} label={value} />
-                                            ))}
+                                            {serviceIds.map((serviceId: any) => {
+                                                let service = serviceRoomSystem.find((service: any) => serviceId === service._id) as any;
+                                                return (<Chip key={service._id} label={service.serviceName} />)
+                                            })}
                                         </Box>
                                     )}
                                     MenuProps={MenuProps}
 
                                 >
-                                    {services.map((name) => (
+                                    {serviceRoomSystem.map((services: any) => (
                                         <MenuItem
-                                            key={name}
-                                            value={name}
-                                            style={getStyles(name, service, theme)}
+                                            key={services._id}
+                                            value={services._id}
+                                            style={getStyles(services._id, service, theme)}
                                         >
-                                            {name}
+                                            {services.serviceName}
                                         </MenuItem>
                                     ))}
                                 </Select>

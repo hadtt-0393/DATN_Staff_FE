@@ -1,36 +1,32 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Card from '@mui/material/Card';
+import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
-import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { users } from '../../mock/user';
-import UserTableToolbar from './user-table-toolbar';
+import Typography from '@mui/material/Typography';
+import axiosInstance from '../../api/axios';
 import Scrollbar from '../../components/scrollbar';
-import { emptyRows, applyFilter, getComparator } from './utils';
-import UserTableRow from './user-table-row';
+import { convertDate, convertPrice, convertRoomToString } from '../../utils';
 import TableEmptyRows from './table-empty-rows';
 import TableNoData from './table-no-data';
 import UserTableHead from './user-table-head';
+import UserTableRow from './user-table-row';
+import UserTableToolbar from './user-table-toolbar';
+import { applyFilter, emptyRows, getComparator } from './utils';
 
-// ----------------------------------------------------------------------
+
 
 export default function UserPage() {
   const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState('asc');
-
   const [orderBy, setOrderBy] = useState('name');
-
   const [filterName, setFilterName] = useState('');
-
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  const [forms, setForms]  = useState([]);
   const handleSort = (event: any, id: any) => {
     const isAsc = orderBy === id && order === 'asc';
     if (id !== '') {
@@ -38,6 +34,14 @@ export default function UserPage() {
       setOrderBy(id);
     }
   };
+
+  useEffect(() => {
+    const fetchForm = async() => {
+      const res = await axiosInstance.get('/form/getAllFormByStaff');
+      setForms(res.data);
+    }
+    fetchForm();
+  }, [])
 
  
   const handleChangePage = (event: any, newPage: any) => {
@@ -55,7 +59,7 @@ export default function UserPage() {
   };
 
   const dataFiltered = applyFilter({
-    inputData: users,
+    inputData: forms,
     comparator: getComparator(order, orderBy),
     filterName,
   });
@@ -86,9 +90,9 @@ export default function UserPage() {
                   { id: 'phone', label: 'Số điện thoại'},
                   { id: 'checkin', label: 'Ngày nhận phòng' },
                   { id: 'checkout', label: 'Ngày trả phòng' },
-                  { id: 'room', label: 'Tên phòng' },
+                  { id: 'room', label: 'Loại phòng' },
                   { id: 'people', label: 'Số lượng người' },
-                  { id: 'price', label: 'Giá',  },
+                  { id: 'price', label: 'Tổng thanh toán',  },
                   { id: 'action', label:'Hành động'},
                 ]}
               />
@@ -99,19 +103,20 @@ export default function UserPage() {
                     <UserTableRow
                       key={row.id}
                       name={row.name}
-                      checkin={row.checkin}
-                      room={row.room}
-                      phone={row.phone}
+                      checkin={convertDate(row.startDate)}
+                      room={convertRoomToString(row.Rooms)}
+                      phone={row.phoneNumber}
                       avatarUrl={row.avatarUrl}
-                      checkout={row.checkout}
-                      people={row.people}
-                      price={row.price}
+                      checkout={convertDate(row.endDate)}
+                      people={`${row.adults} người lớn ${row.children !== 0 ? `,${row.children} trẻ em` : ''}`}
+                      price={convertPrice(row.cost)}
+                      form={row}
                     />
                   ))}
 
                 <TableEmptyRows
                   height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, users.length)}
+                  emptyRows={emptyRows(page, rowsPerPage, forms.length)}
                 />
 
                 {notFound && <TableNoData query={filterName} />}
@@ -123,7 +128,7 @@ export default function UserPage() {
         <TablePagination
           page={page}
           component="div"
-          count={users.length}
+          count={forms.length}
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}

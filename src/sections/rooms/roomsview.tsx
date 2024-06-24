@@ -63,7 +63,7 @@ export default function ProductsView() {
                             <Button variant="contained" color="inherit" startIcon={<AddIcon />} onClick={() => setOpenModal(true)}>
                                 Tạo phòng
                             </Button>
-                            <CreateRoom isOpen={openModal} onClose={() => setOpenModal(false)} reFetch={reFetchRooms} />
+                            <CreateRoom isOpen={openModal} onClose={() => setOpenModal(false)} reFetch={reFetchRooms} serviceRoomSystem={serviceRooms}/>
                         </Stack>
                         <Stack
                             direction="row"

@@ -1,18 +1,17 @@
-import Dialog, { DialogProps } from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogActions from '@mui/material/DialogActions';
-import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Unstable_Grid2';
+import { convertPrice, convertDate, convertRoomToString } from '../../utils';
 
-export default function DetailForm({ isOpen, onClose }: any) {
+export default function DetailForm({ isOpen, onClose, form }: any) {
 
     function DetailUserCard({ name, phone, email, address, icon, color = 'primary', sx, ...other }: any) {
         return (
@@ -143,20 +142,19 @@ export default function DetailForm({ isOpen, onClose }: any) {
                 <Grid container spacing={3}>
                     <Grid xs={12} sm={6} md={6}>
                         <DetailUserCard
-                            name="Le Minh Duc"
-                            phone="0962757401"
-                            total="10"
-                            email="Lmduc9a101@gmail.com"
-                            address="Ha Noi"
+                            name={form.name}
+                            phone={form.phoneNumber}
+                            email={form.email}
+                            address={form.address}
                             icon="/assets/images/avatars/avatar_4.jpg"
                         />
                     </Grid>
                     <Grid xs={12} sm={6} md={6}>
                         <DetailBookingCard
-                            room="P301"
-                            checkin="19:00, 05/05/2024"
-                            checkout="20:00, 06/05/2024"
-                            price="100.000d"
+                            room={convertRoomToString(form.Rooms)}
+                            checkin={convertDate(form.startDate)}
+                            checkout={convertDate(form.endDate)}
+                            price={convertPrice(form.cost)}
                         />
                     </Grid>
                 </Grid>

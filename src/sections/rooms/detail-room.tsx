@@ -1,29 +1,26 @@
-import { useState } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
-import DialogActions from '@mui/material/DialogActions';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { styled } from '@mui/material/styles';
-import Divider from '@mui/material/Divider'
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import { Theme, useTheme } from '@mui/material/styles';
-import InputLabel from '@mui/material/InputLabel';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
-import OutlinedInput from '@mui/material/OutlinedInput';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
+import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { Room, ServiceRoom } from '../../models/room';
-import axiosInstance from '../../api/axios';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Select from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { Theme, styled, useTheme } from '@mui/material/styles';
 import axios from 'axios';
+import { useState } from 'react';
+import axiosInstance from '../../api/axios';
 import { REACT_APP_CLOUDINARY_ENDPOINT } from '../../constant';
+import { Room } from '../../models/room';
 
 export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch, serviceRoomSystem }: any) {
     const ITEM_HEIGHT = 48;
