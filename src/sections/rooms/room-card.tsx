@@ -15,7 +15,7 @@ import DetailRoom from './detail-room';
 
 // ----------------------------------------------------------------------
 
-export default function RoomCard({room, reFetch, serviceRoomSystem}: any) {
+export default function RoomCard({ room, reFetch, serviceRoomSystem }: any) {
   const [open, setOpen] = useState(null);
   const [openDialog, setOpenDialog] = useState(false)
 
@@ -37,12 +37,22 @@ export default function RoomCard({room, reFetch, serviceRoomSystem}: any) {
   );
 
   const renderPrice = (
-    <Typography variant="subtitle1">
-      {room.price} VND/Đêm
+    // <Box bgcolor="#F9B90F" p={1} borderRadius={1}>
+    <Typography color="black">
+      {(room.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND/Đêm
     </Typography>
+    /* </Box> */
+
   );
 
+  const renderAvailableRoom = (
+    <Box >
+      <Typography color="black">
+        {(room.quantityAvailable).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}/{(room.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+      </Typography>
+    </Box>
 
+  );
 
   const handleCloseMenu = () => {
     setOpen(null);
@@ -84,19 +94,26 @@ export default function RoomCard({room, reFetch, serviceRoomSystem}: any) {
         </MenuItem>
       </Popover>
 
-      <DetailRoom isOpen={openDialog} onClose={() => setOpenDialog(false)} roomDetail={room} reFetch={reFetch} serviceRoomSystem={serviceRoomSystem}/>
+      <DetailRoom isOpen={openDialog} onClose={() => setOpenDialog(false)} roomDetail={room} reFetch={reFetch} serviceRoomSystem={serviceRoomSystem} />
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Stack direction='row' alignItems="center" justifyContent="space-between">
-          <Typography variant="h6" noWrap >
-            {room.type}
+          <Typography variant="h6" noWrap overflow="hidden" textOverflow="ellipsis" >
+            {room.roomType}
           </Typography>
-          <Box><Label>{room.roomType}</Label></Box>
         </Stack>
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Box>
-            <Typography>{renderPrice}</Typography>
+        <Stack direction="row" alignItems="center" justifyContent="start">
+          <Box display="flex" gap={2}>
+            <Typography> Giá phòng: </Typography>
+            <Typography>  {renderPrice}</Typography>
+          </Box>
+        </Stack>
+
+        <Stack direction="row" alignItems="center" justifyContent="start">
+          <Box display="flex" gap={2}>
+            <Typography> Số lượng phòng trống: </Typography>
+            <Typography>  {renderAvailableRoom}</Typography>
           </Box>
         </Stack>
       </Stack>
