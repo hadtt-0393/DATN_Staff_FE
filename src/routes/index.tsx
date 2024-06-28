@@ -60,7 +60,7 @@ export default function Router() {
     },
     {
       path: "*",
-      element: <>Trang không tồn tại, quay trở <Link to="/" >Trang chủ</Link> </>
+      element: <>Trang không tồn tại, quay trở lại <Link to="/" >Trang chủ</Link> </>
     }
   ])
 

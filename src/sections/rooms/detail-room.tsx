@@ -253,8 +253,8 @@ export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch, servi
                 </Box>
             </Box>
             <DialogActions>
-                <Button variant='outlined' onClick={handleClose}>Close</Button>
-                <Button variant='contained' onClick={save}>Save</Button>
+                <Button variant='outlined' onClick={handleClose}>Hủy</Button>
+                <Button variant='contained' onClick={save}>Lưu thay đổi</Button>
             </DialogActions>
         </Dialog>
     )

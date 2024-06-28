@@ -133,6 +133,10 @@ export default function UserPage() {
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage="Số hàng trên trang"
+          labelDisplayedRows={({ from, to, count }) =>
+            `${from}-${to} trong ${count}`
+          }
         />
       </Card>
     </Container>

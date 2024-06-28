@@ -250,7 +250,7 @@ export default function CreateRoom({ isOpen, onClose, reFetch, serviceRoomSystem
             </Box>
             <DialogActions>
                 <Button variant='outlined' onClick={handleClose}>Hủy</Button>
-                <Button variant='contained' onClick={save}>Lưu thay đổi</Button>
+                <Button variant='contained' onClick={save}>Lưu</Button>
             </DialogActions>
         </Dialog>
     )

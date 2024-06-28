@@ -14,7 +14,7 @@ import Logo from '../../components/logo';
 import Scrollbar from '../../components/scrollbar';
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
-import { Button } from '@mui/material';
+import { Button, colors } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
@@ -46,7 +46,7 @@ export default function Nav({ openNav, onCloseNav }: any) {
       <Avatar src={account.photoURL} alt="photoURL" />
 
       <Box sx={{ ml: 2, gap: "10px", display: "flex", flexDirection: "column" }}>
-        <Typography variant="subtitle2">{account.displayName}</Typography>
+        <Typography fontWeight={"700"} color="#18458B" fontSize={"18px"}>{account.displayName}</Typography>
         {/* <Button variant='contained' sx={{backgroundColor:"orange"}} disabled>Đã xác thực</Button> */}
         {/* <Button variant='contained' sx={{ backgroundColor: "orange", "&:hover": { backgroundColor: "orange", opacity: "0.8" } }}>Đã xác thực</Button> */}
       </Box>
@@ -69,10 +69,11 @@ export default function Nav({ openNav, onCloseNav }: any) {
           height: 1,
           display: 'flex',
           flexDirection: 'column',
+
         },
       }}
     >
-      <Box width="100%" bgcolor="#13366E" py="30px" borderRadius="5px">
+      <Box width="100%" bgcolor="#99CCFF" py="30px" >
         <img src="https://easybook.demotheme.matbao.support/wp-content/uploads/2018/08/logo.png" alt="logo"
           style={{
             height: "35px", width: "133px", cursor: "pointer",
@@ -84,7 +85,12 @@ export default function Nav({ openNav, onCloseNav }: any) {
 
       {renderMenu}
 
-      <Box sx={{ flexGrow: 1 }} />
+      <Box sx={{ flexGrow: 1 }}/>
+      <Box>
+        <Button variant="outlined" sx={{ width: "100%", height: "60px", fontSize: "16px", textTransform: "uppercase", mb: "1px" }} onClick={() => { localStorage.removeItem('accessToken'); navigate('/signin') }}>
+          Đăng xuất
+        </Button>
+      </Box>
 
     </Scrollbar>
   );
