@@ -54,7 +54,7 @@ export default function SigninView() {
             !password ? setErrPassword(true) : setErrPassword(false)
             return;
         }
-        const login = async () => {
+        const signin = async () => {
             setLoading(true)
             try {
                 const res = await axiosInstance.post('/auth/staff/signin', {
@@ -70,7 +70,7 @@ export default function SigninView() {
                 setError(error)
             }
         }
-        login()
+        signin()
 
     }
     const renderForm = (

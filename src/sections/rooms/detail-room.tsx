@@ -79,18 +79,22 @@ export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch, servi
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", "stndhxae");
-        const res = await axios.post(REACT_APP_CLOUDINARY_ENDPOINT, formData)
-        handleChangeRoom({
-            image: res.data.url,
-        })
+        const res = await axios.post(REACT_APP_CLOUDINARY_ENDPOINT, formData);
+        return res.data.url;
     };
 
     const save = () => {
         const saveRoom = async () => {
+            let url: string | undefined = undefined;;
             if (file) {
-                await uploadImg(file);
+                url = await uploadImg(file);
             }
-            const res = await axiosInstance.put(`/room/updateRoomByStaff/${room._id}`, room);
+            if (!url) return;
+            const roomD = { ...room, image: url }
+            handleChangeRoom({
+                image: url,
+            })
+            await axiosInstance.put(`/room/updateRoomByStaff/${room._id}`, roomD);
             reFetch();
             handleClose();
         }

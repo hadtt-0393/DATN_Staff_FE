@@ -10,7 +10,7 @@ export interface Hotel {
     discount: number;
     serviceIds: string[];
     services: string[];
-    images: string[];
+    images: any[]
 }
 
 export interface ServiceHotel {

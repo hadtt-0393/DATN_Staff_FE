@@ -61,8 +61,8 @@ export default function CreateRoom({ isOpen, onClose, reFetch, serviceRoomSystem
     const [description, setDescription] = useState<any>(null);
     const [file, setFile] = useState<any>(null);
     const [service, serService] = useState<string[]>([]);
-  
-   
+
+
 
     const handleChange = (event: SelectChangeEvent<typeof service>) => {
         const {
@@ -95,14 +95,14 @@ export default function CreateRoom({ isOpen, onClose, reFetch, serviceRoomSystem
 
     const save = () => {
         const saveRoom = async () => {
-            // const fileURL = await uploadImg(file);
+            const fileURL = await uploadImg(file);
             const res = await axiosInstance.post('/room/createRoom', {
                 roomType,
                 quantity,
                 price,
                 maxPeople: maxPeople,
                 description: description,
-                // image: fileURL,
+                image: fileURL,
                 services: service,
             });
             reFetch();
@@ -122,7 +122,9 @@ export default function CreateRoom({ isOpen, onClose, reFetch, serviceRoomSystem
             <Box sx={{ border: "1px solid #ccc", borderRadius: "10px", m: "10px 20px 10px 20px" }}>
                 <Box display="flex" flexDirection="row" alignItems='center' marginLeft={2} >
                     <Box display='flex' flex={1} sx={{ mr: 2 }} flexDirection="column" justifyContent="flex-end" >
-                        <img src={file ? URL.createObjectURL(file as any) : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'} style={{ borderRadius: "20px", marginTop: "20px" }} />
+                        <Box display={'flex'} justifyContent="center" alignItems="center">
+                            <img src={file ? URL.createObjectURL(file as any) : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'} style={{ borderRadius: "20px", marginTop: "20px", width: "500px" , height:"500px", objectFit: "contain" }} />
+                        </Box>
                         <Box sx={{ textAlign: "center" }}>
                             <Button
                                 component="label"

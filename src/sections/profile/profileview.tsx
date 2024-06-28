@@ -19,15 +19,17 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { Theme, styled, useTheme } from '@mui/material/styles';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { ComponentProps, useEffect, useState } from 'react';
 import axiosInstance from '../../api/axios';
 import { REACT_APP_CLOUDINARY_ENDPOINT } from '../../constant';
 import { Hotel, ServiceHotel } from '../../models/hotel';
-import { toast } from 'react-toastify';
+import { images } from '../../mock/image';
 
 export default function ProfileView() {
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
+
+    const listImageDefault = ["https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"]
 
     const MenuProps = {
 
@@ -64,7 +66,7 @@ export default function ProfileView() {
 
     function ImagesList({ images }: any) {
         return (
-            <ImageList cols={2} gap={5} rowHeight='auto'>
+            <ImageList cols={2} gap={5} rowHeight={250} >
                 {images && images.map((image: any) => (
                     <ImageListItem key={image.img}>
                         <img
@@ -81,7 +83,7 @@ export default function ProfileView() {
     const [loading, setLoading] = useState(false);
     const [hotel, setHotel] = useState<Partial<Hotel>>({});
     const [serviceHotelSystem, setServiceHotelSystem] = useState<ServiceHotel[]>([]);
-    const [files, setFiles] = useState<any>(null);
+    const [files, setFiles] = useState<FileList | null>(null);
 
     useEffect(() => {
         setLoading(true);
@@ -107,19 +109,23 @@ export default function ProfileView() {
         });
     }
 
-    const handleFileChange = (e: any) => {
+    const handleFileChange: ComponentProps<'input'>['onChange'] = (e) => {
         const files = e.target.files
+        if (!files?.length) {
+            alert('Vui lòng chọn ít nhất một ảnh')
+            return
+        }
         console.log(files)
         if (files.length > 6) {
             alert('Bạn chỉ cần đăng 6 ảnh');
-            e.target.value = null; // 
+            e.target.files = null;
         }
         else {
             setFiles(e.target.files)
         }
     }
 
-    const uploadImg = async (file: any) => {
+    const uploadImg = async (file: File) => {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", "stndhxae");
@@ -134,18 +140,12 @@ export default function ProfileView() {
     const save = async () => {
         setLoading(true);
         const saveProfile = async () => {
-            if (files) {
-                const uploaders = Array.from(files).map(uploadImg);
-                const data = await axios.all(uploaders);
-                setHotel(prevHotel => ({
-                    ...prevHotel,
-                    images: data,
-                }));
-
-            }
-            const res = await axiosInstance.put('/hotel/update-detail-hotel', hotel);
+            if (!files) return;
+            const uploaders = Array.from(files).map(uploadImg);
+            const data = await Promise.all(uploaders);
+            const hotelD = { ...hotel, images: data }
+            const res = await axiosInstance.put('/hotel/update-detail-hotel', hotelD);
             setHotel(res.data);
-            // toast.success("Đăng nhập thành công!", { autoClose: 2000 })
             setLoading(false);
         }
         const timer = setTimeout(saveProfile, 1000);
@@ -168,7 +168,13 @@ export default function ProfileView() {
                 <Box sx={{ border: "1px solid #ccc", borderRadius: "10px" }}>
                     <Box display="flex" flexDirection="row" alignItems='center' marginLeft={2} >
                         <Box flex={1} sx={{ mr: 2 }}>
-                            <ImagesList images={hotel.images} />
+                            {hotel.images?.length ?
+                                <ImagesList images={hotel.images} />
+                                : <img
+                                    src='https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
+                                    style={{ borderRadius: "20px", marginTop: "20px", width: "500px", height: "500px", objectFit: "contain" }}
+                                />
+                            }
                             <Box sx={{ textAlign: "center" }}>
                                 <Button
                                     component="label"
