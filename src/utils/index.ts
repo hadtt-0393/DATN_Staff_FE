@@ -12,7 +12,7 @@ interface RoomChooseName {
 }
 
 const convertRoomToString = (rooms: RoomChooseName[]) => {
-    return rooms.map(room => (`${room.quantity} x ${room.roomName}`)).join('')
+    return rooms.map(room => (`${room.quantity} x ${room.roomName}`)).join(', ')
 }
 
 const convertTime = (date: string) => {

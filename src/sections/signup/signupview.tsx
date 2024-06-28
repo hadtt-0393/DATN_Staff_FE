@@ -17,6 +17,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import { useNavigate } from 'react-router-dom';
 import { bgGradient } from '../../theme/css';
 import { MenuItem } from '@mui/material';
+import { FormControl, InputLabel, OutlinedInput, Select, } from '@mui/material';
+
 
 
 // ----------------------------------------------------------------------
@@ -96,6 +98,20 @@ export default function SigninView() {
         navigate('/');
     };
 
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+
+        disableScrollLock: true,
+
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4 + ITEM_PADDING_TOP,
+                width: 250,
+            },
+        },
+    };
+
     const renderForm = (
         <>
             <Stack spacing={3}>
@@ -130,13 +146,33 @@ export default function SigninView() {
                     }}
                 />
                 <TextField name="Số điện thoại" type='number' label="Số điện thoại" />
-                <TextField id="outlined-basic" label="Thành phố" variant="outlined" sx={{ flex: 1 }} select >
+                {/* <TextField id="outlined-basic" label="Thành phố" variant="outlined" sx={{ flex: 1 }} select >
                     {provinces.map((option) => (
                         <MenuItem key={option} value={option}>
                             {option}
                         </MenuItem>
                     ))}
-                </TextField>
+                </TextField> */}
+
+                <FormControl sx={{ width: "100%", mt: "15px" }}>
+                    <InputLabel id="demo-multiple-name-label">
+                        Thành phố/Tỉnh
+                    </InputLabel>
+                    <Select
+                        labelId="demo-multiple-name-label"
+                        id="demo-multiple-name"
+                        // onChange={handleChangeInputCity}
+                        input={<OutlinedInput label="Thành phố/Tỉnh" />}
+                        MenuProps={MenuProps}
+                    // error={errCity}
+                    >
+                        {provinces.map((option) => (
+                            <MenuItem key={option} value={option}>
+                                {option}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             </Stack>
 
             <Stack direction="row" alignItems="center" justifyContent="center" sx={{ my: 4 }}>
@@ -150,7 +186,7 @@ export default function SigninView() {
             </Stack>
 
             <Box display="flex" justifyContent='center' alignItems='center'>
-                <Button variant="contained" onClick={handleClick} sx={{ textTransform: "uppercase" }} size='large'>Đăng ký</Button>
+                <Button variant="contained" onClick={handleClick} sx={{ textTransform: "uppercase", width: "100%" }} size='large'>Đăng ký</Button>
             </Box>
         </>
     );
@@ -168,17 +204,17 @@ export default function SigninView() {
         >
             <img src="https://easybook.demotheme.matbao.support/wp-content/uploads/2018/08/logo.png" alt="logo"
                 style={{
-                    height: "35px", width: "133px", cursor: "pointer", position: 'fixed',
+                    height: "35px", width: "133px", position: 'fixed',
                     top: "50px",
                     left: "40px",
-                }} onClick={() => navigate("/")} />
+                }} />
 
-           
+
 
             <Stack alignItems="center" justifyContent="start" sx={{ height: 1 }}>
                 <Card
                     sx={{
-                        mt:15,
+                        mt: 15,
                         p: 5,
                         width: 1,
                         maxWidth: 500,

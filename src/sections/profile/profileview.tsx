@@ -23,15 +23,19 @@ import { useEffect, useState } from 'react';
 import axiosInstance from '../../api/axios';
 import { REACT_APP_CLOUDINARY_ENDPOINT } from '../../constant';
 import { Hotel, ServiceHotel } from '../../models/hotel';
+import { toast } from 'react-toastify';
 
 export default function ProfileView() {
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
 
     const MenuProps = {
+
+        disableScrollLock: true,
+
         PaperProps: {
             style: {
-                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                maxHeight: ITEM_HEIGHT * 4 + ITEM_PADDING_TOP,
                 width: 250,
             },
         },
@@ -107,7 +111,7 @@ export default function ProfileView() {
         const files = e.target.files
         console.log(files)
         if (files.length > 6) {
-            alert('You can only upload up to 6 images.');
+            alert('Bạn chỉ cần đăng 6 ảnh');
             e.target.value = null; // 
         }
         else {
@@ -141,6 +145,7 @@ export default function ProfileView() {
             }
             const res = await axiosInstance.put('/hotel/update-detail-hotel', hotel);
             setHotel(res.data);
+            // toast.success("Đăng nhập thành công!", { autoClose: 2000 })
             setLoading(false);
         }
         const timer = setTimeout(saveProfile, 1000);

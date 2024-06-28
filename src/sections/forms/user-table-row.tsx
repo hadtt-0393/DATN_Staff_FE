@@ -46,11 +46,11 @@ export default function UserTableRow({
 
                 <TableCell align="center">{checkout}</TableCell>
 
-                <TableCell align="center">
-                    <Label>{room}</Label>
+                <TableCell>
+                    {room}
                 </TableCell>
 
-                <TableCell align="center">
+                <TableCell>
                     {people}
                 </TableCell>
 

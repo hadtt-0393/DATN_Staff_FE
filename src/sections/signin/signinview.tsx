@@ -12,7 +12,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-
+import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../../api/axios';
 
@@ -63,13 +63,15 @@ export default function SigninView() {
                 })
                 if (res.status === 200) {
                     localStorage.setItem("accessToken", JSON.stringify(res.data.accessToken))
-                    navigate('/')
+                    navigate("/")
+                    // toast.success("Đăng nhập thành công", { autoClose: 2000, onClose: () => { navigate('/') } })
                 }
             } catch (error) {
                 setError(error)
             }
         }
-        await login()
+        login()
+
     }
     const renderForm = (
         <Box component="form" noValidate onSubmit={handleSignin}>
@@ -82,6 +84,7 @@ export default function SigninView() {
                     autoComplete="email"
                     autoFocus
                     error={errEmail}
+                    type='email'
                 />
                 <TextField
                     name="Mật khẩu"
@@ -114,7 +117,7 @@ export default function SigninView() {
             </Stack>
 
             <Box display="flex" justifyContent='center' alignItems='center'>
-                <Button variant="contained" sx={{ textTransform: "uppercase" }} size='large' type="submit">Đăng nhập</Button>
+                <Button variant="contained" sx={{ textTransform: "uppercase", width: "100%" }} size='large' type="submit">Đăng nhập</Button>
             </Box>
         </Box>
     );
@@ -122,10 +125,7 @@ export default function SigninView() {
     return (
         <Box
             sx={{
-                // ...bgGradient({
-                //     color: alpha(theme.palette.background.default, 0.1),
-                //     imgUrl: '/assets/background/overlay_4.jpg',
-                // }),
+
                 height: 1,
                 bgcolor: "#13366E"
             }}
@@ -135,15 +135,8 @@ export default function SigninView() {
                     height: "35px", width: "133px", cursor: "pointer", position: 'fixed',
                     top: "50px",
                     left: "40px",
-                }} onClick={() => navigate("/")} />
+                }} />
 
-            {/* <Logo
-                sx={{
-                    position: 'fixed',
-                    top: { xs: 16, md: 24 },
-                    left: { xs: 16, md: 24 },
-                }}
-            /> */}
 
             <Stack alignItems="center" justifyContent="start" sx={{ height: 1 }}>
                 <Card

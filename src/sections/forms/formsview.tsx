@@ -108,7 +108,7 @@ export default function UserPage() {
                       phone={row.phoneNumber}
                       avatarUrl={row.avatarUrl}
                       checkout={convertDate(row.endDate)}
-                      people={`${row.adults} người lớn ${row.children !== 0 ? `,${row.children} trẻ em` : ''}`}
+                      people={`${row.adults} người lớn${row.children !== 0 ?`, ${row.children} trẻ em` : ''}`}
                       price={convertPrice(row.cost)}
                       form={row}
                     />
