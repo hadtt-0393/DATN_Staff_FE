@@ -1,0 +1,68 @@
+"filename", "language", "CSS", "TypeScript JSX", "TypeScript", "comment", "blank", "total"
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\App.css", "CSS", 33, 0, 0, 0, 6, 39
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\App.test.tsx", "TypeScript JSX", 0, 8, 0, 0, 2, 10
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\App.tsx", "TypeScript JSX", 0, 13, 0, 1, 3, 17
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\api\axios.ts", "TypeScript", 0, 0, 17, 1, 2, 20
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\components\chart\index.tsx", "TypeScript JSX", 0, 58, 0, 3, 7, 68
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\components\label\index.tsx", "TypeScript JSX", 0, 33, 0, 1, 8, 42
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\components\label\styles.ts", "TypeScript", 0, 0, 62, 7, 9, 78
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\components\logo\index.tsx", "TypeScript JSX", 0, 64, 0, 0, 15, 79
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\components\router-link\index.tsx", "TypeScript JSX", 0, 8, 0, 1, 5, 14
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\components\scrollbar\index.tsx", "TypeScript JSX", 0, 34, 0, 1, 10, 45
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\components\scrollbar\styles.tsx", "TypeScript JSX", 0, 21, 0, 1, 5, 27
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\constant\index.ts", "TypeScript", 0, 0, 1, 0, 0, 1
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\hooks\use-chart.tsx", "TypeScript JSX", 0, 169, 0, 22, 26, 217
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\hooks\use-pathname.tsx", "TypeScript JSX", 0, 6, 0, 1, 4, 11
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\hooks\use-reponsive.tsx", "TypeScript JSX", 0, 19, 0, 1, 10, 30
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\hooks\use-scroll-to-top.tsx", "TypeScript JSX", 0, 9, 0, 0, 5, 14
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\index.css", "CSS", 13, 0, 0, 0, 2, 15
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\index.tsx", "TypeScript JSX", 0, 25, 0, 3, 4, 32
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\layouts\dashboard\config-layout.ts", "TypeScript", 0, 0, 8, 0, 2, 10
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\layouts\dashboard\config-navigation.tsx", "TypeScript JSX", 0, 27, 0, 0, 2, 29
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\layouts\dashboard\header.tsx", "TypeScript JSX", 0, 52, 0, 0, 4, 56
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\layouts\dashboard\index.tsx", "TypeScript JSX", 0, 23, 0, 0, 3, 26
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\layouts\dashboard\main.tsx", "TypeScript JSX", 0, 28, 0, 0, 5, 33
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\layouts\dashboard\nav.tsx", "TypeScript JSX", 0, 146, 0, 4, 18, 168
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\mock\account.ts", "TypeScript", 0, 0, 5, 1, 2, 8
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\mock\image.ts", "TypeScript", 0, 0, 26, 0, 0, 26
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\mock\room.ts", "TypeScript", 0, 0, 82, 0, 0, 82
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\mock\user.ts", "TypeScript", 0, 0, 80, 0, 2, 82
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\models\hotel.ts", "TypeScript", 0, 0, 18, 0, 1, 19
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\models\room.ts", "TypeScript", 0, 0, 16, 0, 1, 17
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\pages\app.tsx", "TypeScript JSX", 0, 13, 0, 2, 4, 19
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\pages\forms.tsx", "TypeScript JSX", 0, 13, 0, 1, 4, 18
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\pages\profile.tsx", "TypeScript JSX", 0, 13, 0, 0, 3, 16
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\pages\rooms.tsx", "TypeScript JSX", 0, 13, 0, 1, 4, 18
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\pages\signin.tsx", "TypeScript JSX", 0, 13, 0, 0, 3, 16
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\pages\signup.tsx", "TypeScript JSX", 0, 13, 0, 0, 3, 16
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\react-app-env.d.ts", "TypeScript", 0, 0, 0, 1, 1, 2
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\reportWebVitals.ts", "TypeScript", 0, 0, 13, 0, 3, 16
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\routes\index.tsx", "TypeScript JSX", 0, 67, 0, 0, 3, 70
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\forms\detail-form.tsx", "TypeScript JSX", 0, 157, 0, 2, 9, 168
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\forms\formsview.tsx", "TypeScript JSX", 0, 127, 0, 0, 18, 145
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\forms\table-empty-rows.tsx", "TypeScript JSX", 0, 18, 0, 1, 4, 23
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\forms\table-no-data.tsx", "TypeScript JSX", 0, 26, 0, 1, 3, 30
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\forms\user-table-head.tsx", "TypeScript JSX", 0, 45, 0, 1, 5, 51
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\forms\user-table-row.tsx", "TypeScript JSX", 0, 53, 0, 4, 12, 69
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\forms\user-table-toolbar.tsx", "TypeScript JSX", 0, 30, 0, 1, 3, 34
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\forms\utils.ts", "TypeScript", 0, 0, 49, 0, 8, 57
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\home\app-revenue-month.tsx", "TypeScript JSX", 0, 51, 0, 1, 5, 57
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\home\app-widget-summary.tsx", "TypeScript JSX", 0, 28, 0, 1, 6, 35
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\home\homeview.tsx", "TypeScript JSX", 0, 79, 0, 21, 4, 104
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\profile\profileview.tsx", "TypeScript JSX", 0, 287, 0, 0, 19, 306
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\rooms\detail-room.tsx", "TypeScript JSX", 0, 247, 0, 1, 13, 261
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\rooms\new-room.tsx", "TypeScript JSX", 0, 236, 0, 0, 21, 257
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\rooms\room-card.tsx", "TypeScript JSX", 0, 103, 0, 3, 17, 123
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\rooms\roomsview.tsx", "TypeScript JSX", 0, 81, 0, 1, 9, 91
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\signin\signinview.tsx", "TypeScript JSX", 0, 138, 0, 2, 19, 159
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\sections\signup\signupview.tsx", "TypeScript JSX", 0, 195, 0, 14, 23, 232
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\setupTests.ts", "TypeScript", 0, 0, 1, 4, 1, 6
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\theme\css.tsx", "TypeScript JSX", 0, 130, 0, 6, 17, 153
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\theme\custom-shadows.ts", "TypeScript", 0, 0, 23, 3, 5, 31
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\theme\index.tsx", "TypeScript JSX", 0, 28, 0, 1, 6, 35
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\theme\overrides.tsx", "TypeScript JSX", 0, 143, 0, 1, 3, 147
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\theme\palette.ts", "TypeScript", 0, 0, 106, 3, 15, 124
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\theme\shadows.ts", "TypeScript", 0, 0, 34, 1, 5, 40
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\theme\typography.ts", "TypeScript", 0, 0, 99, 2, 7, 108
+"c:\Users\ASUS\OneDrive\Máy tính\DATN_Staff_FE\src\utils\index.ts", "TypeScript", 0, 0, 17, 0, 5, 22
+"Total", "-", 46, 3090, 657, 128, 453, 4374

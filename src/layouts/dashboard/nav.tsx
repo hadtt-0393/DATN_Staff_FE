@@ -16,7 +16,7 @@ import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 import { Button, colors } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
+import {toast} from 'react-toastify'
 // ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }: any) {
@@ -87,7 +87,7 @@ export default function Nav({ openNav, onCloseNav }: any) {
 
       <Box sx={{ flexGrow: 1 }}/>
       <Box>
-        <Button variant="outlined" sx={{ width: "100%", height: "60px", fontSize: "16px", textTransform: "uppercase", mb: "1px" }} onClick={() => { localStorage.removeItem('accessToken'); navigate('/signin') }}>
+        <Button variant="outlined" sx={{ width: "100%", height: "60px", fontSize: "16px", textTransform: "uppercase", mb: "1px" }} onClick={() => { localStorage.removeItem('accessToken'); toast.success("Đăng xuất thành công", {autoClose:2000}); navigate('/signin') }}>
           Đăng xuất
         </Button>
       </Box>

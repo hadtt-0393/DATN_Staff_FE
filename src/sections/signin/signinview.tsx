@@ -12,10 +12,11 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../../api/axios';
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
+import axiosInstance from '../../api/axios';
 
 // ----------------------------------------------------------------------
 
@@ -49,29 +50,32 @@ export default function SigninView() {
 
     const handleSignin = async (e: any) => {
         e.preventDefault()
+        e.preventDefault();
         if (!email || !password) {
             !email ? setErrEmail(true) : setErrEmail(false)
             !password ? setErrPassword(true) : setErrPassword(false)
             return;
         }
+
         const signin = async () => {
-            setLoading(true)
+            // setLoading(true)
             try {
                 const res = await axiosInstance.post('/auth/staff/signin', {
                     email,
                     password
                 })
                 if (res.status === 200) {
+                    toast.success(`${res.data.message}`, { autoClose: 2000 })
                     localStorage.setItem("accessToken", JSON.stringify(res.data.accessToken))
                     navigate("/")
-                    // toast.success("Đăng nhập thành công", { autoClose: 2000, onClose: () => { navigate('/') } })
+                    // setLoading(false)
                 }
-            } catch (error) {
+            } catch (error: any) {
                 setError(error)
+                toast.error(`${error.response.data.message}`, { autoClose: 2000 })
             }
         }
         signin()
-
     }
     const renderForm = (
         <Box component="form" noValidate onSubmit={handleSignin}>
@@ -85,10 +89,13 @@ export default function SigninView() {
                     autoFocus
                     error={errEmail}
                     type='email'
+                    required
+
                 />
                 <TextField
                     name="Mật khẩu"
                     label="Mật khẩu"
+                    required
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={handleChangePassword}
@@ -117,8 +124,9 @@ export default function SigninView() {
             </Stack>
 
             <Box display="flex" justifyContent='center' alignItems='center'>
-                <Button variant="contained" sx={{ textTransform: "uppercase", width: "100%" }} size='large' type="submit">Đăng nhập</Button>
+                <Button variant="contained" sx={{ textTransform: "uppercase", width: "100%" }} size='large' type="submit" disabled={loading}>Đăng nhập</Button>
             </Box>
+
         </Box>
     );
 
@@ -153,6 +161,7 @@ export default function SigninView() {
                     {renderForm}
                 </Card>
             </Stack>
+
         </Box>
     );
 }
