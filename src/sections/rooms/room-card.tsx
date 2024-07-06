@@ -382,13 +382,14 @@ export default function RoomCard({
 					</Card>
 				</DialogContent>
 				<DialogActions>
-					<Button variant="outlined" onClick={() => setOpenPopupDelete(false)}>
+					<Button variant="outlined" onClick={() => setOpenPopupDelete(false)} sx={{mr:"20px"}}>
 						Hủy bỏ
 					</Button>
 					<Button
 						variant="contained"
 						onClick={handleDeleteRoom}
 						autoFocus
+						sx={{m:"10px"}}
 					>
 						Xác nhận
 					</Button>

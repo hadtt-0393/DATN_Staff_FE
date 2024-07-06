@@ -9,9 +9,38 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
-import { convertPrice, convertDate, convertRoomToString } from '../../utils';
+import { convertPrice, convertDate, convertRoomToString, convertTime } from '../../utils';
 
 export default function DetailForm({ isOpen, onClose, form }: any) {
+    function stringToColor(string: string) {
+        let hash = 0;
+        let i;
+
+        /* eslint-disable no-bitwise */
+        for (i = 0; i < string.length; i += 1) {
+            hash = string.charCodeAt(i) + ((hash << 5) - hash);
+        }
+
+        let color = '#';
+
+        for (i = 0; i < 3; i += 1) {
+            const value = (hash >> (i * 8)) & 0xff;
+            color += `00${value.toString(16)}`.slice(-2);
+        }
+        /* eslint-enable no-bitwise */
+
+        return color;
+    }
+
+    function stringAvatar(name: string) {
+        return {
+            sx: {
+                bgcolor: stringToColor(name),
+                mr: 1, width: "80px", height: "80px", fontSize: "40px"
+            },
+            children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+        };
+    }
 
     function DetailUserCard({ name, phone, email, address, icon, color = 'primary', sx, ...other }: any) {
         return (
@@ -19,9 +48,7 @@ export default function DetailForm({ isOpen, onClose, form }: any) {
                 component={Stack}
                 spacing={3}
                 sx={{
-                    // boxShadow: "#ccc 1px 1px 1px 1px",
                     border: "1px #ccc solid",
-                    // alignItems: 'center',
                     px: 3,
                     py: 3,
                     borderRadius: 2,
@@ -29,20 +56,16 @@ export default function DetailForm({ isOpen, onClose, form }: any) {
                 }}
                 {...other}
             >
-                <Typography>Thông tin khách hàng</Typography>
+                <Typography fontSize="18px" fontWeight="600">Thông tin khách hàng</Typography>
                 <Box display="flex" flexDirection="row" sx={{
                     gap: 5,
                 }}>
-                    {icon &&
-                        <Avatar
-                            alt="Remy Sharp"
-                            src={icon}
-                            sx={{ width: 100, height: 100 }}
-                        />
-                    }
-                    <Stack spacing={0.5} flex={1}>
+                    
+                        <Avatar  {...stringAvatar(name)} />
+                    
+                    <Stack spacing={1.5} flex={1}>
                         <Stack direction="row" justifyContent="space-between">
-                            <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
+                            <Typography variant="subtitle2" sx={{ color: 'text.disabled', fontSize: "16px" }}>
                                 Tên khách hàng:
                             </Typography>
                             <Typography >
@@ -50,19 +73,19 @@ export default function DetailForm({ isOpen, onClose, form }: any) {
                             </Typography>
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
-                            <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
+                            <Typography variant="subtitle2" sx={{ color: 'text.disabled', fontSize: "16px" }}>
                                 Số điện thoại:
                             </Typography>
                             <Typography>{phone}</Typography>
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
-                            <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
+                            <Typography variant="subtitle2" sx={{ color: 'text.disabled', fontSize: "16px" }}>
                                 Email:
                             </Typography>
                             <Typography>{email}</Typography>
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
-                            <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
+                            <Typography variant="subtitle2" sx={{ color: 'text.disabled', fontSize: "16px" }}>
                                 Địa chỉ:
                             </Typography>
                             <Typography>{address}</Typography>
@@ -76,7 +99,7 @@ export default function DetailForm({ isOpen, onClose, form }: any) {
 
     }
 
-    function DetailBookingCard({ room, checkin, checkout, price, color = 'primary', sx, ...other }: any) {
+    function DetailBookingCard({ room, checkin, bookingdate, checkout, price, paymentStatus, color = 'primary', sx, ...other }: any) {
         return (
             <Card
                 component={Stack}
@@ -90,13 +113,13 @@ export default function DetailForm({ isOpen, onClose, form }: any) {
                 }}
                 {...other}
             >
-                <Typography>Thông tin đặt phòng</Typography>
+                <Typography fontSize="18px" fontWeight="600">Thông tin đặt phòng</Typography>
                 <Box display="flex" flexDirection="row" sx={{
                     gap: 5,
                 }}>
-                    <Stack spacing={0.5} flex={1}>
+                    <Stack spacing={1.5} flex={1}>
                         <Stack direction="row" justifyContent="space-between">
-                            <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
+                            <Typography variant="subtitle2" sx={{ color: 'text.disabled', fontSize: "16px" }}>
                                 Tên phòng:
                             </Typography>
                             <Typography >
@@ -104,22 +127,34 @@ export default function DetailForm({ isOpen, onClose, form }: any) {
                             </Typography>
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
-                            <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
+                            <Typography variant="subtitle2" sx={{ color: 'text.disabled', fontSize: "16px" }}>
                                 Ngày nhận phòng:
                             </Typography>
                             <Typography>{checkin}</Typography>
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
-                            <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
+                            <Typography variant="subtitle2" sx={{ color: 'text.disabled', fontSize: "16px" }}>
                                 Ngày trả phòng:
                             </Typography>
                             <Typography>{checkout}</Typography>
                         </Stack>
                         <Stack direction="row" justifyContent="space-between">
-                            <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
+                            <Typography variant="subtitle2" sx={{ color: 'text.disabled', fontSize: "16px" }}>
+                                Ngày đặt phòng:
+                            </Typography>
+                            <Typography>{bookingdate}</Typography>
+                        </Stack>
+                        <Stack direction="row" justifyContent="space-between">
+                            <Typography variant="subtitle2" sx={{ color: 'text.disabled', fontSize: "16px" }}>
                                 Giá:
                             </Typography>
                             <Typography>{price}</Typography>
+                        </Stack>
+                        <Stack direction="row" justifyContent="space-between">
+                            <Typography variant="subtitle2" sx={{ color: 'text.disabled', fontSize: "16px" }}>
+                                Phương thức thanh toán:
+                            </Typography>
+                            <Typography>{paymentStatus}</Typography>
                         </Stack>
                     </Stack>
                 </Box>
@@ -154,14 +189,16 @@ export default function DetailForm({ isOpen, onClose, form }: any) {
                             room={convertRoomToString(form.Rooms)}
                             checkin={convertDate(form.startDate)}
                             checkout={convertDate(form.endDate)}
+                            bookingdate={convertTime(form.createdAt)}
                             price={convertPrice(form.cost)}
+                            paymentStatus={form.paymentStatus}
                         />
                     </Grid>
                 </Grid>
 
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose} variant='outlined'>Đóng</Button>
+                <Button onClick={handleClose} variant='outlined' sx={{ mx: 2, mb: 2 }}>Đóng</Button>
             </DialogActions>
         </Dialog>
     )

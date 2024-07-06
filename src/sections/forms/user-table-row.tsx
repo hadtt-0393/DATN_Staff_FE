@@ -23,6 +23,36 @@ export default function UserTableRow({
     form
 }: any) {
     const [open, setOpen] = useState(false);
+    function stringToColor(string: string) {
+        let hash = 0;
+        let i;
+
+        /* eslint-disable no-bitwise */
+        for (i = 0; i < string.length; i += 1) {
+            hash = string.charCodeAt(i) + ((hash << 5) - hash);
+        }
+
+        let color = '#';
+
+        for (i = 0; i < 3; i += 1) {
+            const value = (hash >> (i * 8)) & 0xff;
+            color += `00${value.toString(16)}`.slice(-2);
+        }
+        /* eslint-enable no-bitwise */
+
+        return color;
+    }
+
+    function stringAvatar(name: string) {
+        return {
+            sx: {
+                bgcolor: stringToColor(name),
+                mr: 1, width: "45px", height: "45px", fontSize: "20px"
+            },
+            children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+        };
+    }
+
 
     return (
         <>
@@ -33,7 +63,9 @@ export default function UserTableRow({
 
                 <TableCell align="center">
                     <Stack direction="row" alignItems="center" spacing={2} sx={{ marginLeft: "16px" }}>
-                        <Avatar alt={name} src={avatarUrl} />
+                        
+                            <Avatar  {...stringAvatar(name)} />
+                        
                         <Typography variant="subtitle2" noWrap>
                             {name}
                         </Typography>
@@ -62,7 +94,7 @@ export default function UserTableRow({
                     <VisibilityIcon color='success' onClick={() => setOpen(true)} />
                 </TableCell>
             </TableRow>
-            <DetailForm isOpen={open} onClose={() => setOpen(false)} form={form}/>
+            <DetailForm isOpen={open} onClose={() => setOpen(false)} form={form} />
         </>
     );
 }

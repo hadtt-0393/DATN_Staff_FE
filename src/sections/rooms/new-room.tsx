@@ -385,15 +385,17 @@ export default function NewRoom({
                 </Box>
             </Box>
             <DialogActions>
-                <Button
+            <Button
                     variant="outlined"
                     onClick={handleClose}
+                    sx={{mr:"20px"}}
                 >
                     Hủy
                 </Button>
                 <Button
                     variant="contained"
                     onClick={save}
+                    sx={{m:"10px"}}
                 >
                     Lưu
                 </Button>

@@ -431,12 +431,14 @@ export default function DetailRoom({
                 <Button
                     variant="outlined"
                     onClick={handleClose}
+                    sx={{mr:"20px"}}
                 >
                     Hủy
                 </Button>
                 <Button
                     variant="contained"
                     onClick={save}
+                    sx={{m:"10px"}}
                 >
                     Lưu thay đổi
                 </Button>
