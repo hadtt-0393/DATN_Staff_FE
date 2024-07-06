@@ -69,7 +69,6 @@ export default function SigninView() {
                     localStorage.setItem("accessToken", JSON.stringify(res.data.accessToken))
                     localStorage.setItem("user", JSON.stringify(res.data.info))
                     navigate("/")
-                    // setLoading(false)
                 }
             } catch (error: any) {
                 setError(error)
