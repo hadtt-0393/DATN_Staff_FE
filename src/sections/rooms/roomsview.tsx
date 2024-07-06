@@ -13,6 +13,7 @@ import axiosInstance from '../../api/axios';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Room, ServiceRoom } from '../../models/room';
+import { Box } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -63,7 +64,7 @@ export default function ProductsView() {
                             <Button variant="contained" color="inherit" startIcon={<AddIcon />} onClick={() => setOpenModal(true)}>
                                 Tạo phòng
                             </Button>
-                            <CreateRoom isOpen={openModal} onClose={() => setOpenModal(false)} reFetch={reFetchRooms} serviceRoomSystem={serviceRooms}/>
+                            <CreateRoom isOpen={openModal} onClose={() => setOpenModal(false)} reFetch={reFetchRooms} serviceRoomSystem={serviceRooms} />
                         </Stack>
                         <Stack
                             direction="row"
@@ -75,10 +76,21 @@ export default function ProductsView() {
                             <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
                             </Stack>
                         </Stack>
+                        {
+                            rooms.length === 0 &&
+                            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" bgcolor={"white"} boxShadow="1px 1px 2px 2px #CCC" borderRadius="10px">
+                                <img src="https://cdn.icon-icons.com/icons2/3456/PNG/512/empty_folder_file_icon_219534.png" width="300px" alt="icon_rong" />
+                                <Typography variant="h4" color="green" mb="50px" >
+                                    Hiện bạn chưa có phòng nào, hãy tạo phòng mới đi nhé!!!
+                                </Typography>
+                            </Box>
+
+                        }
+
                         <Grid container spacing={6}>
                             {rooms.map((room: Room) => (
                                 <Grid key={room._id} xs={12} md={3}>
-                                    <RoomCard room={room} reFetch={reFetchRooms} serviceRoomSystem={serviceRooms}/>
+                                    <RoomCard room={room} reFetch={reFetchRooms} serviceRoomSystem={serviceRooms} />
                                 </Grid>
                             ))}
                         </Grid>

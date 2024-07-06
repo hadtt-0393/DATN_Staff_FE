@@ -17,6 +17,7 @@ import UserTableHead from './user-table-head';
 import UserTableRow from './user-table-row';
 import UserTableToolbar from './user-table-toolbar';
 import { applyFilter, emptyRows, getComparator } from './utils';
+import { Box } from '@mui/material';
 
 
 
@@ -26,7 +27,7 @@ export default function UserPage() {
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [forms, setForms]  = useState([]);
+  const [forms, setForms] = useState([]);
   const handleSort = (event: any, id: any) => {
     const isAsc = orderBy === id && order === 'asc';
     if (id !== '') {
@@ -36,14 +37,14 @@ export default function UserPage() {
   };
 
   useEffect(() => {
-    const fetchForm = async() => {
+    const fetchForm = async () => {
       const res = await axiosInstance.get('/form/getAllFormByStaff');
       setForms(res.data);
     }
     fetchForm();
   }, [])
 
- 
+
   const handleChangePage = (event: any, newPage: any) => {
     setPage(newPage);
   };
@@ -87,13 +88,13 @@ export default function UserPage() {
                 onRequestSort={handleSort}
                 headLabel={[
                   { id: 'name', label: 'Tên khách hàng' },
-                  { id: 'phone', label: 'Số điện thoại'},
+                  { id: 'phone', label: 'Số điện thoại' },
                   { id: 'checkin', label: 'Ngày nhận phòng' },
                   { id: 'checkout', label: 'Ngày trả phòng' },
                   { id: 'room', label: 'Loại phòng' },
                   { id: 'people', label: 'Số lượng người' },
-                  { id: 'price', label: 'Tổng thanh toán',  },
-                  { id: 'action', label:'Hành động'},
+                  { id: 'price', label: 'Tổng thanh toán', },
+                  { id: 'action', label: 'Hành động' },
                 ]}
               />
               <TableBody>
@@ -108,11 +109,12 @@ export default function UserPage() {
                       phone={row.phoneNumber}
                       avatarUrl={row.avatarUrl}
                       checkout={convertDate(row.endDate)}
-                      people={`${row.adults} người lớn${row.children !== 0 ?`, ${row.children} trẻ em` : ''}`}
+                      people={`${row.adults} người lớn${row.children !== 0 ? `, ${row.children} trẻ em` : ''}`}
                       price={convertPrice(row.cost)}
                       form={row}
                     />
                   ))}
+
 
                 <TableEmptyRows
                   height={77}
@@ -125,7 +127,7 @@ export default function UserPage() {
           </TableContainer>
         </Scrollbar>
 
-        <TablePagination
+        {dataFiltered.length !== 0 && <TablePagination
           page={page}
           component="div"
           count={forms.length}
@@ -137,7 +139,16 @@ export default function UserPage() {
           labelDisplayedRows={({ from, to, count }) =>
             `${from}-${to} trong ${count}`
           }
-        />
+        />}
+        {
+          dataFiltered.length === 0 &&
+          <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" bgcolor={"white"} boxShadow="1px 1px 2px 2px #CCC" borderRadius="10px">
+            <Typography variant="h4" color="green" mt="50px" mb="50px" >
+              Hiện bạn chưa có đơn đặt phòng nào!!!
+            </Typography>
+          </Box>
+        }
+
       </Card>
     </Container>
   );

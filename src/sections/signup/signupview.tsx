@@ -210,7 +210,7 @@ export default function SigninView() {
         <>
             <Stack spacing={3}>
                 <TextField name="Tên khách sạn" label="Tên khách sạn" required onChange={handleChangeInputUsername} error={errUsername} />
-                <TextField name="email" label="Email" required onChange={handleChangeInputEmail} error={errEmail} />
+                <TextField name="email" label="Email" type='email' required onChange={handleChangeInputEmail} error={errEmail} />
                 <TextField
                     required
                     name="Mật khẩu"
@@ -247,7 +247,6 @@ export default function SigninView() {
                     }}
                 />
                 <TextField required name="Số điện thoại" onChange={handleChangeInputPhoneNumber} error={errPhone} type='number' label="Số điện thoại" />
-
 
                 <FormControl sx={{ width: "100%", mt: "15px" }}>
                     <InputLabel id="demo-multiple-name-label">

@@ -20,6 +20,8 @@ import axios from 'axios';
 import { useState } from 'react';
 import axiosInstance from '../../api/axios';
 import { REACT_APP_CLOUDINARY_ENDPOINT } from '../../constant';
+import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined';
+
 
 export default function CreateRoom({ isOpen, onClose, reFetch, serviceRoomSystem }: any) {
     const ITEM_HEIGHT = 48;
@@ -78,8 +80,6 @@ export default function CreateRoom({ isOpen, onClose, reFetch, serviceRoomSystem
         onClose()
     }
 
-
-
     const handleChangeFile = (e: any) => {
         setFile(e.target.files[0])
     }
@@ -123,7 +123,15 @@ export default function CreateRoom({ isOpen, onClose, reFetch, serviceRoomSystem
                 <Box display="flex" flexDirection="row" alignItems='center' marginLeft={2} >
                     <Box display='flex' flex={1} sx={{ mr: 2 }} flexDirection="column" justifyContent="flex-end" >
                         <Box display={'flex'} justifyContent="center" alignItems="center">
-                            <img src={file ? URL.createObjectURL(file as any) : 'https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'} style={{ borderRadius: "20px", marginTop: "20px", width: "500px" , height:"500px", objectFit: "contain" }} />
+                            {/* <PhotoCameraBackOutlined
+                  sx={{ fontSize: "10rem", color: "#91CB63" }}
+                ></PhotoCameraBackOutlined> */}
+                            {
+                                !file ?
+                                    <PhotoSizeSelectActualOutlinedIcon sx={{ color: "#91CB63", fontSize: "500px" }} />
+                                    :
+                                    <img src={URL.createObjectURL(file as any)} style={{ borderRadius: "20px", marginTop: "20px", maxWidth: "500px", maxHeight: "500px", objectFit: "contain" }} />
+                            }
                         </Box>
                         <Box sx={{ textAlign: "center" }}>
                             <Button

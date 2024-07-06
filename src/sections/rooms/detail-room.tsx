@@ -111,7 +111,8 @@ export default function DetailRoom({ isOpen, onClose, roomDetail, reFetch, servi
             <Box sx={{ border: "1px solid #ccc", borderRadius: "10px", m: "10px 20px 10px 20px" }}>
                 <Box display="flex" flexDirection="row" alignItems='center' marginLeft={2} >
                     <Box display='flex' flex={1} sx={{ mr: 2 }} flexDirection="column" justifyContent="flex-end" >
-                        <img src={file ? URL.createObjectURL(file as any) : room.image} style={{ borderRadius: "20px", marginTop: "20px" }} />
+                       
+                        <img src={file ? URL.createObjectURL(file as any) : room.image}  style={{ borderRadius: "20px", marginTop: "20px", maxWidth: "500px", maxHeight: "500px", objectFit: "contain" }}  />
                         <Box sx={{ textAlign: "center" }}>
                             <Button
                                 component="label"

@@ -23,18 +23,16 @@ import { ComponentProps, useEffect, useState } from 'react';
 import axiosInstance from '../../api/axios';
 import { REACT_APP_CLOUDINARY_ENDPOINT } from '../../constant';
 import { Hotel, ServiceHotel } from '../../models/hotel';
-import { images } from '../../mock/image';
+import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined';
 
 export default function ProfileView() {
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
-
-    const listImageDefault = ["https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"]
+    const [files, setFiles] = useState<File[]>([]);
+    const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
     const MenuProps = {
-
         disableScrollLock: true,
-
         PaperProps: {
             style: {
                 maxHeight: ITEM_HEIGHT * 4 + ITEM_PADDING_TOP,
@@ -67,11 +65,12 @@ export default function ProfileView() {
     function ImagesList({ images }: any) {
         return (
             <ImageList cols={2} gap={5} rowHeight={250} >
-                {images && images.map((image: any) => (
-                    <ImageListItem key={image.img}>
+                {images && images.map((image: any, index: number) => (
+                    <ImageListItem key={index}>
                         <img
                             src={image}
                             loading="lazy"
+                            style={{ height: '250px', objectFit: "cover" }}
                         />
                     </ImageListItem>
                 ))}
@@ -83,7 +82,6 @@ export default function ProfileView() {
     const [loading, setLoading] = useState(false);
     const [hotel, setHotel] = useState<Partial<Hotel>>({});
     const [serviceHotelSystem, setServiceHotelSystem] = useState<ServiceHotel[]>([]);
-    const [files, setFiles] = useState<FileList | null>(null);
 
     useEffect(() => {
         setLoading(true);
@@ -99,7 +97,7 @@ export default function ProfileView() {
     }, []);
 
     const handleChange = (event: any) => {
-        handleChangeHotel({ serviceIds: event.target.value })
+        handleChangeHotel({ serviceIds: event.target.value });
     };
 
     const handleChangeHotel = (values: Partial<Hotel>) => {
@@ -110,18 +108,20 @@ export default function ProfileView() {
     }
 
     const handleFileChange: ComponentProps<'input'>['onChange'] = (e) => {
-        const files = e.target.files
+        const files = e.target.files;
         if (!files?.length) {
-            alert('Vui lòng chọn ít nhất một ảnh')
-            return
+            alert('Vui lòng chọn ít nhất một ảnh');
+            return;
         }
-        console.log(files)
         if (files.length > 6) {
             alert('Bạn chỉ cần đăng 6 ảnh');
-            e.target.files = null;
-        }
-        else {
-            setFiles(e.target.files)
+            e.target.value = ''; // Clear the selected files
+        } else {
+            const fileArray = Array.from(files);
+            setFiles(fileArray);
+
+            const previewUrls = fileArray.map(file => URL.createObjectURL(file));
+            setImagePreviews(previewUrls);
         }
     }
 
@@ -141,7 +141,7 @@ export default function ProfileView() {
         setLoading(true);
         const saveProfile = async () => {
             if (!files) return;
-            const uploaders = Array.from(files).map(uploadImg);
+            const uploaders = files.map(uploadImg);
             const data = await Promise.all(uploaders);
             const hotelD = { ...hotel, images: data }
             const res = await axiosInstance.put('/hotel/update-detail-hotel', hotelD);
@@ -153,7 +153,7 @@ export default function ProfileView() {
     }
 
     return (
-        <Container maxWidth='xl' >
+        <Container maxWidth='xl'>
             {loading ? (
                 <Backdrop
                     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -161,145 +161,144 @@ export default function ProfileView() {
                 >
                     <CircularProgress color="inherit" />
                 </Backdrop>
-            ) : (<>
-                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-                    <Typography variant="h4">Thông tin khách sạn</Typography>
-                </Stack>
-                <Box sx={{ border: "1px solid #ccc", borderRadius: "10px" }}>
-                    <Box display="flex" flexDirection="row" alignItems='center' marginLeft={2} >
-                        <Box flex={1} sx={{ mr: 2 }}>
-                            {hotel.images?.length ?
-                                <ImagesList images={hotel.images} />
-                                : <img
-                                    src='https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg'
-                                    style={{ borderRadius: "20px", marginTop: "20px", width: "500px", height: "500px", objectFit: "contain" }}
-                                />
-                            }
-                            <Box sx={{ textAlign: "center" }}>
-                                <Button
-                                    component="label"
-                                    role={undefined}
-                                    variant="contained"
-                                    tabIndex={-1}
-                                    startIcon={<CloudUploadIcon />}
-                                    sx={{ mb: 2, backgroundColor: "#333", "&:hover": { backgroundColor: "#000" } }}
-                                    size='large'
-                                >
-                                    Chọn ảnh
-                                    <VisuallyHiddenInput type="file" multiple onChange={handleFileChange} />
-                                </Button>
-                            </Box>
-                        </Box>
-                        <Divider orientation="vertical" flexItem />
-                        <Stack spacing={2} flex={1} sx={{ margin: 2 }}>
-                            <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
-                                <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Tên khách sạn:
-                                </Typography>
-                                <TextField id="outlined-basic" label="Tên khách sạn" variant="outlined" sx={{ flex: 1 }} value={hotel?.hotelName} onChange={(e) => handleChangeHotel({ hotelName: e.target.value })} />
-                            </Stack>
-                            <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
-                                <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Thành phố:
-                                </Typography>
-                                <TextField id="outlined-basic" label="Thành phố" variant="outlined" sx={{ flex: 1 }} value={hotel?.city} disabled>
-                                </TextField>
-                            </Stack>
-                            <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
-                                <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Địa chỉ:
-                                </Typography>
-                                <TextField id="outlined-basic" label="Địa chỉ" variant="outlined" sx={{ flex: 1 }} onChange={(e) => handleChangeHotel({ address: e.target.value })} value={hotel.address} />
-                            </Stack>
-                            <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
-                                <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Khoảng cách đến trung tâm thành phố:
-                                </Typography>
-                                <TextField
-                                    label="Khoảng cách"
-                                    id="outlined-start-adornment"
-                                    sx={{ flex: 1 }}
-                                    type='number'
-                                    inputProps={{ min: 0 }}
-                                    InputProps={{
-                                        endAdornment: <InputAdornment position="end">km</InputAdornment>,
-                                    }}
-                                    onChange={(e) => handleChangeHotel({ distance: +e.target.value })}
-                                    value={hotel.distance}
-                                />
-                            </Stack>
-                            <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
-                                <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Mô tả chung:
-                                </Typography>
-                                <TextField value={hotel.description} id="outlined-basic" label="Mô tả" variant="outlined" sx={{ flex: 1 }} multiline maxRows={4} onChange={(e) => handleChangeHotel({ description: e.target.value })} />
-                            </Stack>
-                            <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
-                                <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Giảm giá:
-                                </Typography>
-                                <TextField
-                                    label="Giảm giá"
-                                    id="outlined-start-adornment"
-                                    sx={{ flex: 1 }}
-                                    type='number'
-                                    inputProps={{ min: 0 }}
-                                    InputProps={{
-                                        endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                                    }}
-                                    onChange={(e) => handleChangeHotel({ discount: +e.target.value })}
-                                    value={hotel.discount}
-                                />
-                            </Stack>
-                            <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
-                                <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
-                                    Dịch vụ khách sạn:
-                                </Typography>
-                                <FormControl sx={{ flex: 1 }}>
-                                    <InputLabel id="demo-multiple-chip-label">Dịch vụ</InputLabel>
-                                    <Select
-                                        label="Dịch vụ"
-                                        labelId="demo-multiple-chip-label"
-                                        id="demo-multiple-chip"
-                                        multiple
-                                        value={hotel.serviceIds}
-                                        onChange={handleChange}
-                                        input={<OutlinedInput id="select-multiple-chip" label="Dịch vụ" />}
-                                        renderValue={(serviceIds) => {
-                                            return (
-                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                                                    {serviceIds.map((serviceId: any) => {
-                                                        let service = serviceHotelSystem.find(service => serviceId === service._id) as any;
-                                                        return (<Chip key={service._id} label={service.serviceName} />)
-                                                    })}
-
-                                                </Box>
-                                            )
-                                        }}
-                                        MenuProps={MenuProps}
+            ) : (
+                <>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                        <Typography variant="h4">Thông tin khách sạn</Typography>
+                    </Stack>
+                    <Box sx={{ border: "1px solid #ccc", borderRadius: "10px" }}>
+                        <Box display="flex" flexDirection="row" alignItems='center' marginLeft={2} >
+                            <Box flex={1} sx={{ mr: 2 }} display="flex" flexDirection="column" justifyContent="center" alignItems="center">
+                                {imagePreviews.length ?
+                                    <ImagesList images={imagePreviews} /> :
+                                    hotel.images?.length ?
+                                        <ImagesList images={hotel.images} /> :
+                                        <PhotoSizeSelectActualOutlinedIcon sx={{ color: "#91CB63", fontSize: "500px" }} />
+                                }
+                                <Box sx={{ textAlign: "center" }}>
+                                    <Button
+                                        component="label"
+                                        role={undefined}
+                                        variant="contained"
+                                        tabIndex={-1}
+                                        startIcon={<CloudUploadIcon />}
+                                        sx={{ mb: 2, mt: 2, backgroundColor: "#333", "&:hover": { backgroundColor: "#000" } }}
+                                        size='large'
                                     >
-                                        {serviceHotelSystem.map((service) => (
-                                            <MenuItem
-                                                key={service._id}
-                                                value={service._id}
-                                                style={getStyles(service._id, hotel.serviceIds || [], theme)}
-                                            >
-                                                {service.serviceName}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Stack>
-                            <Box sx={{ textAlign: "center" }}>
-                                <Button variant="contained" size="large" sx={{ padding: "0 80px", mt: 2 }} onClick={save}>
-                                    Lưu thay đổi
-                                </Button>
+                                        Chọn ảnh
+                                        <VisuallyHiddenInput type="file" multiple onChange={handleFileChange} />
+                                    </Button>
+                                </Box>
                             </Box>
-                        </Stack>
+                            <Divider orientation="vertical" flexItem />
+                            <Stack spacing={2} flex={1} sx={{ margin: 2 }}>
+                                <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
+                                    <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
+                                        Tên khách sạn:
+                                    </Typography>
+                                    <TextField id="outlined-basic" label="Tên khách sạn" variant="outlined" sx={{ flex: 1 }} value={hotel?.hotelName} onChange={(e) => handleChangeHotel({ hotelName: e.target.value })} />
+                                </Stack>
+                                <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
+                                    <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
+                                        Thành phố:
+                                    </Typography>
+                                    <TextField id="outlined-basic" label="Thành phố" variant="outlined" sx={{ flex: 1 }} value={hotel?.city} disabled>
+                                    </TextField>
+                                </Stack>
+                                <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
+                                    <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
+                                        Địa chỉ:
+                                    </Typography>
+                                    <TextField id="outlined-basic" label="Địa chỉ" variant="outlined" sx={{ flex: 1 }} onChange={(e) => handleChangeHotel({ address: e.target.value })} value={hotel.address} />
+                                </Stack>
+                                <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
+                                    <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
+                                        Khoảng cách đến trung tâm thành phố:
+                                    </Typography>
+                                    <TextField
+                                        label="Khoảng cách"
+                                        id="outlined-start-adornment"
+                                        sx={{ flex: 1 }}
+                                        type='number'
+                                        inputProps={{ min: 0 }}
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end">km</InputAdornment>,
+                                        }}
+                                        onChange={(e) => handleChangeHotel({ distance: +e.target.value })}
+                                        value={hotel.distance}
+                                    />
+                                </Stack>
+                                <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
+                                    <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
+                                        Mô tả chung:
+                                    </Typography>
+                                    <TextField value={hotel.description} id="outlined-basic" label="Mô tả" variant="outlined" sx={{ flex: 1 }} multiline maxRows={4} onChange={(e) => handleChangeHotel({ description: e.target.value })} />
+                                </Stack>
+                                <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
+                                    <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
+                                        Giảm giá:
+                                    </Typography>
+                                    <TextField
+                                        label="Giảm giá"
+                                        id="outlined-start-adornment"
+                                        sx={{ flex: 1 }}
+                                        type='number'
+                                        inputProps={{ min: 0 }}
+                                        InputProps={{
+                                            endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                                        }}
+                                        onChange={(e) => handleChangeHotel({ discount: +e.target.value })}
+                                        value={hotel.discount}
+                                    />
+                                </Stack>
+                                <Stack direction="row" justifyContent="space-between" gap={3} alignItems="center">
+                                    <Typography variant="subtitle1" sx={{ color: 'text.disabled', flex: 0.4 }}>
+                                        Dịch vụ khách sạn:
+                                    </Typography>
+                                    <FormControl sx={{ flex: 1 }}>
+                                        <InputLabel id="demo-multiple-chip-label">Dịch vụ</InputLabel>
+                                        <Select
+                                            label="Dịch vụ"
+                                            labelId="demo-multiple-chip-label"
+                                            id="demo-multiple-chip"
+                                            multiple
+                                            value={hotel.serviceIds}
+                                            onChange={handleChange}
+                                            input={<OutlinedInput id="select-multiple-chip" label="Dịch vụ" />}
+                                            renderValue={(serviceIds) => {
+                                                return (
+                                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                        {serviceIds.map((serviceId: any) => {
+                                                            let service = serviceHotelSystem.find(service => serviceId === service._id) as any;
+                                                            return (<Chip key={service._id} label={service.serviceName} />)
+                                                        })}
+                                                    </Box>
+                                                )
+                                            }}
+                                            MenuProps={MenuProps}
+                                        >
+                                            {serviceHotelSystem.map((service) => (
+                                                <MenuItem
+                                                    key={service._id}
+                                                    value={service._id}
+                                                    style={getStyles(service._id, hotel.serviceIds || [], theme)}
+                                                >
+                                                    {service.serviceName}
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Stack>
+                                <Box sx={{ textAlign: "center" }}>
+                                    <Button variant="contained" size="large" sx={{ padding: "0 80px", mt: 2 }} onClick={save}>
+                                        Lưu thay đổi
+                                    </Button>
+                                </Box>
+                            </Stack>
+                        </Box>
                     </Box>
-                </Box>
-            </>)
-            }
-        </Container >
+                </>
+            )}
+        </Container>
     )
 }
