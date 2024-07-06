@@ -67,6 +67,7 @@ export default function SigninView() {
                 if (res.status === 200) {
                     toast.success(`${res.data.message}`, { autoClose: 2000 })
                     localStorage.setItem("accessToken", JSON.stringify(res.data.accessToken))
+                    localStorage.setItem("user", JSON.stringify(res.data.info))
                     navigate("/")
                     // setLoading(false)
                 }

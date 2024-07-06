@@ -3,6 +3,8 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Unstable_Grid2';
 import AppWidgetSummary from './app-widget-summary';
 import AppRevenueMonth from './app-revenue-month';
+import { Avatar, Box, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Star } from '@mui/icons-material';
 export default function HomeView() {
     const a = localStorage.getItem("accessToken")
     return (
@@ -42,8 +44,8 @@ export default function HomeView() {
                     />
                 </Grid> */}
 
-                <Grid xs={12} md={6} lg={8}>
-                    <AppRevenueMonth   
+                <Grid xs={12} md={6} lg={6}>
+                    <AppRevenueMonth
                         title="Website Visits"
                         subheader="(+43%) than last year"
                         chart={{
@@ -83,9 +85,64 @@ export default function HomeView() {
                         }}
                     />
                 </Grid>
-              
+                <Grid xs={12} md={6} lg={6} bgcolor="#FFF">
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell sx={{ padding: "8px" }}>
+                                    <Typography>Trung tâm thú y</Typography>
+                                </TableCell>
+                                <TableCell sx={{ padding: "8px" }} align="center">
+                                    <Typography>Hotline</Typography>
+                                </TableCell>
+                                <TableCell sx={{ padding: "8px" }} align="center">
+                                    <Typography>Đánh giá</Typography>
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {/* {topShops.map((topShop, key) => ( */}
+                            <TableRow >
+                                <TableCell sx={{ display: "flex", gap: 2, p: "10px" }}>
+                                    <Avatar src="https://cdn-icons-png.freepik.com/512/147/147142.png"></Avatar>
+                                    <Box>
+                                        <Typography fontWeight={550}>muong thanh</Typography>
+                                        <Typography fontSize={14} color="#7E7988">
+                                            {/* {topShop.address.detail}, {topShop.address.district} */}
+                                        </Typography>
+                                    </Box>
+                                </TableCell>
+                                <TableCell sx={{ p: "10px" }} align="center">
+                                    <Typography>024</Typography>
+                                </TableCell>
+                                <TableCell sx={{ p: "10px", width: "20%" }}>
+                                    <Box
+                                        display="flex"
+                                        borderRadius={10}
+                                        bgcolor="#E4F6D6"
+                                        alignItems="center"
+                                        justifyContent="end"
+                                        p="4px"
+                                        width="70%"
+                                        gap={0.5}
+                                        m="auto"
+                                    >
+                                        <Typography>
+                                            {/* {Number(topShop.rating?.toFixed(2) || 0)} */}
+                                        </Typography>
+                                        <Star fontSize="small" sx={{ color: "#FFB400" }}></Star>
+                                    </Box>
+                                </TableCell>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </Grid>
 
-                {/* <Grid xs={12} md={6} lg={4}>
+
+            </Grid>
+
+
+            {/* <Grid xs={12} md={6} lg={4}>
                     <AppCurrentVisits
                         title="Current Visits"
                         chart={{
@@ -98,7 +155,6 @@ export default function HomeView() {
                         }}
                     />
                 </Grid> */}
-            </Grid>
         </Container >
     )
 }

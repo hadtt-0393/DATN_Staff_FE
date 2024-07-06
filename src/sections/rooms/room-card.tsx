@@ -1,122 +1,387 @@
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Label from '../../components/label';
-import Button from '@mui/material/Button';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Popover from '@mui/material/Popover';
-import MenuItem from '@mui/material/MenuItem';
-import { useState } from 'react';
-import BrushIcon from '@mui/icons-material/Brush';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import DetailRoom from './detail-room';
+// import Box from '@mui/material/Box';
+// import Link from '@mui/material/Link';
+// import Card from '@mui/material/Card';
+// import Stack from '@mui/material/Stack';
+// import Typography from '@mui/material/Typography';
+// import Label from '../../components/label';
+// import Button from '@mui/material/Button';
+// import MoreVertIcon from '@mui/icons-material/MoreVert';
+// import Popover from '@mui/material/Popover';
+// import MenuItem from '@mui/material/MenuItem';
+// import { useState } from 'react';
+// import BrushIcon from '@mui/icons-material/Brush';
+// import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+// import DetailRoom from './detail-room';
 
-// ----------------------------------------------------------------------
+// // ----------------------------------------------------------------------
 
-export default function RoomCard({ room, reFetch, serviceRoomSystem }: any) {
-  const [open, setOpen] = useState(null);
-  const [openDialog, setOpenDialog] = useState(false)
+// export default function RoomCard({ room, reFetch, serviceRoomSystem }: any) {
+//   const [open, setOpen] = useState(null);
+//   const [openDialog, setOpenDialog] = useState(false)
 
-  const handleOpenMenu = (e: any) => {
-    setOpen(e.currentTarget);
-  };
-  const renderImg = (
-    <Box
-      component="img"
-      src={room.image}
-      sx={{
-        top: 0,
-        width: 1,
-        height: 1,
-        objectFit: 'cover',
-        position: 'absolute',
-      }}
-    />
-  );
+//   const handleOpenMenu = (e: any) => {
+//     setOpen(e.currentTarget);
+//   };
+//   const renderImg = (
+//     <Box
+//       component="img"
+//       src={room.image}
+//       sx={{
+//         top: 0,
+//         width: 1,
+//         height: 1,
+//         objectFit: 'cover',
+//         position: 'absolute',
+//       }}
+//     />
+//   );
 
-  const renderPrice = (
-    // <Box bgcolor="#F9B90F" p={1} borderRadius={1}>
-    <Typography color="black">
-      {(room.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND/Đêm
-    </Typography>
-    /* </Box> */
+//   const renderPrice = (
+//     // <Box bgcolor="#F9B90F" p={1} borderRadius={1}>
+//     <Typography color="black">
+//       {(room.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} VND/Đêm
+//     </Typography>
+//     /* </Box> */
 
-  );
+//   );
 
-  const renderAvailableRoom = (
-    <Box >
-      <Typography color="black">
-        {(room.quantityAvailable).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}/{(room.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
-      </Typography>
-    </Box>
+//   const renderAvailableRoom = (
+//     <Box >
+//       <Typography color="black">
+//         {(room.quantityAvailable).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}/{(room.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+//       </Typography>
+//     </Box>
 
-  );
+//   );
 
-  const handleCloseMenu = () => {
-    setOpen(null);
-    setOpenDialog(true)
-  };
+//   const handleCloseMenu = () => {
+//     setOpen(null);
+//     setOpenDialog(true)
+//   };
 
-  return (
-    <Card>
-      <Box sx={{ pt: '100%', position: 'relative' }}>
+//   return (
+//     <Card>
+//       <Box sx={{ pt: '100%', position: 'relative' }}>
 
-        <MoreVertIcon onClick={handleOpenMenu}
-          sx={{
-            zIndex: 9,
-            top: 8,
-            right: 8,
-            position: 'absolute',
-            color: "white"
-          }}
-        />
-        {renderImg}
-      </Box>
+//         <MoreVertIcon onClick={handleOpenMenu}
+//           sx={{
+//             zIndex: 9,
+//             top: 8,
+//             right: 8,
+//             position: 'absolute',
+//             color: "white"
+//           }}
+//         />
+//         {renderImg}
+//       </Box>
 
-      <Popover
-        open={!!open}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        sx={{ width: 140 }}
-      >
-        <MenuItem onClick={handleCloseMenu} >
-          <BrushIcon sx={{ fontSize: "20px", mr: 1.5 }} />
-          Sửa
-        </MenuItem>
+//       <Popover
+//         open={!!open}
+//         anchorEl={open}
+//         onClose={handleCloseMenu}
+//         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+//         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+//         sx={{ width: 140 }}
+//       >
+//         <MenuItem onClick={handleCloseMenu} >
+//           <BrushIcon sx={{ fontSize: "20px", mr: 1.5 }} />
+//           Sửa
+//         </MenuItem>
 
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
-          <DeleteOutlineIcon sx={{ fontSize: "20px", mr: 1.5 }} />
-          Xóa
-        </MenuItem>
-      </Popover>
+//         <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
+//           <DeleteOutlineIcon sx={{ fontSize: "20px", mr: 1.5 }} />
+//           Xóa
+//         </MenuItem>
+//       </Popover>
 
-      <DetailRoom isOpen={openDialog} onClose={() => setOpenDialog(false)} roomDetail={room} reFetch={reFetch} serviceRoomSystem={serviceRoomSystem} />
+//       <DetailRoom isOpen={openDialog} onClose={() => setOpenDialog(false)} roomDetail={room} reFetch={reFetch} serviceRoomSystem={serviceRoomSystem} />
 
-      <Stack spacing={2} sx={{ p: 3 }}>
-        <Stack direction='row' alignItems="center" justifyContent="space-between">
-          <Typography variant="h6" noWrap overflow="hidden" textOverflow="ellipsis" >
-            {room.roomType}
-          </Typography>
-        </Stack>
+//       <Stack spacing={2} sx={{ p: 3 }}>
+//         <Stack direction='row' alignItems="center" justifyContent="space-between">
+//           <Typography variant="h6" noWrap overflow="hidden" textOverflow="ellipsis" >
+//             {room.roomType}
+//           </Typography>
+//         </Stack>
 
-        <Stack direction="row" alignItems="center" justifyContent="start">
-          <Box display="flex" gap={2}>
-            <Typography> Giá phòng: </Typography>
-            <Typography>  {renderPrice}</Typography>
-          </Box>
-        </Stack>
+//         <Stack direction="row" alignItems="center" justifyContent="start">
+//           <Box display="flex" gap={2}>
+//             <Typography> Giá phòng: </Typography>
+//             <Typography>  {renderPrice}</Typography>
+//           </Box>
+//         </Stack>
 
-        <Stack direction="row" alignItems="center" justifyContent="start">
-          <Box display="flex" gap={2}>
-            <Typography> Số lượng phòng trống: </Typography>
-            <Typography>  {renderAvailableRoom}</Typography>
-          </Box>
-        </Stack>
-      </Stack>
-    </Card>
-  );
+//         <Stack direction="row" alignItems="center" justifyContent="start">
+//           <Box display="flex" gap={2}>
+//             <Typography> Số lượng phòng trống: </Typography>
+//             <Typography>  {renderAvailableRoom}</Typography>
+//           </Box>
+//         </Stack>
+//       </Stack>
+//     </Card>
+//   );
+// }
+
+import BrushIcon from "@mui/icons-material/Brush";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import MenuItem from "@mui/material/MenuItem";
+import Popover from "@mui/material/Popover";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import { useState } from "react";
+import DetailRoom from "./detail-room";
+import { convertPrice } from "../../utils";
+import { Room, ServiceRoom } from "../../models/room";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { axiosInstance } from "../../api/axios";
+export interface RoomCardProps {
+	room: Room;
+	reFetch: () => void;
+	serviceRoomSystem: ServiceRoom[];
+}
+export default function RoomCard({
+	room,
+	reFetch,
+	serviceRoomSystem,
+}: RoomCardProps) {
+	const [open, setOpen] = useState(null);
+	const [openDialog, setOpenDialog] = useState(false);
+	const [openPopupDelete, setOpenPopupDelete] = useState(false);
+
+	const handleOpenMenu = (e: any) => {
+		setOpen(e.currentTarget);
+	};
+	const renderImg = (
+		<Box
+			component="img"
+			src={room.image}
+			sx={{
+				top: 0,
+				width: 1,
+				height: 1,
+				objectFit: "cover",
+				position: "absolute",
+			}}
+		/>
+	);
+
+	const renderPrice = (
+		<Typography color="black">
+			{convertPrice(room.price)} VND/Đêm
+		</Typography>
+	);
+
+	const renderAvailableRoom = (
+		<Box>
+			<Typography color="black">
+				{convertPrice(room.quantityAvailable)}/
+				{convertPrice(room.quantity)}
+			</Typography>
+		</Box>
+	);
+
+	const hanleClose = () => {
+		setOpen(null);
+	};
+
+	const openFormEditRoom = () => {
+		setOpen(null);
+		setOpenDialog(true);
+	};
+
+	const openFormDeleteRoom = () => {
+		setOpen(null);
+		setOpenPopupDelete(true);
+	};
+
+	const handleDeleteRoom = async() => {
+		setOpenPopupDelete(false);
+		const res = await axiosInstance.delete(`/room/deleteRoomByStaff/${room._id}`)
+    if (res.status === 200) {
+      reFetch();
+    }
+	};
+
+	return (
+		<Card>
+			<Box sx={{ pt: "100%", position: "relative" }}>
+				<MoreVertIcon
+					onClick={handleOpenMenu}
+					sx={{
+						zIndex: 9,
+						top: 8,
+						right: 8,
+						position: "absolute",
+						color: "white",
+					}}
+				/>
+				{renderImg}
+			</Box>
+
+			<Popover
+				open={!!open}
+				anchorEl={open}
+				onClose={hanleClose}
+				anchorOrigin={{ vertical: "top", horizontal: "left" }}
+				transformOrigin={{ vertical: "top", horizontal: "right" }}
+				sx={{ width: 140 }}
+			>
+				<MenuItem onClick={openFormEditRoom}>
+					<BrushIcon sx={{ fontSize: "20px", mr: 1.5 }} />
+					Sửa
+				</MenuItem>
+
+				<MenuItem
+					onClick={openFormDeleteRoom}
+					sx={{ color: "error.main" }}
+				>
+					<DeleteOutlineIcon sx={{ fontSize: "20px", mr: 1.5 }} />
+					Xóa
+				</MenuItem>
+			</Popover>
+
+			<Stack
+				spacing={2}
+				sx={{ p: 3 }}
+			>
+				<Stack
+					direction="row"
+					alignItems="center"
+					justifyContent="space-between"
+				>
+					<Typography
+						variant="h6"
+						noWrap
+						overflow="hidden"
+						textOverflow="ellipsis"
+					>
+						{room.roomType}
+					</Typography>
+				</Stack>
+
+				<Stack
+					direction="row"
+					alignItems="center"
+					justifyContent="start"
+				>
+					<Box
+						display="flex"
+						gap={2}
+					>
+						<Typography> Giá phòng: </Typography>
+						<Typography> {renderPrice}</Typography>
+					</Box>
+				</Stack>
+
+				<Stack
+					direction="row"
+					alignItems="center"
+					justifyContent="start"
+				>
+					<Box
+						display="flex"
+						gap={2}
+					>
+						<Typography> Số lượng phòng trống: </Typography>
+						<Typography> {renderAvailableRoom}</Typography>
+					</Box>
+				</Stack>
+			</Stack>
+			<Dialog
+				open={openPopupDelete}
+				onClose={() => setOpenPopupDelete(false)}
+				aria-labelledby="alert-dialog-title"
+				aria-describedby="alert-dialog-description"
+			>
+				<DialogTitle id="alert-dialog-title">
+					{"Bạn có chắc chắn muốn xóa phòng này không?"}
+				</DialogTitle>
+				<DialogContent>
+					<Card>
+						<Box sx={{ pt: "100%", position: "relative" }}>
+							{renderImg}
+						</Box>
+						<Stack
+							spacing={2}
+							sx={{ p: 3 }}
+						>
+							<Stack
+								direction="row"
+								alignItems="center"
+								justifyContent="space-between"
+							>
+								<Typography
+									variant="h6"
+									noWrap
+									overflow="hidden"
+									textOverflow="ellipsis"
+								>
+									{room.roomType}
+								</Typography>
+							</Stack>
+
+							<Stack
+								direction="row"
+								alignItems="center"
+								justifyContent="start"
+							>
+								<Box
+									display="flex"
+									gap={2}
+								>
+									<Typography> Giá phòng: </Typography>
+									<Typography> {renderPrice}</Typography>
+								</Box>
+							</Stack>
+
+							<Stack
+								direction="row"
+								alignItems="center"
+								justifyContent="start"
+							>
+								<Box
+									display="flex"
+									gap={2}
+								>
+									<Typography>
+										{" "}
+										Số lượng phòng trống:{" "}
+									</Typography>
+									<Typography>
+										{" "}
+										{renderAvailableRoom}
+									</Typography>
+								</Box>
+							</Stack>
+						</Stack>
+					</Card>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={() => setOpenPopupDelete(false)}>
+						Hủy bỏ
+					</Button>
+					<Button
+						onClick={handleDeleteRoom}
+						autoFocus
+					>
+						Xác nhận
+					</Button>
+				</DialogActions>
+			</Dialog>
+			<DetailRoom
+				isOpen={openDialog}
+				onClose={() => setOpenDialog(false)}
+				roomDetail={room}
+				reFetch={reFetch}
+				serviceRoomSystem={serviceRoomSystem}
+			/>
+		</Card>
+	);
 }

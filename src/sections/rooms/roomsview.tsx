@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 
 import RoomCard from './room-card';
 import AddIcon from '@mui/icons-material/Add';
-import CreateRoom from './new-room';
+import NewRoom from './new-room';
 import axiosInstance from '../../api/axios';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -64,8 +64,9 @@ export default function ProductsView() {
                             <Button variant="contained" color="inherit" startIcon={<AddIcon />} onClick={() => setOpenModal(true)}>
                                 Tạo phòng
                             </Button>
-                            <CreateRoom isOpen={openModal} onClose={() => setOpenModal(false)} reFetch={reFetchRooms} serviceRoomSystem={serviceRooms} />
+                            <NewRoom isOpen={openModal} onClose={() => setOpenModal(false)} reFetch={reFetchRooms} serviceRoomSystem={serviceRooms}/>
                         </Stack>
+                        {rooms.length === 0 && <Typography variant="h6" sx={{ mt: 5 }}>Không có phòng nào</Typography>}
                         <Stack
                             direction="row"
                             alignItems="center"
@@ -88,7 +89,7 @@ export default function ProductsView() {
                         }
 
                         <Grid container spacing={6}>
-                            {rooms.map((room: Room) => (
+                            {rooms.length > 0 && rooms.map((room: Room) => (
                                 <Grid key={room._id} xs={12} md={3}>
                                     <RoomCard room={room} reFetch={reFetchRooms} serviceRoomSystem={serviceRooms} />
                                 </Grid>
