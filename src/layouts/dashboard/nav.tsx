@@ -30,6 +30,7 @@ export default function Nav({ openNav, onCloseNav }: any) {
     }
   }, [pathname]);
 
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
   const renderAccount = (
     <Box
       sx={{
@@ -46,7 +47,7 @@ export default function Nav({ openNav, onCloseNav }: any) {
       <Avatar src={account.photoURL} alt="photoURL" />
 
       <Box sx={{ ml: 2, gap: "10px", display: "flex", flexDirection: "column" }}>
-        <Typography fontWeight={"700"} color="#18458B" fontSize={"18px"}>{account.displayName}</Typography>
+        <Typography fontWeight={"700"} color="#18458B" fontSize={"18px"}>{user.username}</Typography>
         {/* <Button variant='contained' sx={{backgroundColor:"orange"}} disabled>Đã xác thực</Button> */}
         {/* <Button variant='contained' sx={{ backgroundColor: "orange", "&:hover": { backgroundColor: "orange", opacity: "0.8" } }}>Đã xác thực</Button> */}
       </Box>
