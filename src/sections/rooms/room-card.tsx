@@ -165,9 +165,25 @@ export default function RoomCard({
 			sx={{
 				top: 0,
 				width: 1,
+				height: 0.9,
+				objectFit: "cover",
+				position: "absolute",
+				borderRadius:"10px"
+			}}
+		/>
+	);
+
+	const renderImg2 = (
+		<Box
+			component="img"
+			src={room.image}
+			sx={{
+				top: 0,
+				width: 1,
 				height: 1,
 				objectFit: "cover",
 				position: "absolute",
+				borderRadius:"10px"
 			}}
 		/>
 	);
@@ -201,17 +217,17 @@ export default function RoomCard({
 		setOpenPopupDelete(true);
 	};
 
-	const handleDeleteRoom = async() => {
+	const handleDeleteRoom = async () => {
 		setOpenPopupDelete(false);
 		const res = await axiosInstance.delete(`/room/deleteRoomByStaff/${room._id}`)
-    if (res.status === 200) {
-      reFetch();
-    }
+		if (res.status === 200) {
+			reFetch();
+		}
 	};
 
 	return (
 		<Card>
-			<Box sx={{ pt: "100%", position: "relative" }}>
+			<Box sx={{ pt: "80%", position: "relative" }}>
 				<MoreVertIcon
 					onClick={handleOpenMenu}
 					sx={{
@@ -249,7 +265,7 @@ export default function RoomCard({
 
 			<Stack
 				spacing={2}
-				sx={{ p: 3 }}
+				sx={{ px: 3, pb:3 }}
 			>
 				<Stack
 					direction="row"
@@ -295,18 +311,20 @@ export default function RoomCard({
 				</Stack>
 			</Stack>
 			<Dialog
+				fullWidth
 				open={openPopupDelete}
 				onClose={() => setOpenPopupDelete(false)}
 				aria-labelledby="alert-dialog-title"
 				aria-describedby="alert-dialog-description"
+
 			>
 				<DialogTitle id="alert-dialog-title">
 					{"Bạn có chắc chắn muốn xóa phòng này không?"}
 				</DialogTitle>
 				<DialogContent>
 					<Card>
-						<Box sx={{ pt: "100%", position: "relative" }}>
-							{renderImg}
+						<Box sx={{ pt: "60%", position: "relative" }}>
+							{renderImg2}
 						</Box>
 						<Stack
 							spacing={2}
@@ -364,10 +382,11 @@ export default function RoomCard({
 					</Card>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={() => setOpenPopupDelete(false)}>
+					<Button variant="outlined" onClick={() => setOpenPopupDelete(false)}>
 						Hủy bỏ
 					</Button>
 					<Button
+						variant="contained"
 						onClick={handleDeleteRoom}
 						autoFocus
 					>

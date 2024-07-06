@@ -66,7 +66,6 @@ export default function ProductsView() {
                             </Button>
                             <NewRoom isOpen={openModal} onClose={() => setOpenModal(false)} reFetch={reFetchRooms} serviceRoomSystem={serviceRooms}/>
                         </Stack>
-                        {rooms.length === 0 && <Typography variant="h6" sx={{ mt: 5 }}>Không có phòng nào</Typography>}
                         <Stack
                             direction="row"
                             alignItems="center"
