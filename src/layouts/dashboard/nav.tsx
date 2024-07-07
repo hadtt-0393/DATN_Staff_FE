@@ -16,14 +16,42 @@ import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 import { Button, colors } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import {toast} from 'react-toastify'
+import { toast } from 'react-toastify'
 // ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }: any) {
   const navigate = useNavigate()
   const pathname = usePathname();
   const upLg = useResponsive('up', 'lg');
+  function stringToColor(string: string) {
+    let hash = 0;
+    let i;
 
+    /* eslint-disable no-bitwise */
+    for (i = 0; i < string.length; i += 1) {
+      hash = string.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    let color = '#';
+
+    for (i = 0; i < 3; i += 1) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += `00${value.toString(16)}`.slice(-2);
+    }
+    /* eslint-enable no-bitwise */
+
+    return color;
+  }
+
+  function stringAvatar(name: string) {
+    return {
+      sx: {
+        bgcolor: stringToColor(name),
+        mr: 1, width: "40px", height: "40px", fontSize: "16px"
+      },
+      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    };
+  }
   useEffect(() => {
     if (openNav) {
       onCloseNav();
@@ -45,7 +73,7 @@ export default function Nav({ openNav, onCloseNav }: any) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src={account.photoURL} alt="photoURL" />
+      <Avatar {...stringAvatar(user!.username)}alt="photoURL" />
 
       <Box sx={{ ml: 2, gap: "10px", display: "flex", flexDirection: "column" }}>
         <Typography fontWeight={"700"} color="#18458B" fontSize={"18px"}>{user!.username}</Typography>
@@ -87,9 +115,9 @@ export default function Nav({ openNav, onCloseNav }: any) {
 
       {renderMenu}
 
-      <Box sx={{ flexGrow: 1 }}/>
+      <Box sx={{ flexGrow: 1 }} />
       <Box>
-        <Button variant="outlined" sx={{ width: "100%", height: "60px", fontSize: "16px", textTransform: "uppercase", mb: "1px" }} onClick={() => { localStorage.removeItem('accessToken'); {localStorage.removeItem('user')} toast.success("Đăng xuất thành công", {autoClose:2000}); navigate('/signin') }}>
+        <Button variant="outlined" sx={{ width: "100%", height: "60px", fontSize: "16px", textTransform: "uppercase", mb: "1px" }} onClick={() => { localStorage.removeItem('accessToken'); { localStorage.removeItem('user') } toast.success("Đăng xuất thành công", { autoClose: 2000 }); navigate('/signin') }}>
           Đăng xuất
         </Button>
       </Box>
