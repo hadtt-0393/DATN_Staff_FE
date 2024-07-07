@@ -90,7 +90,7 @@ export default function ProfileView() {
     const [serviceHotelSystem, setServiceHotelSystem] = useState<
         ServiceHotel[]
     >([]);
-   
+
     const [files, setFiles] = useState<File[]>([]);
     const [imagePreviews, setImagePreviews] = useState<string[]>([]);
     useEffect(() => {
@@ -299,6 +299,7 @@ export default function ProfileView() {
                                             Tên khách sạn:
                                         </Typography>
                                         <TextField
+                                            required
                                             id="outlined-basic"
                                             label="Tên khách sạn"
                                             variant="outlined"
@@ -351,6 +352,7 @@ export default function ProfileView() {
                                             Địa chỉ:
                                         </Typography>
                                         <TextField
+                                            required
                                             id="outlined-basic"
                                             label="Địa chỉ"
                                             variant="outlined"
@@ -379,6 +381,7 @@ export default function ProfileView() {
                                             Khoảng cách đến trung tâm thành phố:
                                         </Typography>
                                         <TextField
+                                            required
                                             label="Khoảng cách"
                                             id="outlined-start-adornment"
                                             sx={{ flex: 1 }}
@@ -481,7 +484,7 @@ export default function ProfileView() {
                                             Dịch vụ khách sạn:
                                         </Typography>
                                         <FormControl sx={{ flex: 1 }}>
-                                            <InputLabel id="demo-multiple-chip-label">
+                                            <InputLabel id="demo-multiple-chip-label" required>
                                                 Dịch vụ
                                             </InputLabel>
                                             <Select

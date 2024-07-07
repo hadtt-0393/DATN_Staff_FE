@@ -189,6 +189,7 @@ export default function NewRoom({
                                 Loại phòng
                             </Typography>
                             <TextField
+                                required
                                 id="outlined-basic"
                                 label="Loại phòng"
                                 variant="outlined"
@@ -214,6 +215,7 @@ export default function NewRoom({
                                 Số lượng:
                             </Typography>
                             <TextField
+                                required
                                 id="outlined-start-adornment"
                                 label="Số lượng phòng"
                                 sx={{ flex: 1 }}
@@ -238,6 +240,7 @@ export default function NewRoom({
                                 Giá:
                             </Typography>
                             <TextField
+                                required
                                 id="outlined-start-adornment"
                                 label="Giá"
                                 sx={{ flex: 1 }}
@@ -268,6 +271,7 @@ export default function NewRoom({
                                 Số lượng người tối đa:
                             </Typography>
                             <TextField
+                                required
                                 id="outlined-start-adornment"
                                 label="Số lượng người tối đa"
                                 sx={{ flex: 1 }}
@@ -292,6 +296,7 @@ export default function NewRoom({
                                 Mô tả:
                             </Typography>
                             <TextField
+                                required
                                 id="outlined-basic"
                                 label="Mô tả"
                                 variant="outlined"
@@ -319,7 +324,7 @@ export default function NewRoom({
                                 Dịch vụ:
                             </Typography>
                             <FormControl sx={{ flex: 1 }}>
-                                <InputLabel id="demo-multiple-chip-label">
+                                <InputLabel id="demo-multiple-chip-label" required>
                                     Dịch vụ
                                 </InputLabel>
                                 <Select
@@ -385,17 +390,17 @@ export default function NewRoom({
                 </Box>
             </Box>
             <DialogActions>
-            <Button
+                <Button
                     variant="outlined"
                     onClick={handleClose}
-                    sx={{mr:"20px"}}
+                    sx={{ mr: "20px" }}
                 >
                     Hủy
                 </Button>
                 <Button
                     variant="contained"
                     onClick={save}
-                    sx={{m:"10px"}}
+                    sx={{ m: "10px" }}
                 >
                     Lưu
                 </Button>

@@ -194,6 +194,7 @@ export default function DetailRoom({
                                 Loại phòng:
                             </Typography>
                             <TextField
+                            required
                                 id="outlined-basic"
                                 label="Tên phòng"
                                 variant="outlined"
@@ -219,6 +220,7 @@ export default function DetailRoom({
                                 Số lượng phòng:
                             </Typography>
                             <TextField
+                            required
                                 label="Số lượng"
                                 id="outlined-start-adornment"
                                 sx={{ flex: 1 }}
@@ -245,6 +247,7 @@ export default function DetailRoom({
                                 Giá:
                             </Typography>
                             <TextField
+                            required
                                 id="outlined-start-adornment"
                                 label="Giá"
                                 sx={{ flex: 1 }}
@@ -276,6 +279,7 @@ export default function DetailRoom({
                                 Số lượng người tối đa:
                             </Typography>
                             <TextField
+                            required
                                 id="outlined-start-adornment"
                                 label="Số lượng người tối đa"
                                 sx={{ flex: 1 }}
@@ -302,6 +306,7 @@ export default function DetailRoom({
                                 Mô tả:
                             </Typography>
                             <TextField
+                            required
                                 id="outlined-basic"
                                 label="Mô tả"
                                 variant="outlined"
@@ -329,7 +334,7 @@ export default function DetailRoom({
                                 Dịch vụ:
                             </Typography>
                             <FormControl sx={{ flex: 1 }}>
-                                <InputLabel id="demo-multiple-chip-label">
+                                <InputLabel id="demo-multiple-chip-label" required>
                                     Dịch vụ
                                 </InputLabel>
                                 <Select
