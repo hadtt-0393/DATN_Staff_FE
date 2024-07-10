@@ -60,9 +60,9 @@ export default function DetailForm({ isOpen, onClose, form }: any) {
                 <Box display="flex" flexDirection="row" sx={{
                     gap: 5,
                 }}>
-                    
-                        <Avatar  {...stringAvatar(name)} />
-                    
+
+                    <Avatar  {...stringAvatar(name)} />
+
                     <Stack spacing={1.5} flex={1}>
                         <Stack direction="row" justifyContent="space-between">
                             <Typography variant="subtitle2" sx={{ color: 'text.disabled', fontSize: "16px" }}>
@@ -99,7 +99,7 @@ export default function DetailForm({ isOpen, onClose, form }: any) {
 
     }
 
-    function DetailBookingCard({ room, checkin, bookingdate, checkout, price, paymentStatus, color = 'primary', sx, ...other }: any) {
+    function DetailBookingCard({ room, checkin, bookingdate, checkout, price, paymentStatus, status, color = 'primary', sx, ...other }: any) {
         return (
             <Card
                 component={Stack}
@@ -156,6 +156,17 @@ export default function DetailForm({ isOpen, onClose, form }: any) {
                             </Typography>
                             <Typography>{paymentStatus}</Typography>
                         </Stack>
+
+                        {
+                            status === false &&
+                            <Stack direction="row" justifyContent="space-between">
+                                <Typography variant="subtitle2" sx={{ color: 'text.disabled', fontSize: "16px" }}>
+                                    Trạng thái
+                                </Typography>
+                                <Button color="error" variant='contained'>Đã hủy</Button>
+                            </Stack>
+                        }
+
                     </Stack>
                 </Box>
 
@@ -192,6 +203,7 @@ export default function DetailForm({ isOpen, onClose, form }: any) {
                             bookingdate={convertTime(form.createdAt)}
                             price={convertPrice(form.cost)}
                             paymentStatus={form.paymentStatus}
+                            status={form.status}
                         />
                     </Grid>
                 </Grid>

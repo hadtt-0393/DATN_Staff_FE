@@ -47,7 +47,7 @@ export default function UserTableRow({
         return {
             sx: {
                 bgcolor: stringToColor(name),
-                mr: 1, width: "45px", height: "45px", fontSize: "20px"
+                mr: 1, width: "40px", height: "40px", fontSize: "16px"
             },
             children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
         };

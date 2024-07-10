@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Drawer from '@mui/material/Drawer';
@@ -17,12 +17,15 @@ import navConfig from './config-navigation';
 import { Button, colors } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
+import axiosInstance from '../../api/axios';
+import { Hotel } from '../../models/hotel';
 // ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }: any) {
   const navigate = useNavigate()
   const pathname = usePathname();
   const upLg = useResponsive('up', 'lg');
+  const [hotel, setHotel] = useState<Hotel>();
   function stringToColor(string: string) {
     let hash = 0;
     let i;
@@ -43,6 +46,7 @@ export default function Nav({ openNav, onCloseNav }: any) {
     return color;
   }
 
+
   function stringAvatar(name: string) {
     return {
       sx: {
@@ -57,6 +61,14 @@ export default function Nav({ openNav, onCloseNav }: any) {
       onCloseNav();
     }
   }, [pathname]);
+
+  useEffect(() => {
+    const getHotel = async () => {
+      const response = await axiosInstance.get("/hotel/get-detail")
+      setHotel(response.data)
+    }
+    getHotel()
+  }, []);
 
   const user = JSON.parse(localStorage.getItem('user') || '{}');
 
@@ -73,12 +85,11 @@ export default function Nav({ openNav, onCloseNav }: any) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar {...stringAvatar(user!.username)}alt="photoURL" />
+      <Avatar src={hotel?.images[0]} alt="photoURL" />
 
       <Box sx={{ ml: 2, gap: "10px", display: "flex", flexDirection: "column" }}>
         <Typography fontWeight={"700"} color="#18458B" fontSize={"18px"}>{user!.username}</Typography>
-        {/* <Button variant='contained' sx={{backgroundColor:"orange"}} disabled>Đã xác thực</Button> */}
-        {/* <Button variant='contained' sx={{ backgroundColor: "orange", "&:hover": { backgroundColor: "orange", opacity: "0.8" } }}>Đã xác thực</Button> */}
+        {hotel?.isActive ? <Button variant='contained' sx={{ backgroundColor: "orange", "&:hover": { backgroundColor: "orange", opacity: "0.8" } }}>Đã xác thực</Button> : <Button variant='contained' sx={{ backgroundColor: "green", "&:hover": { backgroundColor: "green", opacity: "0.8" } }}>Đang xác thực </Button>}
       </Box>
     </Box>
   );
@@ -124,6 +135,7 @@ export default function Nav({ openNav, onCloseNav }: any) {
 
     </Scrollbar>
   );
+
 
   return (
     <Box

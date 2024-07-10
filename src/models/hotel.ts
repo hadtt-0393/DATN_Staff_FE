@@ -10,7 +10,8 @@ export interface Hotel {
     discount: number;
     serviceIds: string[];
     services: string[];
-    images: any[]
+    images: any[];
+    isActive: boolean;
 }
 
 export interface ServiceHotel {
