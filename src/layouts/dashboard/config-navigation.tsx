@@ -4,25 +4,21 @@ import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
 import BusinessIcon from '@mui/icons-material/Business';
 const navConfig = [
   {
-    title: 'dashboard',
+    title: 'Thông tin khách sạn',
     path: '/',
-    icon: <AutoGraphOutlinedIcon/>,
+    icon: <BusinessIcon />
   },
   {
     title: 'Quản lý phòng',
     path: '/rooms',
-    icon: <MeetingRoomIcon/>,
+    icon: <MeetingRoomIcon />,
   },
   {
     title: 'Quản lý đặt phòng',
     path: '/forms',
-    icon: <ContactEmergencyIcon/>,
+    icon: <ContactEmergencyIcon />,
   },
-  {
-    title: 'Thông tin khách sạn',
-    path: '/profile',
-    icon: <BusinessIcon/>
-  },
+
 ];
 
 export default navConfig;

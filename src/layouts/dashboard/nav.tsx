@@ -76,7 +76,7 @@ export default function Nav({ openNav, onCloseNav }: any) {
 
       <Box sx={{ ml: 2, gap: "10px", display: "flex", flexDirection: "column" }}>
         <Typography fontWeight={"700"} color="#18458B" fontSize={"18px"}>{user!.username}</Typography>
-        {user.status === "Bị từ chối" && <Button variant='contained' sx={{ backgroundColor: "#DDD", "&:hover": { backgroundColor: "#DDD", opacity: "0.8" } }}>{user.status}</Button>}
+        {user.status === "Bị từ chối" && <Button variant='contained' sx={{ backgroundColor: "#CCC", "&:hover": { backgroundColor: "#DDD", opacity: "0.8" } }}>{user.status}</Button>}
         {user.status === "Đã xác thực" && <Button variant='contained' sx={{ backgroundColor: "orange", "&:hover": { backgroundColor: "orange", opacity: "0.8" } }}>{user.status}</Button>}
         {user.status === "Đang xác thực" && <Button variant='contained' sx={{ backgroundColor: "green", "&:hover": { backgroundColor: "green", opacity: "0.8" } }}>{user.status}</Button>}
       </Box>

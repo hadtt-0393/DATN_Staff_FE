@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from "../layouts/dashboard";
 import axiosInstance from '../api/axios';
-export const AppPage = lazy(() => import('../pages/app'));
 export const RoomsPage = lazy(() => import('../pages/rooms'));
 export const FormsPage = lazy(() => import('../pages/forms'));
 export const ProfilePage = lazy(() => import('../pages/profile'))
@@ -17,8 +16,9 @@ export default function Router() {
   useEffect(() => {
     const checkUser = async () => {
       try {
-        const res = await axiosInstance.get<{ isLogin: boolean }>('/staff/isLogin');
+        const res = await axiosInstance.get<{ isLogin: boolean, info: any }>('/staff/isLogin');
         const isLogin = res.data.isLogin;
+        localStorage.setItem("user", JSON.stringify(res.data.info))
         const isAuthRoute = [...pathname.matchAll(new RegExp("signin|signup", "g"))].length;
         if (!isLogin && !isAuthRoute) {
           navigate('/signin');
@@ -44,10 +44,9 @@ export default function Router() {
         </DashboardLayout>
       ),
       children: [
-        { element: <AppPage />, index: true },
         { path: 'rooms', element: <RoomsPage /> },
         { path: 'forms', element: <FormsPage /> },
-        { path: 'profile', element: <ProfilePage /> },
+        { element: <ProfilePage/>, index: true },
       ],
     },
     {
