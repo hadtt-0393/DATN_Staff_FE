@@ -9,23 +9,18 @@ import ListItemButton from '@mui/material/ListItemButton';
 import { usePathname } from '../../hooks/use-pathname';
 import RouterLink from '../../components/router-link';
 import { useResponsive } from '../../hooks/use-reponsive';
-import { account } from '../../mock/account';
-import Logo from '../../components/logo';
 import Scrollbar from '../../components/scrollbar';
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 import { Button, colors } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
-import axiosInstance from '../../api/axios';
-import { Hotel } from '../../models/hotel';
 // ----------------------------------------------------------------------
 
 export default function Nav({ openNav, onCloseNav }: any) {
   const navigate = useNavigate()
   const pathname = usePathname();
   const upLg = useResponsive('up', 'lg');
-  const [hotel, setHotel] = useState<Hotel>();
   function stringToColor(string: string) {
     let hash = 0;
     let i;
@@ -62,14 +57,6 @@ export default function Nav({ openNav, onCloseNav }: any) {
     }
   }, [pathname]);
 
-  useEffect(() => {
-    const getHotel = async () => {
-      const response = await axiosInstance.get("/hotel/get-detail")
-      setHotel(response.data)
-    }
-    getHotel()
-  }, []);
-
   const user = JSON.parse(localStorage.getItem('user') || '{}');
 
   const renderAccount = (
@@ -85,11 +72,13 @@ export default function Nav({ openNav, onCloseNav }: any) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src={hotel?.images[0]} alt="photoURL" />
+      <Avatar {...stringAvatar(user!.username)} />
 
       <Box sx={{ ml: 2, gap: "10px", display: "flex", flexDirection: "column" }}>
         <Typography fontWeight={"700"} color="#18458B" fontSize={"18px"}>{user!.username}</Typography>
-        {hotel?.isActive ? <Button variant='contained' sx={{ backgroundColor: "orange", "&:hover": { backgroundColor: "orange", opacity: "0.8" } }}>Đã xác thực</Button> : <Button variant='contained' sx={{ backgroundColor: "green", "&:hover": { backgroundColor: "green", opacity: "0.8" } }}>Đang xác thực </Button>}
+        {user.status === "Bị từ chối" && <Button variant='contained' sx={{ backgroundColor: "#DDD", "&:hover": { backgroundColor: "#DDD", opacity: "0.8" } }}>{user.status}</Button>}
+        {user.status === "Đã xác thực" && <Button variant='contained' sx={{ backgroundColor: "orange", "&:hover": { backgroundColor: "orange", opacity: "0.8" } }}>{user.status}</Button>}
+        {user.status === "Đang xác thực" && <Button variant='contained' sx={{ backgroundColor: "green", "&:hover": { backgroundColor: "green", opacity: "0.8" } }}>{user.status}</Button>}
       </Box>
     </Box>
   );
